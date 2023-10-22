@@ -15,7 +15,7 @@ class Heatmap {
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
-            trialNumberDisplay.textContent = event.target.value;
+            trialNumberDisplay.textContent = this.currentTrial;
             this.updateTrial();
         });
               
