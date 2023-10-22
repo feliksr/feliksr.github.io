@@ -81,12 +81,12 @@ class Heatmap {
                 const responseData = await this.fetchData();
                 this.maxTrials = responseData.maxTrials;
                 this.trialsData = responseData.data;
-                this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
-                this.scale = responseData.scale;  // Assuming you modify Flask to send this
+                this.timeWavelet = responseData.timeWavelet;  
+                this.scale = responseData.scale; 
         }
         
         this.data = this.trialsData[this.currentTrial];
-        document.getElementById('trialSlider').max = this.maxTrials;
+        document.getElementById('trialSlider').max = 100;
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
         
