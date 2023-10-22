@@ -23,7 +23,7 @@ class Heatmap {
 
     async fetchData() {
         try {
-            const response = await fetch(`https://froyzen.pythonanywhere.com/`);
+            const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
             const responseData = await response.json();
             return responseData;
 
