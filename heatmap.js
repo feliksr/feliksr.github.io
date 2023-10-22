@@ -50,7 +50,7 @@ class Heatmap {
 
     async updateTrial() {
         if (!this.trialsData) {
-            await this.fetchData();
+        await this.fetchData();
         }
         this.data = this.trialsData[`trial${this.currentTrial}`];
 
