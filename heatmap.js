@@ -78,11 +78,11 @@ class Heatmap {
 
     async updateTrial() {
             if (!this.trialsData) {
-            const responseData = await this.fetchData();
-            this.maxTrials = responseData.maxTrials;
-            this.trialsData = responseData.data;
-            this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
-            this.scale = responseData.scale;  // Assuming you modify Flask to send this
+                const responseData = await this.fetchData();
+                this.maxTrials = responseData.maxTrials;
+                this.trialsData = responseData.data;
+                this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
+                this.scale = responseData.scale;  // Assuming you modify Flask to send this
         }
         
         this.data = this.trialsData[this.currentTrial];
