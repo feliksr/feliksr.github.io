@@ -98,8 +98,8 @@ class Heatmap {
 }
 
 const config = {
-    width: 800,
-    height: 500,
+    width: 2000,
+    height: 2000,
     container: "#heatmapContainer",
     marginTop: 20,
     marginRight: 20,
