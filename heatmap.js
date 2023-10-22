@@ -23,7 +23,7 @@ class Heatmap {
 
     async fetchData() {
         try {
-            const response = await fetch(`http://froyzen.pythonanywhere.com/Target/${this.channel}`);
+            const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
             const responseData = await response.json();
             this.maxTrials = responseData.maxTrials;
             document.getElementById('trialSlider').max = this.maxTrials;
