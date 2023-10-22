@@ -14,7 +14,8 @@ class Heatmap {
         this.currentTrial = 1; // Initialize the currentTrial to 1 by default.
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
-            trialNumberDisplay.textContent = this.currentTrial;
+            const trialNumberDisplay = document.getElementById('trialNumber')
+            trialNumberDisplay.textContent = event.target.value;
             this.updateTrial();
         });
               
