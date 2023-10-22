@@ -42,26 +42,6 @@ class Heatmap {
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
     }
 
-
-    async updateTrial() {
-            if (!this.trialsData) {
-            const responseData = await this.fetchData();
-            this.maxTrials = responseData.maxTrials;
-            this.trialsData = responseData.data;
-            this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
-            this.scale = responseData.scale;  // Assuming you modify Flask to send this
-        }
-        
-        this.data = this.trialsData[this.currentTrial];
-        document.getElementById('trialSlider').max = this.maxTrials;
-        // Clear existing visualization
-        d3.select(this.container).selectAll('*').remove();
-        
-        // Redraw the SVG and heatmap
-        this.initSvg();
-        this.drawHeatmap();
-    }
-    
     drawHeatmap() {
         const xScale = d3.scaleBand()
             .range([0, this.width])
@@ -95,6 +75,26 @@ class Heatmap {
         this.svg.append("g")
             .call(d3.axisLeft(yScale));
     }
+
+    async updateTrial() {
+            if (!this.trialsData) {
+            const responseData = await this.fetchData();
+            this.maxTrials = responseData.maxTrials;
+            this.trialsData = responseData.data;
+            this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
+            this.scale = responseData.scale;  // Assuming you modify Flask to send this
+        }
+        
+        this.data = this.trialsData[this.currentTrial];
+        document.getElementById('trialSlider').max = this.maxTrials;
+        // Clear existing visualization
+        d3.select(this.container).selectAll('*').remove();
+        
+        // Redraw the SVG and heatmap
+        this.initSvg();
+        this.drawHeatmap();
+    }
+    
 }
 
 const config = {
