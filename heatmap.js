@@ -25,12 +25,7 @@ class Heatmap {
         try {
             const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
             const responseData = await response.json();
-            this.maxTrials = responseData.maxTrials;
-            document.getElementById('trialSlider').max = this.maxTrials;
-            this.trialsData = responseData.data;
-            this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
-            this.scale = responseData.scale;  // Assuming you modify Flask to send this
-            return this.trialsData,this.timeWavelet,this.scale;
+            return responseData;
 
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -49,11 +44,23 @@ class Heatmap {
 
 
     async updateTrial() {
+        const slider = document.getElementById('trialSlider');
+        this.currentTrial = `trial${slider.value}`;
+    
+        // Update the displayed trial number (assuming you have an element with the id "trialNumber" for this purpose)
+        const trialNumberDisplay = document.getElementById('trialNumber');
+        trialNumberDisplay.textContent = slider.value;
+    
         if (!this.trialsData) {
-            await this.fetchData();
+            responseData = await this.fetchData();
+            this.maxTrials = responseData.maxTrials;
+            this.trialsData = responseData.data;
+            this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
+            this.scale = responseData.scale;  // Assuming you modify Flask to send this
         }
+        
         this.data = this.trialsData[this.currentTrial];
-
+        document.getElementById('trialSlider').max = this.maxTrials;
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
         
