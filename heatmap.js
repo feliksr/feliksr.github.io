@@ -52,7 +52,7 @@ class Heatmap {
         if (!this.trialsData) {
             await this.fetchData();
         }
-        this.data = this.trialsData[`trial${this.currentTrial}`];
+        this.data = this.trialsData[this.currentTrial];
 
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
