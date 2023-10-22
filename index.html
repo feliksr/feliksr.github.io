@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="heatmapContainer"></div>
+    <div id="controls">
+        <label for="trialSlider">Trial: </label>
+        <input type="range" id="trialSlider" min="1" value="1">
+        <span id="trialNumber">1</span>
+    </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="heatmap.js"></script>
+    <script>
+        // Update trial number display next to the slider
+        const trialNumberDisplay = document.getElementById('trialNumber');
+        document.getElementById('trialSlider').addEventListener('input', (event) => {
+            trialNumberDisplay.textContent = event.target.value;
+        });
+    </script>
+</body>
+</html>

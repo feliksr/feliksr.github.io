@@ -1,0 +1,42 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#heatmapContainer {
+    display: block;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#controls {
+    margin: 20px 0;
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#controls label, #controls span {
+    margin-right: 10px;
+}
+
+input[type=range] {
+    width: 80%;  /* Adjust based on your preference */
+}
+
+/* Hover effect for slider thumb */
+input[type=range]::-webkit-slider-thumb {
+    transition: transform 0.3s;
+}
+
+input[type=range]:hover::-webkit-slider-thumb {
+    transform: scale(1.1);
+}
+
+/* Add similar styles for other browsers, if necessary */
