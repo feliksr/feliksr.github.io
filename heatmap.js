@@ -105,7 +105,7 @@ const config = {
     marginRight: 20,
     marginBottom: 20,
     marginLeft: 20,
-    channel: 1  // default channel
+    channel: 2  // default channel
 };
 
 const heatmap = new Heatmap(config);
