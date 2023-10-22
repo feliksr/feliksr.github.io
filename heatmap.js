@@ -19,7 +19,7 @@ class Heatmap {
             this.updateTrial();
         });
               
-        this.updateTrial();
+        //this.updateTrial();
     }
 
     async fetchData() {
@@ -34,7 +34,6 @@ class Heatmap {
         }
     }
     
-
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -94,8 +93,7 @@ class Heatmap {
         // Redraw the SVG and heatmap
         this.initSvg();
         this.drawHeatmap();
-    }
-    
+    }   
 }
 
 const config = {
