@@ -11,7 +11,6 @@ class Heatmap {
         this.trialsData = null;
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
-        this.currentTrial = 1; // Initialize the currentTrial to 1 by default.
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
@@ -19,7 +18,7 @@ class Heatmap {
             this.updateTrial();
         });
               
-        //this.updateTrial();
+        this.updateTrial();
     }
 
     async fetchData() {
