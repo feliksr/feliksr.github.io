@@ -12,12 +12,12 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1; // Initialize the currentTrial to 1 by default.
-
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
+            trialNumberDisplay.textContent = this.currentTrial;
             this.updateTrial();
         });
-
+              
         this.updateTrial();
     }
 
@@ -44,15 +44,8 @@ class Heatmap {
 
 
     async updateTrial() {
-        const slider = document.getElementById('trialSlider');
-        this.currentTrial = `trial${slider.value}`;
-    
-        // Update the displayed trial number (assuming you have an element with the id "trialNumber" for this purpose)
-        const trialNumberDisplay = document.getElementById('trialNumber');
-        trialNumberDisplay.textContent = slider.value;
-    
-        if (!this.trialsData) {
-            responseData = await this.fetchData();
+            if (!this.trialsData) {
+            const responseData = await this.fetchData();
             this.maxTrials = responseData.maxTrials;
             this.trialsData = responseData.data;
             this.timeWavelet = responseData.timeWavelet;  // Assuming you modify Flask to send this
