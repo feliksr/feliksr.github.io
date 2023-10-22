@@ -85,7 +85,7 @@ class Heatmap {
             this.scale = responseData.scale; 
         }
         
-        this.data = this.trialsData[this.currentTrial];
+        this.data = this.trialsData[this.currentTrial-1];
         document.getElementById('trialSlider').max = 50;
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
