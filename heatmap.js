@@ -77,12 +77,12 @@ class Heatmap {
     }
 
     async updateTrial() {
-            if (!this.trialsData) {
-                const responseData = await this.fetchData();
-                this.maxTrials = responseData.maxTrials;
-                this.trialsData = responseData.data;
-                this.timeWavelet = responseData.timeWavelet;  
-                this.scale = responseData.scale; 
+        if (!this.trialsData) {
+            const responseData = await this.fetchData();
+            this.maxTrials = responseData.maxTrials;
+            this.trialsData = responseData.data;
+            this.timeWavelet = responseData.timeWavelet;  
+            this.scale = responseData.scale; 
         }
         
         this.data = this.trialsData[this.currentTrial];
