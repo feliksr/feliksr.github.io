@@ -52,8 +52,8 @@ class Heatmap {
         if (!this.trialsData) {
             await this.fetchData();
         }
-        this.data,this.timeWavelet,this.scale = this.trialsData[`trial${this.currentTrial}`];
-        
+        this.data = this.trialsData[`trial${this.currentTrial}`];
+
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
         
