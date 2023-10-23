@@ -62,13 +62,15 @@ class Heatmap {
     
         // This will create the initial set of rectangles based on the data.
         this.svg.selectAll("rect")
-            .data(this.data)
-            .enter()
-            .append("rect")
-            .attr("x", d => xScale(d.time))
-            .attr("y", d => yScale(d.frequency))
-            .attr("width", xScale.bandwidth())
-            .attr("height", d => calculateRectHeight(d.frequency));
+        .data(this.data)
+        .enter()
+        .append("rect")
+        .attr("x", d => xScale(d.time))
+        .attr("y", d => yScale(d.frequency))
+        .attr("width", xScale.bandwidth())
+        .attr("height", d => calculateRectHeight(d.frequency))
+        .attr("fill", d => colorScale(d.power))
+        .attr("stroke", "none"); // Set the stroke to none
     }
     
     drawHeatmap() {
