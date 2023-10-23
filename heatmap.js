@@ -11,6 +11,7 @@ class Heatmap {
         this.trialsData = null;
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
+        this.currentTrial = 1;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
