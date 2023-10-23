@@ -27,7 +27,7 @@ class Heatmap {
         const responseData = await response.json();
         this.allTrialsData = responseData.data;
         this.maxTrials = this.allTrialsData.length;
-        console.log(this.allTrialsData);
+        console.log(this.allTrialsData.length);
         this.singleTrialData = this.allTrialsData[this.currentTrial];
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale;
