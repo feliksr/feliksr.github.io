@@ -8,7 +8,6 @@ class Heatmap {
             bottom: config.marginBottom || 20,
             left: config.marginLeft || 20
         };
-        this.trialsData = null;
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
