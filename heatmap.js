@@ -30,7 +30,8 @@ class Heatmap {
         this.singleTrialData = this.allTrialsData[this.currentTrial]
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale;
-        this.maxColor = responseData.maxColor;
+        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
+            .domain([0, responseData.maxColor]);
         document.getElementById('trialSlider').max = this.maxTrials;
         this.initSvg();
         this.drawHeatmap();
