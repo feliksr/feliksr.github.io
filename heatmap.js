@@ -27,75 +27,66 @@ class Heatmap {
         this.trialsData = responseData.data;
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale; 
+        document.getElementById('trialSlider').max = this.maxTrials;
     }
 
     async initialize() {
         await this.initData();
         console.log(this.timeWavelet);
+        this.initSvg();
         this.updateTrial();
         document.getElementById('trialSlider').disabled = false;
+        
     }
-
     initSvg() {
+        // ... (Your existing code for setting up the SVG goes here.)
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
-    }
-
-    drawHeatmap() {
-        // Update xScale to use timeWavelet for its domain
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
             .padding(0.05);
     
-        // Update yScale to use scale for its domain
         const yScale = d3.scaleLog()
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)]);
     
-        const colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, d3.max(this.data, d => d.power)]);
+        // Calculate height of a heatmap rectangle
+        const calculateRectHeight = (frequency) => {
+            const index = this.scale.indexOf(frequency);
+            if (index === this.scale.length - 1) return 2;
+            return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
+        };
     
-        // Draw the heatmap rectangles
+        // This will create the initial set of rectangles based on the data.
         this.svg.selectAll("rect")
             .data(this.data)
             .enter()
             .append("rect")
-            .attr("x", d => xScale(d.time))  // x attribute uses time for positioning
-            .attr("y", d => yScale(d.frequency))  // y attribute uses frequency for positioning
+            .attr("x", d => xScale(d.time))
+            .attr("y", d => yScale(d.frequency))
             .attr("width", xScale.bandwidth())
-            .attr("height", d => {
-                // The height remains calculated based on the frequency differences.
-                const index = this.scale.indexOf(d.frequency);
-                if (index === this.scale.length - 1) return 2;
-                return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
-            }) 
-            .attr("fill", d => colorScale(d.power));
-    
-        // Draw the x-axis using timeWavelet values
-        this.svg.append("g")
-            .attr("transform", `translate(0, ${this.height})`)
-            .call(d3.axisBottom(xScale).ticks(6).tickFormat(d => `${d.toFixed(1)}s`));
-    
-        // Draw the y-axis using scale values
-        this.svg.append("g")
-            .call(d3.axisLeft(yScale));
+            .attr("height", d => calculateRectHeight(d.frequency));
     }
     
+    drawHeatmap() {
+        const colorScale = d3.scaleSequential(d3.interpolateViridis)
+            .domain([0, d3.max(this.data, d => d.power)]);
     
-    
-    async updateTrial() {
+        // Update the rectangles' fill color based on the new data.
+        this.svg.selectAll("rect")
+            .data(this.data)
+            .attr("fill", d => colorScale(d.power));
+    }
+       
+       
+    updateTrial() {
         console.log('updateTrial ran')
         this.data = this.trialsData[this.currentTrial];
-        document.getElementById('trialSlider').max = this.maxTrials;
-        // Clear existing visualization
-        d3.select(this.container).selectAll('*').remove();
         
-        // Redraw the SVG and heatmap
-        this.initSvg();
         this.drawHeatmap();
     }   
 }
