@@ -72,7 +72,7 @@ class Heatmap {
             .attr("y", d => yScale(d.frequency))
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
-            .attr("fill", d => colorScale(d.power))
+            .attr("fill", d => this.colorScale(d.power))
             .attr("stroke", "none"); // Set the stroke to none
     }
     
