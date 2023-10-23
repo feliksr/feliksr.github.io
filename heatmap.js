@@ -12,6 +12,14 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
+        responseData = this.initData
+        this.maxTrials = responseData.maxTrials;
+        this.trialsData = responseData.data;
+        this.timeWavelet = responseData.timeWavelet;  
+        this.scale = responseData.scale; 
+         
+        console.log(this.timeWavelet);
+        this.updateTrial   
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
@@ -19,7 +27,12 @@ class Heatmap {
             this.updateTrial();
         });
     }
-
+    
+    async initData() {
+        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
+        const responseData = await response.json();
+        return responseData
+    }
 
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
@@ -86,18 +99,6 @@ class Heatmap {
         this.initSvg();
         this.drawHeatmap();
     }   
-    async initData() {
-        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
-        const responseData = await response.json();
-        
-        this.maxTrials = responseData.maxTrials;
-        this.trialsData = responseData.data;
-        this.timeWavelet = responseData.timeWavelet;  
-        this.scale = responseData.scale; 
-            
-        console.log(this.timeWavelet);
-        this.updateTrial
-    }
 }
 const config = {
     width: 500,
