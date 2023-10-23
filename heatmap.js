@@ -11,39 +11,29 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
-        const responseData = this.initData
-        this.maxTrials = responseData.maxTrials;
-        this.trialsData = responseData.data;
-        this.timeWavelet = responseData.timeWavelet;  
-        this.scale = responseData.scale; 
-         
-        console.log(this.timeWavelet);
-        this.updateTrial()   
+        
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
-            const trialNumberDisplay = document.getElementById('trialNumber');
+            const trialNumberDisplay = document.getElementById('trialNumber')
             trialNumberDisplay.textContent = this.currentTrial;
             this.updateTrial();
         });
     }
     
     async initData() {
-        try {
-            const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-    
-            const responseData = await response.json();
-            return responseData;
-        } catch (error) {
-            console.error("There was a problem with the fetch operation:", error.message);
-            // Optionally, you can re-throw the error or handle it differently
-            // throw error;
-        }
+        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
+        const responseData = await response.json();
+        this.maxTrials = responseData.maxTrials;
+        this.trialsData = responseData.data;
+        this.timeWavelet = responseData.timeWavelet;  
+        this.scale = responseData.scale; 
     }
-    
+
+    async initialize() {
+        await this.initData();
+        console.log(this.timeWavelet);
+        this.updateTrial();
+    }
 
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
@@ -123,3 +113,5 @@ const config = {
 };
 
 const heatmap = new Heatmap(config);
+heatmap.initialize();
+
