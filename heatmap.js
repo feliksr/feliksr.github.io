@@ -18,7 +18,7 @@ class Heatmap {
             this.updateTrial();
         });
               
-        this.updateTrial();
+        //this.updateTrial();
     }
 
     async fetchData() {
