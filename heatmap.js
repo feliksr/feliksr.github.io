@@ -11,7 +11,7 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
-        
+        document.getElementById('trialSlider').disabled = true;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
@@ -33,6 +33,7 @@ class Heatmap {
         await this.initData();
         console.log(this.timeWavelet);
         this.updateTrial();
+        document.getElementById('trialSlider').disabled = false;
     }
 
     initSvg() {
