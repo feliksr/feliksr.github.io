@@ -111,4 +111,3 @@ const config = {
 };
 
 const heatmap = new Heatmap(config);
-heatmap.initData
