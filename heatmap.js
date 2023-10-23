@@ -11,28 +11,26 @@ class Heatmap {
         this.trialsData = null;
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
+        this.initData
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
             trialNumberDisplay.textContent = this.currentTrial;
             this.updateTrial();
         });
-              
-        // this.updateTrial();
+    }
+    async initData() {
+        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
+        const responseData = await response.json();
+        
+        this.maxTrials = responseData.maxTrials;
+        this.trialsData = responseData.data;
+        this.timeWavelet = responseData.timeWavelet;  
+        this.scale = responseData.scale; 
+            
+        console.log(this.timeWavelet);
     }
 
-    async fetchData() {
-        try {
-            const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
-            const responseData = await response.json();
-            return responseData;
-
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            return {};
-        }
-    }
-    
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -89,16 +87,6 @@ class Heatmap {
     
     async updateTrial() {
         console.log('updateTrial ran')
-        if (!this.trialsData) {
-            const responseData = await this.fetchData();
-            this.maxTrials = responseData.maxTrials;
-            this.trialsData = responseData.data;
-            this.timeWavelet = responseData.timeWavelet;  
-            this.scale = responseData.scale; 
-            
-            console.log(this.timeWavelet);
-        }
-                
         this.data = this.trialsData[this.currentTrial];
         document.getElementById('trialSlider').max = this.maxTrials;
         // Clear existing visualization
