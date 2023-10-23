@@ -29,8 +29,9 @@ class Heatmap {
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale; 
         document.getElementById('trialSlider').max = this.maxTrials;
+        const allDataPoints = this.trialsData.flat();
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, d3.max(this.trialsData, d => d.power)]);
+            .domain([0, d3.max(allDataPoints, d => d.power)]);
     }
 
     async initialize() {
