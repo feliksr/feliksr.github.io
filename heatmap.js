@@ -31,11 +31,13 @@ class Heatmap {
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
         console.log(responseData.maxColor)
+        console.log(responseData.maxTrials)
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, responseData.maxColor]);
-        document.getElementById('trialSlider').max = this.maxTrials;
+        
         this.initSvg();
         this.drawHeatmap();
+        document.getElementById('trialSlider').max = this.maxTrials;
         document.getElementById('trialSlider').disabled = false;
     }
 
