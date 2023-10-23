@@ -94,7 +94,7 @@ class Heatmap {
             this.trialsData = responseData.data;
             this.timeWavelet = responseData.timeWavelet;  
             this.scale = responseData.scale; 
-            this.initSvg();
+            
             console.log(this.timeWavelet);
         }
                 
@@ -104,7 +104,7 @@ class Heatmap {
         d3.select(this.container).selectAll('*').remove();
         
         // Redraw the SVG and heatmap
-        
+        this.initSvg();
         this.drawHeatmap();
     }   
 }
