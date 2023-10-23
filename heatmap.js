@@ -44,6 +44,7 @@ class Heatmap {
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+        
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
@@ -62,15 +63,14 @@ class Heatmap {
     
         // This will create the initial set of rectangles based on the data.
         this.svg.selectAll("rect")
-        .data(this.data)
-        .enter()
-        .append("rect")
-        .attr("x", d => xScale(d.time))
-        .attr("y", d => yScale(d.frequency))
-        .attr("width", xScale.bandwidth())
-        .attr("height", d => calculateRectHeight(d.frequency))
-        .attr("fill", d => colorScale(d.power))
-        .attr("stroke", "none"); // Set the stroke to none
+            .data(this.data)
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d.time))
+            .attr("y", d => yScale(d.frequency))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => calculateRectHeight(d.frequency))
+            .attr("stroke", "none"); // Set the stroke to none
     }
     
     drawHeatmap() {
