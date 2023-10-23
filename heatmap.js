@@ -46,14 +46,26 @@ class Heatmap {
             .range([0, this.width])
             .domain(this.timeWavelet)
             .padding(0.05);
-
+    
         const yScale = d3.scaleLog()
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)]);
-
+    
         const colorScale = d3.scaleSequential(d3.interpolateBlues)
             .domain([0, d3.max(this.data, d => d.power)]);
-
+    
+        // Calculate height of a heatmap rectangle
+        const calculateRectHeight = (frequency) => {
+            // Find the index of the current frequency in the scale
+            const index = this.scale.indexOf(frequency);
+            
+            // If it's the last frequency, just return a default small height
+            if (index === this.scale.length - 1) return 2; // or some other default value
+    
+            // Calculate the height based on the difference of the y-scaled values of this and the next frequency
+            return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
+        }
+    
         // Draw the heatmap rectangles
         this.svg.selectAll("rect")
             .data(this.data)
@@ -62,18 +74,19 @@ class Heatmap {
             .attr("x", d => xScale(d.time))
             .attr("y", d => yScale(d.frequency))
             .attr("width", xScale.bandwidth())
-            .attr("height", yScale.bandwidth()) 
+            .attr("height", d => calculateRectHeight(d.frequency)) 
             .attr("fill", d => colorScale(d.power));
-
+    
         // Draw the x-axis. Using ticks to limit the number of labels displayed.
         this.svg.append("g")
             .attr("transform", `translate(0, ${this.height})`)
             .call(d3.axisBottom(xScale).ticks(6).tickFormat(d => `${d.toFixed(1)}s`));  // Display values from timeWavelet as seconds
-
+    
         // Draw the y-axis
         this.svg.append("g")
             .call(d3.axisLeft(yScale));
     }
+    
 
     async updateTrial() {
         if (!this.trialsData) {
@@ -85,7 +98,7 @@ class Heatmap {
         }
         console.log('updateTrial called')
         this.data = this.trialsData[this.currentTrial-1];
-        document.getElementById('trialSlider').max = 50;
+        document.getElementById('trialSlider').max = this.maxTrials;
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
         
