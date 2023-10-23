@@ -96,14 +96,10 @@ class Heatmap {
             this.timeWavelet = responseData.timeWavelet;  
             this.scale = responseData.scale; 
         }
-        console.log('updateTrial called')
-        if (typeof timeWavelet === 'undefined') {
-            console.log("timeWavelet is undefined");
-        } else if (typeof scale === 'undefined') {
-            console.log("scale is undefined");
-        } else if (typeof trialsData === 'undefined') {
-            console.log("data is undefined");
-        }
+        console.log(this.timeWavelet);
+        console.log(this.scale);
+        console.log(this.trialsData);
+
         
 
         this.data = this.trialsData[this.currentTrial-1];
