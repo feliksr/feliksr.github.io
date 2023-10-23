@@ -87,7 +87,6 @@ class Heatmap {
             .call(d3.axisLeft(yScale));
     }
     
-
     async updateTrial() {
         if (!this.trialsData) {
             const responseData = await this.fetchData();
@@ -95,14 +94,10 @@ class Heatmap {
             this.trialsData = responseData.data;
             this.timeWavelet = responseData.timeWavelet;  
             this.scale = responseData.scale; 
+            console.log(this.timeWavelet);
         }
-        console.log(this.timeWavelet);
-        console.log(this.scale);
-        console.log(this.trialsData);
-
-        
-
-        this.data = this.trialsData[this.currentTrial-1];
+                
+        this.data = this.trialsData[this.currentTrial];
         document.getElementById('trialSlider').max = this.maxTrials;
         // Clear existing visualization
         d3.select(this.container).selectAll('*').remove();
@@ -114,7 +109,7 @@ class Heatmap {
 }
 
 const config = {
-    width: 200,
+    width: 500,
     height: 200,
     container: "#heatmapContainer",
     marginTop: 20,
