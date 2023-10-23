@@ -18,7 +18,7 @@ class Heatmap {
         this.scale = responseData.scale; 
          
         console.log(this.timeWavelet);
-        this.updateTrial   
+        this.updateTrial()   
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
