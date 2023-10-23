@@ -32,14 +32,14 @@ class Heatmap {
 
     async initialize() {
         await this.initData();
-        console.log(this.timeWavelet);
-        this.initSvg();
-        this.updateTrial();
+        this.data = this.trialsData[this.currentTrial]
+        this.initSvg;
+        this.drawHeatmap;
         document.getElementById('trialSlider').disabled = false;
         
     }
     initSvg() {
-        // ... (Your existing code for setting up the SVG goes here.)
+
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
@@ -86,7 +86,6 @@ class Heatmap {
     updateTrial() {
         console.log('updateTrial ran')
         this.data = this.trialsData[this.currentTrial];
-        
         this.drawHeatmap();
     }   
 }
