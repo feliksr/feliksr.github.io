@@ -51,7 +51,7 @@ class Heatmap {
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)]);
     
-        const colorScale = d3.scaleSequential(d3.interpolateBlues)
+        const colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, d3.max(this.data, d => d.power)]);
     
         // Calculate height of a heatmap rectangle
