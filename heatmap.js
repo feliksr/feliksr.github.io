@@ -29,6 +29,7 @@ class Heatmap {
         this.scale = responseData.scale; 
             
         console.log(this.timeWavelet);
+        this.updateTrial
     }
 
     initSvg() {
