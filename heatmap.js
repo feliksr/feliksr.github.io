@@ -28,10 +28,22 @@ class Heatmap {
     }
     
     async initData() {
-        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
-        const responseData = await response.json();
-        return responseData
+        try {
+            const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+    
+            const responseData = await response.json();
+            return responseData;
+        } catch (error) {
+            console.error("There was a problem with the fetch operation:", error.message);
+            // Optionally, you can re-throw the error or handle it differently
+            // throw error;
+        }
     }
+    
 
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
