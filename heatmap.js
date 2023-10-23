@@ -75,8 +75,6 @@ class Heatmap {
     }
     
     drawHeatmap() {
-
-        // Update the rectangles' fill color based on the new data.
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
