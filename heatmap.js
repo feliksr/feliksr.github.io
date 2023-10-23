@@ -12,7 +12,7 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
-        responseData = this.initData
+        const responseData = this.initData
         this.maxTrials = responseData.maxTrials;
         this.trialsData = responseData.data;
         this.timeWavelet = responseData.timeWavelet;  
