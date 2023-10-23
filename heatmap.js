@@ -17,31 +17,26 @@ class Heatmap {
             this.currentTrial = event.target.value;
             const trialNumberDisplay = document.getElementById('trialNumber')
             trialNumberDisplay.textContent = this.currentTrial;
-            this.updateTrial();
+            this.singleTrialData = this.allTrialsData[this.currentTrial];
+            this.drawHeatmap();
         });
     }
     
-    async initData() {
+    async initialize() {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
-        this.maxTrials = responseData.maxTrials;
-        this.trialsData = responseData.data;
+        this.allTrialsData = responseData.data;
+        this.maxTrials = this.allTrialsData.length;
+        this.singleTrialData = this.allTrialsData[this.currentTrial]
         this.timeWavelet = responseData.timeWavelet;  
-        this.scale = responseData.scale; 
+        this.scale = responseData.scale;
+        this.maxColor = responseData.maxColor;
         document.getElementById('trialSlider').max = this.maxTrials;
-        const allDataPoints = this.trialsData.flat();
-        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, d3.max(allDataPoints, d => d.power)]);
-    }
-
-    async initialize() {
-        await this.initData();
-        this.data = this.trialsData[this.currentTrial]
         this.initSvg();
         this.drawHeatmap();
         document.getElementById('trialSlider').disabled = false;
-        
     }
+
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
@@ -67,32 +62,26 @@ class Heatmap {
     
         // This will create the initial set of rectangles based on the data.
         this.svg.selectAll("rect")
-            .data(this.data)
+            .data(this.singleTrialData)
             .enter()
             .append("rect")
             .attr("x", d => xScale(d.time))
             .attr("y", d => yScale(d.frequency))
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
-            // .attr("fill", d => this.colorScale(d.power))
-            // .attr("stroke", "none"); // Set the stroke to none
+            .attr("fill", d => this.colorScale(d.power))
+            .attr("stroke", "none"); // Set the stroke to none
     }
     
     drawHeatmap() {
 
         // Update the rectangles' fill color based on the new data.
         this.svg.selectAll("rect")
-            .data(this.data)
+            .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
     }
-       
-       
-    updateTrial() {
-        console.log('updateTrial ran')
-        this.data = this.trialsData[this.currentTrial];
-        this.drawHeatmap();
-    }   
 }
+
 const config = {
     width: 800,
     height: 500,
