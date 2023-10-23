@@ -97,6 +97,10 @@ class Heatmap {
             this.scale = responseData.scale; 
         }
         console.log('updateTrial called')
+        console.log(this.timeWavelet);
+        console.log(this.scale);
+        console.log(this.data);
+
         this.data = this.trialsData[this.currentTrial-1];
         document.getElementById('trialSlider').max = this.maxTrials;
         // Clear existing visualization
