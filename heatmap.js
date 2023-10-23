@@ -45,11 +45,13 @@ class Heatmap {
     }
 
     drawHeatmap() {
+        // Update xScale to use timeWavelet for its domain
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
             .padding(0.05);
     
+        // Update yScale to use scale for its domain
         const yScale = d3.scaleLog()
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)]);
@@ -57,38 +59,33 @@ class Heatmap {
         const colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, d3.max(this.data, d => d.power)]);
     
-        // Calculate height of a heatmap rectangle
-        const calculateRectHeight = (frequency) => {
-            // Find the index of the current frequency in the scale
-            const index = this.scale.indexOf(frequency);
-            
-            // If it's the last frequency, just return a default small height
-            if (index === this.scale.length - 1) return 2; // or some other default value
-    
-            // Calculate the height based on the difference of the y-scaled values of this and the next frequency
-            return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
-        }
-    
         // Draw the heatmap rectangles
         this.svg.selectAll("rect")
             .data(this.data)
             .enter()
             .append("rect")
-            .attr("x", d => xScale(d.time))
-            .attr("y", d => yScale(d.frequency))
+            .attr("x", d => xScale(d.time))  // x attribute uses time for positioning
+            .attr("y", d => yScale(d.frequency))  // y attribute uses frequency for positioning
             .attr("width", xScale.bandwidth())
-            .attr("height", d => calculateRectHeight(d.frequency)) 
+            .attr("height", d => {
+                // The height remains calculated based on the frequency differences.
+                const index = this.scale.indexOf(d.frequency);
+                if (index === this.scale.length - 1) return 2;
+                return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
+            }) 
             .attr("fill", d => colorScale(d.power));
     
-        // Draw the x-axis. Using ticks to limit the number of labels displayed.
+        // Draw the x-axis using timeWavelet values
         this.svg.append("g")
             .attr("transform", `translate(0, ${this.height})`)
-            .call(d3.axisBottom(xScale).ticks(6).tickFormat(d => `${d.toFixed(1)}s`));  // Display values from timeWavelet as seconds
+            .call(d3.axisBottom(xScale).ticks(6).tickFormat(d => `${d.toFixed(1)}s`));
     
-        // Draw the y-axis
+        // Draw the y-axis using scale values
         this.svg.append("g")
             .call(d3.axisLeft(yScale));
     }
+    
+    
     
     async updateTrial() {
         console.log('updateTrial ran')
