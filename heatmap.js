@@ -11,8 +11,7 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
-        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, d3.max(this.data, d => d.power)]);
+   
         document.getElementById('trialSlider').disabled = true;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
@@ -30,6 +29,8 @@ class Heatmap {
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale; 
         document.getElementById('trialSlider').max = this.maxTrials;
+        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
+            .domain([0, d3.max(this.trialsData, d => d.power)]);
     }
 
     async initialize() {
