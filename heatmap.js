@@ -11,6 +11,8 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         this.currentTrial = 1;
+        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
+            .domain([0, d3.max(this.data, d => d.power)]);
         document.getElementById('trialSlider').disabled = true;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
@@ -70,13 +72,12 @@ class Heatmap {
             .attr("y", d => yScale(d.frequency))
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
+            .attr("fill", d => colorScale(d.power))
             .attr("stroke", "none"); // Set the stroke to none
     }
     
     drawHeatmap() {
-        const colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, d3.max(this.data, d => d.power)]);
-    
+
         // Update the rectangles' fill color based on the new data.
         this.svg.selectAll("rect")
             .data(this.data)
