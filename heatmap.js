@@ -82,7 +82,7 @@ class Heatmap {
         // Update the rectangles' fill color based on the new data.
         this.svg.selectAll("rect")
             .data(this.data)
-            .attr("fill", d => colorScale(d.power));
+            .attr("fill", d => this.colorScale(d.power));
     }
        
        
