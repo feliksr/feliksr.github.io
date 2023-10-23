@@ -88,6 +88,7 @@ class Heatmap {
     }
     
     async updateTrial() {
+        console.log('updateTrial ran')
         if (!this.trialsData) {
             const responseData = await this.fetchData();
             this.maxTrials = responseData.maxTrials;
