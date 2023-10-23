@@ -26,11 +26,11 @@ class Heatmap {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
         this.maxTrials = responseData.maxTrials;
-        this.maxColor = responseData.maxColor;
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
+        console.log(responseData.maxColor)
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, responseData.maxColor]);
         document.getElementById('trialSlider').max = this.maxTrials;
