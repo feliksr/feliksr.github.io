@@ -33,13 +33,12 @@ class Heatmap {
     async initialize() {
         await this.initData();
         this.data = this.trialsData[this.currentTrial]
-        this.initSvg;
-        this.drawHeatmap;
+        this.initSvg();
+        this.drawHeatmap();
         document.getElementById('trialSlider').disabled = false;
         
     }
     initSvg() {
-
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
@@ -90,8 +89,8 @@ class Heatmap {
     }   
 }
 const config = {
-    width: 500,
-    height: 200,
+    width: 800,
+    height: 500,
     container: "#heatmapContainer",
     marginTop: 20,
     marginRight: 20,
