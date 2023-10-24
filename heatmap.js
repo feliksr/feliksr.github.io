@@ -49,10 +49,12 @@ class Heatmap {
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
+            .padding(0);
     
         const yScale = d3.scaleLog()
             .range([this.height, 0])
-            .domain([d3.min(this.scale), d3.max(this.scale)]);
+            .domain([d3.min(this.scale), d3.max(this.scale)])
+            .padding(0);
     
         // Calculate height of a heatmap rectangle
         const calculateRectHeight = (frequency) => {
