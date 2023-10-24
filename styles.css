@@ -34,14 +34,3 @@ body {
 input[type=range] {
     width: 80%;  /* Adjust based on your preference */
 }
-
-/* Hover effect for slider thumb */
-input[type=range]::-webkit-slider-thumb {
-    transition: transform 0.3s;
-}
-
-input[type=range]:hover::-webkit-slider-thumb {
-    transform: scale(1.1);
-}
-
-/* Add similar styles for other browsers, if necessary */
