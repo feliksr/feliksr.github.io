@@ -24,8 +24,7 @@ body {
     margin: 20px 0;
     text-align: center;
     padding: 10px;
-    background-color: #464444;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f3f2f2;
 }
 
 #controls label, #controls span {
