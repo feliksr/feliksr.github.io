@@ -11,7 +11,7 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
-        document.getElementById("pageTitle").textContent = `Channel: ${this.channel}`;
+        // document.getElementById("pageTitle").textContent = `Channel: ${this.channel}`;
 
         this.currentTrial = 1;
         document.getElementById('trialSlider').disabled = true;
