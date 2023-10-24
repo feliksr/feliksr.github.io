@@ -60,7 +60,7 @@ class Heatmap {
         // Calculate height of a heatmap rectangle
         const calculateRectHeight = (frequency) => {
             const index = this.scale.indexOf(frequency);
-            // if (index === this.scale.length - 1) return 2;
+            if (index === this.scale.length - 1) return 0;
             return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
         };
     
