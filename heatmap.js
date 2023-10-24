@@ -30,8 +30,6 @@ class Heatmap {
         this.scale = responseData.scale;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        console.log(responseData.maxColor)
-        console.log(responseData.maxTrials)
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, responseData.maxColor]);
         
