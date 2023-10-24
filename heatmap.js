@@ -49,7 +49,6 @@ class Heatmap {
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
-            // .padding(0.05);
     
         const yScale = d3.scaleLog()
             .range([this.height, 0])
@@ -72,7 +71,8 @@ class Heatmap {
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
             .attr("fill", d => this.colorScale(d.power))
-            .attr("stroke", "none"); // Set the stroke to none
+            .attr("stroke", "none") // Set the stroke to none
+            .attr("stroke-width", 0);
     }
     
     drawHeatmap() {
