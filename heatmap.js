@@ -49,7 +49,7 @@ class Heatmap {
         const xScale = d3.scaleBand()
             .range([0, this.width])
             .domain(this.timeWavelet)
-            .padding(0.05);
+            // .padding(0.05);
     
         const yScale = d3.scaleLog()
             .range([this.height, 0])
