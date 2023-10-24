@@ -10,8 +10,8 @@ class Heatmap {
         };
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
-        // document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
-        document.getElementById("pageTitle").textContent = `Channel: ${this.channel}`;
+        document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
+        // document.getElementById("pageTitle").textContent = `Channel: ${this.channel}`;
 
         this.currentTrial = 1;
         document.getElementById('trialSlider').disabled = true;
@@ -75,7 +75,7 @@ class Heatmap {
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
             .attr("fill", d => this.colorScale(d.power))
-            .attr("stroke", "none") // Set the stroke to none
+            .attr("stroke", "none") 
             .attr("stroke-width", 0);
     }
     
