@@ -11,7 +11,6 @@ class Heatmap {
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
-        // document.getElementById("pageTitle").textContent = `Channel: ${this.channel}`;
 
         this.currentTrial = 1;
         document.getElementById('trialSlider').disabled = true;
@@ -62,10 +61,10 @@ class Heatmap {
         const calculateRectHeight = (frequency) => {
             const index = this.scale.indexOf(frequency);
             // if (index === this.scale.length - 1) return 2;
-            // return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
+            return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
         };
     
-        // This will create the initial set of rectangles based on the data.
+        // Create the initial set of rectangles based on the data.
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .enter()
