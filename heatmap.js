@@ -10,8 +10,10 @@ class Heatmap {
         };
         this.container = config.container || "#heatmapContainer";
         this.channel = config.channel || 1;
+        document.getElementById('channelDisplay').innerText = `Channel: ${channelNumber}`;
+        document.getElementById("pageTitle").textContent = `Channel: ${channelNumber}`;
+
         this.currentTrial = 1;
-   
         document.getElementById('trialSlider').disabled = true;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
