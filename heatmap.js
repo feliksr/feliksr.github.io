@@ -40,51 +40,46 @@ class Heatmap {
         document.getElementById('trialSlider').disabled = false;
     }
 
+    createScales() {
+        this.xScale = d3.scaleBand()
+            .range([0, this.width])
+            .domain(this.timeWavelet)
+            .padding(0);
+
+        this.yScale = d3.scaleLog()
+            .range([this.height, 0])
+            .domain([d3.min(this.scale), d3.max(this.scale)]);
+
+        this.rectHeight = this.height / this.scale.length;
+    }
+
     initSvg() {
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
-        
-        const xScale = d3.scaleBand()
-            .range([0, this.width])
-            .domain(this.timeWavelet)
-            .padding(0);
-    
-        const yScale = d3.scaleLog()
-            .range([this.height, 0])
-            .domain([d3.min(this.scale), d3.max(this.scale)])
-            
-    
-        // Calculate height of a heatmap rectangle
-        const calculateRectHeight = (frequency) => {
-            const index = this.scale.indexOf(frequency);
-            if (index === this.scale.length - 1) return 0;
-            return yScale(this.scale[index]) - yScale(this.scale[index + 1]);
-        };
-    
-        // Create the initial set of rectangles based on the data.
+
+        this.createScales();
+
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .enter()
             .append("rect")
-            .attr("x", d => xScale(d.time))
-            .attr("y", d => yScale(d.frequency))
-            .attr("width", xScale.bandwidth())
-            .attr("height", d => calculateRectHeight(d.frequency))
-            .attr("fill", d => this.colorScale(d.power))
-            // .attr("stroke", "none") 
-            // .attr("stroke-width", 0);
+            .attr("x", d => this.xScale(d.time))
+            .attr("y", d => this.yScale(d.frequency))
+            .attr("width", this.xScale.bandwidth())
+            .attr("height", this.rectHeight)
+            .attr("fill", d => this.colorScale(d.power));
     }
-    
+
     drawHeatmap() {
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
     }
 }
-
+ 
 const config = {
     width: 800,
     height: 500,
