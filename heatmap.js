@@ -25,7 +25,7 @@ class Heatmap {
     async initialize() {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
-        this.maxTrials = responseData.maxTrials;
+        this.numTrials = responseData.numTrials;
         this.timeWavelet = responseData.timeWavelet;  
         this.scale = responseData.scale;
         this.allTrialsData = responseData.trials_data;
@@ -37,7 +37,7 @@ class Heatmap {
         
         this.initSvg();
         this.drawHeatmap();
-        document.getElementById('trialSlider').max = this.maxTrials;
+        document.getElementById('trialSlider').max = this.numTrials;
         document.getElementById('trialSlider').disabled = false;
     }
 
