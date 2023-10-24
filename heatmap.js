@@ -74,8 +74,8 @@ class Heatmap {
             .attr("width", xScale.bandwidth())
             .attr("height", d => calculateRectHeight(d.frequency))
             .attr("fill", d => this.colorScale(d.power))
-            .attr("stroke", "none") 
-            .attr("stroke-width", 0);
+            // .attr("stroke", "none") 
+            // .attr("stroke-width", 0);
     }
     
     drawHeatmap() {
