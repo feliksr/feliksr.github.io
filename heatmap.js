@@ -54,7 +54,7 @@ class Heatmap {
         const yScale = d3.scaleLog()
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)])
-            .padding(0);
+            
     
         // Calculate height of a heatmap rectangle
         const calculateRectHeight = (frequency) => {

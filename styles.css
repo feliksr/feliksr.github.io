@@ -6,19 +6,25 @@ body {
     padding: 0;
 }
 
-#heatmapContainer {
+/* #heatmapContainer {
     display: block;
     margin: 20px auto;
-    background-color: #ffffff;
+    background-color: #464444;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
+} */
+#heatmapContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #464444;
+    height: 100%; 
+  }
 #controls {
     margin: 20px 0;
     text-align: center;
     padding: 10px;
-    background-color: #ffffff;
+    background-color: #464444;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
