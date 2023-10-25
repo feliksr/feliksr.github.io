@@ -59,14 +59,12 @@ class Heatmap {
         document.getElementById('trialSlider').max = this.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-
     }
 
     createScales() {
-        this.xScale = d3.scaleBand()
+        this.xScale = d3.scaleLinear()
             .range([0, this.width])
-            .domain(this.timeWavelet)
-            .padding(0);
+            .domain([d3.min(this.timeWavelet), d3.max(this.timeWavelet)]);
 
         this.yScale = d3.scaleLog()
             .range([this.height, 0])
@@ -85,13 +83,23 @@ class Heatmap {
 
         this.createScales();
 
+        
+        this.svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(this.yScale));
+
+        this.svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${this.height})`)
+            .call(d3.axisBottom(this.xScale));
+
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
-            .attr("width", this.xScale.bandwidth())
+            .attr("width", this.width / this.timeWavelet.length)
             .attr("height", this.rectHeight)
             .attr("fill", d => this.colorScale(d.power));
     }
@@ -101,9 +109,7 @@ class Heatmap {
             .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
     }
-    
 }
 
 const heatmap = new Heatmap();
 heatmap.initialize();
-
