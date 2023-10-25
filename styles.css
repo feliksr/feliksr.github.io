@@ -13,7 +13,7 @@ body {
 }
 
 .return-home {
-    color: rgb(20, 20, 111);
+    color: rgb(0, 0, 255);
     text-decoration: underline;
     cursor: pointer;
     font-size: 1.5em;
@@ -41,4 +41,17 @@ body {
 
 input[type=range] {
     width: 80%; 
+}
+
+.channel-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.channel-button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
 }

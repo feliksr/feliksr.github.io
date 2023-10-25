@@ -16,17 +16,17 @@ function previousChannel() {
     }
 }
 class Heatmap {
-    constructor(config) {
-        this.width = config.width || 800;
-        this.height = config.height || 500;
+    constructor() {
+        this.width = 800;
+        this.height = 500;
         this.margin = {
-            top: config.marginTop || 20,
-            right: config.marginRight || 20,
-            bottom: config.marginBottom || 20,
-            left: config.marginLeft || 20
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
         };
-        this.container = config.container || "#heatmapContainer";
-        this.channel = config.channel || 1;
+        this.container = "#heatmapContainer";
+        this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
 
         this.currentTrial = 1;
@@ -100,18 +100,6 @@ class Heatmap {
     
 }
 
-
-const config = {
-    width: 800,
-    height: 500,
-    container: "#heatmapContainer",
-    marginTop: 20,
-    marginRight: 20,
-    marginBottom: 20,
-    marginLeft: 20,
-    channel:currentChannel // default channel
-};
-
-const heatmap = new Heatmap(config);
+const heatmap = new Heatmap();
 heatmap.initialize();
 
