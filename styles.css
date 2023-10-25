@@ -6,12 +6,6 @@ body {
     padding: 0;
 }
 
-.ydx-button {
-    padding: 15px 30px;   
-    font-size: 1.5em;     
-    border-radius: 6px;  
-}
-
 .return-home {
     color: rgb(0, 0, 255);
     text-decoration: underline;
@@ -51,7 +45,7 @@ input[type=range] {
     gap: 50px;
 }
 
-.channel-button {
+.button {
     padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
