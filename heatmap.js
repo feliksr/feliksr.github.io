@@ -4,6 +4,7 @@ function nextChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     currentChannel++;
     heatmap.channel = currentChannel;
+    document.getElementById('trialSlider').disabled = true;
     heatmap.initialize();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
@@ -13,6 +14,7 @@ function previousChannel() {
     if (currentChannel > 1) {
         currentChannel--;
         heatmap.channel = currentChannel;
+        document.getElementById('trialSlider').disabled = true;
         heatmap.initialize();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
