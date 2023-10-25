@@ -37,6 +37,7 @@ body {
 
 #controls label, #controls span {
     margin-right: 10px;
+    font-size: 1.5em;  /* Adjusting the font size */
 }
 
 input[type=range] {
