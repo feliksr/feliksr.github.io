@@ -86,12 +86,12 @@ class Heatmap {
 
         this.svg.append("g")
             .attr("class", "y-axis")
-            .call(d3.axisLeft(this.yScale));
+            .call(d3.axisLeft(this.yScale).tickFormat(d3.format("d")));
 
         this.svg.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
-            .call(d3.axisBottom(this.xScale));
+            .call(d3.axisBottom(this.xScale).tickFormat(d3.format("d")));
 
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
