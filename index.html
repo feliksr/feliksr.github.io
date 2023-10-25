@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <h1 id="channelDisplay" style="text-align:center;"></h1>
+    <title>Home Page</title>
 </head>
+
 <body>
-    <div id="heatmapContainer"></div>
-    <div id="controls">
+
+    <!-- Index View -->
+    <div id="indexView">
+        <!-- <h1>Welcome to My Site</h1> -->
+        <button onclick="showHeatmapView()">YDX: Session 1</button>
+    </div>
+
+    <!-- Heatmap View (hidden by default) -->
+    <div id="heatmapView" style="display: none;">
+        <!-- Your heatmap content goes here -->
+        <div id="heatmapContainer"></div>
+        <div id="controls">
         <label for="trialSlider">Trial: </label>
         <input type="range" id="trialSlider" min="1"  value="1">
         <span id="trialNumber">1</span>
     </div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="heatmap.js"></script>
+        <button onclick="showIndexView()">Return Home</button>
+    </div>
+
+    <script>
+        function showHeatmapView() {
+            document.getElementById('indexView').style.display = 'none';
+            document.getElementById('heatmapView').style.display = 'block';
+        }
+
+        function showIndexView() {
+            document.getElementById('indexView').style.display = 'block';
+            document.getElementById('heatmapView').style.display = 'none';
+        }
+    </script>
 </body>
+
 </html>

@@ -22,7 +22,7 @@ class Heatmap {
             this.drawHeatmap();
         });
     }
-    
+
     async initialize() {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
@@ -79,7 +79,7 @@ class Heatmap {
             .attr("fill", d => this.colorScale(d.power));
     }
 }
- 
+
 const config = {
     width: 800,
     height: 500,
