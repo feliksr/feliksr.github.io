@@ -71,8 +71,6 @@ class Heatmap {
         this.yScale = d3.scaleLog()
             .range([this.height, 0])
             .domain([d3.min(this.scale), d3.max(this.scale)]);
-
-        this.rectHeight = this.height / this.scale.length;
     }
 
     initSvg() {
@@ -92,7 +90,7 @@ class Heatmap {
 
         this.svg.append("g")
             .attr("class", "x-axis")
-            .attr("transform", `translate(0,${this.height})`)
+            .attr("transform", `translate(0,${this.height - this.margin.bottom})`)
             .call(d3.axisBottom(this.xScale));
 
         this.svg.selectAll("rect")
@@ -102,7 +100,7 @@ class Heatmap {
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
             .attr("width", this.width / this.timeWavelet.length)
-            .attr("height", this.rectHeight)
+            .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
     }
 
