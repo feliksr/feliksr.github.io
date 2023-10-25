@@ -56,7 +56,6 @@ class Heatmap {
         
         this.initSvg();
         this.drawHeatmap();
-        document.getElementById('loadingMessage').style.display = 'none';
         document.getElementById('trialSlider').max = this.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
