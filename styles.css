@@ -6,6 +6,12 @@ body {
     padding: 0;
 }
 
+.ydx-button {
+    padding: 15px 30px;   
+    font-size: 1.5em;     
+    border-radius: 6px;  
+}
+
 .return-home {
     color: rgb(20, 20, 111);
     text-decoration: underline;
