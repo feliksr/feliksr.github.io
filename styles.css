@@ -35,7 +35,7 @@ body {
 }
 
 input[type=range] {
-    width: 80%; 
+    width: 50%; 
 }
 
 .channel-buttons-container {
