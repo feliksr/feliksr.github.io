@@ -1,6 +1,7 @@
 let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
+    document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     currentChannel++;
     heatmap.channel = currentChannel;
     heatmap.initialize();
@@ -8,6 +9,7 @@ function nextChannel() {
 }
 
 function previousChannel() {
+    document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     if (currentChannel > 1) {
         currentChannel--;
         heatmap.channel = currentChannel;
@@ -15,6 +17,7 @@ function previousChannel() {
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
+
 class Heatmap {
     constructor() {
         this.width = 800;
@@ -56,6 +59,8 @@ class Heatmap {
         document.getElementById('loadingMessage').style.display = 'none';
         document.getElementById('trialSlider').max = this.numTrials;
         document.getElementById('trialSlider').disabled = false;
+        document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
+
     }
 
     createScales() {
