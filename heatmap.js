@@ -1,3 +1,20 @@
+let currentChannel = 1;  // Initialize with channel 1
+
+function nextChannel() {
+    currentChannel++;
+    heatmap.channel = currentChannel;
+    heatmap.initialize();
+    document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
+}
+
+function previousChannel() {
+    if (currentChannel > 1) {
+        currentChannel--;
+        heatmap.channel = currentChannel;
+        heatmap.initialize();
+        document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
+    }
+}
 class Heatmap {
     constructor(config) {
         this.width = config.width || 800;
@@ -79,7 +96,9 @@ class Heatmap {
             .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
     }
+    
 }
+
 
 const config = {
     width: 800,
@@ -89,7 +108,7 @@ const config = {
     marginRight: 20,
     marginBottom: 20,
     marginLeft: 20,
-    channel:2  // default channel
+    channel:currentChannel // default channel
 };
 
 const heatmap = new Heatmap(config);

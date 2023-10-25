@@ -18,9 +18,10 @@
     <div id="heatmapView" style="display: none;">
         <span onclick="showIndexView()" style="color: blue; text-decoration: underline; cursor: pointer; 
         font-size: 1.5em; font-weight: bold;">Return Home</span>
-        <div id="loadingMessage" style="text-align:center;">Loading...</div>
         <h1 id="channelDisplay" style="text-align:center;"></h1>
-        <div id="heatmapContainer"></div>
+        <div id="heatmapContainer">
+        <div id="loadingMessage" style="text-align:center;">Loading...</div>
+        </div>
         <div id="controls">
         <label for="trialSlider">Trial: </label>
         <input type="range" id="trialSlider" min="1"  value="1">
@@ -29,6 +30,8 @@
     </div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="heatmap.js"></script>
+    <button onclick="previousChannel()">Previous Channel</button>
+    <button onclick="nextChannel()">Next Channel</button>
     </div>
 
     <script>
