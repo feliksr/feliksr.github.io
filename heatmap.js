@@ -72,6 +72,7 @@ class Heatmap {
     }
 
     initSvg() {
+        d3.select(this.container).select("svg").remove(); 
         this.svg = d3.select(this.container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)

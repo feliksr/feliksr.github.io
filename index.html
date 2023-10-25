@@ -16,8 +16,7 @@
 
     <!-- Heatmap View (hidden by default) -->
     <div id="heatmapView" style="display: none;">
-        <span onclick="showIndexView()" style="color: blue; text-decoration: underline; cursor: pointer; 
-        font-size: 1.5em; font-weight: bold;">Return Home</span>
+        <span onclick="showIndexView()" class="return-home">Return Home</span>
         <h1 id="channelDisplay" style="text-align:center;"></h1>
         <div id="heatmapContainer">
         <div id="loadingMessage" style="text-align:center;">Loading...</div>
@@ -28,10 +27,15 @@
         
         <span id="trialNumber">1</span>
     </div>
+    
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="heatmap.js"></script>
-    <button onclick="previousChannel()">Previous Channel</button>
-    <button onclick="nextChannel()">Next Channel</button>
+    
+    <div style="display: flex; justify-content: center; align-items: center; gap: 50px;">
+        <button onclick="previousChannel()" style="padding: 10px 20px; font-size: 1.2em; border-radius: 5px;">Previous Channel</button>
+        <button onclick="nextChannel()" style="padding: 10px 20px; font-size: 1.2em; border-radius: 5px;">Next Channel</button>
+    </div>
+    
     </div>
 
     <script>
@@ -43,7 +47,10 @@
 
         function showIndexView() {
             document.title = 'Home Page';
-            document.getElementById('indexView').style.display = 'block';
+            const indexView = document.getElementById('indexView');
+            indexView.style.display = 'flex';
+            indexView.style.justifyContent = 'center';
+            indexView.style.alignItems = 'center';
             document.getElementById('heatmapView').style.display = 'none';
         }
     </script>
