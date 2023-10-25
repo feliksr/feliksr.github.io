@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles.css">
-
-    <title>Home Page</title>
 </head>
 
 <body>
-
     <!-- Index View -->
     <div id="indexView">
         <!-- <h1>Test</h1> -->
@@ -34,11 +31,13 @@
 
     <script>
         function showHeatmapView() {
+            document.title = document.getElementById('channelDisplay').textContent;
             document.getElementById('indexView').style.display = 'none';
             document.getElementById('heatmapView').style.display = 'block';
         }
 
         function showIndexView() {
+            document.title = 'Home Page';
             document.getElementById('indexView').style.display = 'block';
             document.getElementById('heatmapView').style.display = 'none';
         }
