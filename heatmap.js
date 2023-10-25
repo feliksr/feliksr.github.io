@@ -25,10 +25,10 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20
+            top: 40,
+            right: 40,
+            bottom: 40,
+            left: 40
         };
         this.container = "#heatmapContainer";
         this.channel = currentChannel;
