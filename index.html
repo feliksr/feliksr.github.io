@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
     <title>Home Page</title>
 </head>
 
@@ -17,11 +19,12 @@
 
     <!-- Heatmap View (hidden by default) -->
     <div id="heatmapView" style="display: none;">
-        <!-- Your heatmap content goes here -->
+        <h1 id="channelDisplay" style="text-align:center;"></h1>
         <div id="heatmapContainer"></div>
         <div id="controls">
         <label for="trialSlider">Trial: </label>
         <input type="range" id="trialSlider" min="1"  value="1">
+        
         <span id="trialNumber">1</span>
     </div>
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -42,4 +45,27 @@
     </script>
 </body>
 
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Home Page</title>
+</head>
+    <h1 id="channelDisplay" style="text-align:center;"></h1>
+
+<body>
+
+    
+    <div id="heatmapContainer"></div>
+    <div id="controls">
+        <label for="trialSlider">Trial: </label>
+        <input type="range" id="trialSlider" min="1"  value="1">
+        <span id="trialNumber">1</span>
+    </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="heatmap.js"></script>
+</body>
 </html>
