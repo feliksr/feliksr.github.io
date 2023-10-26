@@ -106,7 +106,7 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left / 2) 
-            // .attr("x", this.height / 2) 
+            // .attr("x", -this.height / 2) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
@@ -118,12 +118,12 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => {
-                console.log(this.scale);
-                return this.yScale(d.frequency);
+                return this.yScale(d.frequency) - (this.height / (this.scale.length + 10));
             })
             .attr("width", this.width / this.timeWavelet.length)
             .attr("height", this.height / (this.scale.length + 10))
             .attr("fill", d => this.colorScale(d.power));
+        
     }
 
     drawHeatmap() {
