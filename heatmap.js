@@ -25,7 +25,7 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 40,
+            top: 0,
             right: 0,
             bottom: 40,
             left: 40
@@ -80,7 +80,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+            .attr("transform", `translate(${this.margin.left}, 0)`);
 
         this.createScales();
 
@@ -92,12 +92,12 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height + this.bottom / 2})`);
+            .attr("transform", `translate(0, ${this.margin.height + this.margin.bottom / 4})`);
         
         this.svg.select(".x-axis")
             .append("text")
             .attr("class", "axis-label") 
-            .attr("x", (this.width + this.left) / 2)  
+            .attr("x", (this.width + this.margin.left) / 2)  
             .attr("y", this.height + this.margin.bottom / 2)  
             .style("text-anchor", "middle")  
             .text("Time from Response (sec)");
@@ -106,7 +106,7 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left / 2) 
-            .attr("x", -this.height / 2) 
+            .attr("x", -this.margin.height / 2) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
