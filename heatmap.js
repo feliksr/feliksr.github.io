@@ -66,11 +66,11 @@ class Heatmap {
     createScales() {
         this.xScale = d3.scaleLinear()
             .range([0, this.width])
-            .domain([d3.min(this.timeWavelet), d3.max(this.timeWavelet)]);
-
+            .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
+        
         this.yScale = d3.scaleLog()
             .range([this.height, 0])
-            .domain([d3.min(this.scale), d3.max(this.scale)]);
+            .domain([d3.min(this.singleTrialData, d => d.frequency), d3.max(this.singleTrialData, d => d.frequency)]);
     }
 
     initSvg() {
@@ -105,23 +105,26 @@ class Heatmap {
         this.svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            .attr("y", -this.margin.left / 2) 
+            // .attr("y", -this.margin.left / 2) 
             // .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
 
         
-        const max_frequency = d3.max(this.singleTrialData, d => d.frequency);
-
+        const frequencies = this.singleTrialData.map(d => d.frequency).sort((a, b) => a - b);
+        const times = this.singleTrialData.map(d => d.time).sort((a, b) => a - b);
+        const rect_width = this.xScale(times[1]) - this.xScale(times[0]);
+        const rect_height = this.yScale(frequencies[0]) - this.yScale(frequencies[1]);
+        
         this.svg.selectAll("rect")
-            .data(this.singleTrialData.filter(d => d.frequency !== max_frequency))
+            .data(this.singleTrialData.filter(d => d.frequency !== frequencies[frequencies.length - 1]))
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency !==max_frequency))
-            .attr("width", this.width / this.timeWavelet.length)
-            .attr("height", this.height / this.scale.length)
+            .attr("y", d => this.yScale(d.frequency))
+            .attr("width", rect_width)
+            .attr("height", rect_height)
             .attr("fill", d => this.colorScale(d.power));
     }
 
