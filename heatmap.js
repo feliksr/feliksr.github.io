@@ -27,8 +27,8 @@ class Heatmap {
         this.margin = {
             top: 0,
             right: 0,
-            bottom: 40,
-            left: 40
+            bottom: 100,
+            left: 100
         };
         this.container = "#heatmapContainer";
         this.channel = currentChannel;
@@ -105,8 +105,8 @@ class Heatmap {
         this.svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            .attr("y", this.margin.left / 2) 
-            .attr("x", this.height / 2) 
+            // .attr("y", this.margin.left / 2) 
+            // .attr("x", this.height / 2) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
