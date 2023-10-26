@@ -25,10 +25,10 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 40,
-            right: 40,
-            bottom: 40,
-            left: 40
+            top: 100,
+            right: 100,
+            bottom: 100,
+            left: 100
         };
         this.container = "#heatmapContainer";
         this.channel = currentChannel;
@@ -104,7 +104,7 @@ class Heatmap {
                 return this.yScale(d.frequency);
             })
             .attr("width", this.width / this.timeWavelet.length)
-            .attr("height", this.height / this.scale.length - this.margin.bottom / this.scale.length)
+            .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
     }
 
