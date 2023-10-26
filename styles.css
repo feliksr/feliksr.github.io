@@ -54,3 +54,7 @@ input[type=range] {
 .x-axis text, .y-axis text {
     font-size: 16px;
 }
+
+.loadingText {
+    font-size: 10px;
+}
