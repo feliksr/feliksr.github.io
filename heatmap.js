@@ -25,7 +25,7 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 0,
+            top: 100,
             right: 0,
             bottom: 100,
             left: 100
@@ -80,7 +80,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            .attr("transform", `translate(${this.margin.left}, 0)`);
+            .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
         this.createScales();
 
