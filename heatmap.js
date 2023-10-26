@@ -80,7 +80,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            // .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+            .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
         this.createScales();
 
@@ -92,6 +92,7 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5));
+            .attr("transform", `translate(0, ${this.height})`);
 
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
