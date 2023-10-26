@@ -86,7 +86,8 @@ class Heatmap {
 
         this.svg.append("g")
             .attr("class", "y-axis")
-            .call(d3.axisLeft(this.yScale));
+            .call(d3.axisLeft(this.yScale)
+            .tickFormat(d => {return parseFloat(d.toPrecision(2))}));
             
 
         this.svg.append("g")
