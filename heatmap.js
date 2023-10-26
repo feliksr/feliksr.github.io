@@ -25,7 +25,7 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 100,
+            top: 0,
             right: 0,
             bottom: 100,
             left: 100
@@ -80,7 +80,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+            .attr("transform", `translate(${this.margin.left}, 0)`);
 
         this.createScales();
 
@@ -106,24 +106,23 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left / 2) 
-            .attr("x", -this.height) 
+            // .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
 
         
+        const max_frequency = d3.max(this.singleTrialData, d => d.frequency);
+
         this.svg.selectAll("rect")
-            .data(this.singleTrialData)
+            .data(this.singleTrialData.filter(d => d.frequency !== max_frequency))
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => {
-                return this.yScale(d.frequency) - (this.height / this.scale.length);
-            })
+            .attr("y", d => this.yScale(d.frequency))
             .attr("width", this.width / this.timeWavelet.length)
             .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
-        
     }
 
     drawHeatmap() {
