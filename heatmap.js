@@ -112,19 +112,14 @@ class Heatmap {
             .text("Frequency (Hz)");
 
         
-        const frequencies = this.singleTrialData.map(d => d.frequency).sort((a, b) => a - b);
-        const times = this.singleTrialData.map(d => d.time).sort((a, b) => a - b);
-        const rect_width = this.xScale(times[1]) - this.xScale(times[0]);
-        const rect_height = this.yScale(frequencies[0]) - this.yScale(frequencies[1]);
-        
         this.svg.selectAll("rect")
-            .data(this.singleTrialData.filter(d => d.frequency !== frequencies[frequencies.length - 1]))
+            .data(this.singleTrialData)
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
-            .attr("width", rect_width)
-            .attr("height", rect_height)
+            .attr("width", this.width / this.timeWavelet.length)
+            .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
     }
 
