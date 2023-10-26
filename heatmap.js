@@ -122,7 +122,7 @@ class Heatmap {
                 return this.yScale(d.frequency);
             })
             .attr("width", this.width / this.timeWavelet.length)
-            .attr("height", d => this.yScale(d.previousFrequency) - this.yScale(d.frequency))
+            .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
     }
 
