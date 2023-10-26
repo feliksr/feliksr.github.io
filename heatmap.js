@@ -92,13 +92,13 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height + 10})`);
+            .attr("transform", `translate(0, ${this.height + this.bottom / 2})`);
         
         this.svg.select(".x-axis")
             .append("text")
             .attr("class", "axis-label") 
-            .attr("x", this.width / 2)  
-            .attr("y", this.margin.bottom / 2)  
+            .attr("x", (this.width + this.left) / 2)  
+            .attr("y", this.height + this.margin.bottom / 2)  
             .style("text-anchor", "middle")  
             .text("Time from Response (sec)");
 
