@@ -92,8 +92,26 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height + 20})`);
+            .attr("transform", `translate(0, ${this.height + 9})`);
+        
+        this.svg.select(".x-axis")
+            .append("text")
+            .attr("class", "axis-label") 
+            .attr("x", this.width / 2)  
+            .attr("y", this.margin.bottom / 2)  
+            .style("text-anchor", "middle")  
+            .text("Time from Response (sec)");
 
+        this.svg.select(".y-axis")
+            .append("text")
+            .attr("class", "axis-label")  
+            .attr("y", -this.margin.left / 2) 
+            .attr("x", -this.height / 2) 
+            .attr("transform", "rotate(-90)") 
+            .style("text-anchor", "middle") 
+            .text("Frequency (Hz)");
+
+        
         this.svg.selectAll("rect")
             .data(this.singleTrialData)
             .enter()
