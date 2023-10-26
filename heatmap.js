@@ -25,10 +25,10 @@ class Heatmap {
         this.width = 800;
         this.height = 500;
         this.margin = {
-            top: 100,
-            right: 100,
-            bottom: 100,
-            left: 100
+            top: 0,
+            right: 0,
+            bottom: 40,
+            left: 50
         };
         this.container = "#heatmapContainer";
         this.channel = currentChannel;
@@ -80,7 +80,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
-            .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+            // .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
 
         this.createScales();
 
@@ -91,7 +91,6 @@ class Heatmap {
             
         this.svg.append("g")
             .attr("class", "x-axis")
-            .attr("transform", `translate(0,${this.height - this.margin.top - 10})`)
             .call(d3.axisBottom(this.xScale).ticks(5));
 
         this.svg.selectAll("rect")
