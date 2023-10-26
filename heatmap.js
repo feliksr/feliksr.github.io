@@ -92,7 +92,7 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.margin.height + this.margin.bottom / 4})`);
+            .attr("transform", `translate(0, ${this.margin.bottom })`);
         
         this.svg.select(".x-axis")
             .append("text")
@@ -105,8 +105,8 @@ class Heatmap {
         this.svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            .attr("y", -this.margin.left / 2) 
-            .attr("x", -this.margin.height / 2) 
+            .attr("y", this.margin.left / 2) 
+            .attr("x", this.margin.height / 2) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
