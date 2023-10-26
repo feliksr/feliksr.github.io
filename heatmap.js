@@ -119,7 +119,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency))
+            .attr("y", d => this.yScale(d.frequency !==max_frequency))
             .attr("width", this.width / this.timeWavelet.length)
             .attr("height", this.height / this.scale.length)
             .attr("fill", d => this.colorScale(d.power));
