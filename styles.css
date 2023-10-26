@@ -14,6 +14,10 @@ body {
     font-weight: bold;
 }
 
+.loadingText {
+    font-size: 25px;
+}
+
 #heatmapContainer {
     display: flex;
     justify-content: center;
@@ -57,9 +61,5 @@ input[type=range] {
 
 .axis-label {
     font-size: 16px;  
-    fill: #c14a4a; 
 }
 
-.loadingText {
-    font-size: 25px;
-}

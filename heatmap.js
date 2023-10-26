@@ -106,7 +106,7 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left / 2) 
-            .attr("x", -this.height) 
+            .attr("x", -this.height / 2) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
