@@ -92,7 +92,7 @@ class Heatmap {
         this.svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height + this.margin.bottom/2})`);
+            .attr("transform", `translate(0, ${this.height})`);
         
         // this.svg.select(".x-axis")
         //     .append("text")
@@ -122,7 +122,7 @@ class Heatmap {
                 return this.yScale(d.frequency);
             })
             .attr("width", this.width / this.timeWavelet.length)
-            .attr("height", this.height / this.scale.length)
+            .attr("height", this.height / this.scale.length - (1/this.scale.length))
             .attr("fill", d => this.colorScale(d.power));
     }
 
