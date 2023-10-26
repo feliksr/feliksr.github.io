@@ -118,7 +118,7 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => {
-                console.log(scale);
+                console.log(this.scale);
                 return this.yScale(d.frequency);
             })
             .attr("width", this.width / this.timeWavelet.length)
