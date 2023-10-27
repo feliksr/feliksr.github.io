@@ -30,7 +30,7 @@ class Heatmap {
             bottom: 100,
             left: 100
         };
-        this.container = "#heatmapContainer";
+        // this.container = "#heatmapContainer";
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
 
