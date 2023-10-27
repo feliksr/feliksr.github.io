@@ -31,12 +31,11 @@ body {
     margin-bottom: 10px; 
 }
 
-.heatmapView {
+#heatmapView {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #464444;
-    height: 100%; 
 }
 
 #controls {
