@@ -119,7 +119,7 @@ class Heatmap {
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
-            .attr("height", this.height / 4 / new Set(this.singleTrialData.map(d => d.frequency)).size)
+            .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
         });
     }
