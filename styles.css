@@ -25,11 +25,12 @@ body {
     background-color: #464444; 
     margin-top: 10px; 
     margin-bottom: 10px; 
+    justify-content: center;
 }
 
 #containers {
-    display: flex;
-    /* justify-content: center; */
+    display: block;
+    justify-content: center;
     /* align-items: center; */
 }
 
