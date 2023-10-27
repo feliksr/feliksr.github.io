@@ -21,7 +21,7 @@ function previousChannel() {
 }
 
 class Heatmap {
-    cconstructor(containers) {
+    constructor(containers) {
         this.containers = containers;
         this.width = 800;
         this.height = 500;
