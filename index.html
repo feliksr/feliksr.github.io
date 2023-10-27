@@ -18,12 +18,15 @@
         <span onclick="showIndexView()" class="return-home">Return Home</span>
         <h1 id="loadingText" style="text-align:center;">Loading...</h1>
         <h1 id="channelDisplay" style="text-align:center;"></h1>
-        <div id="heatmapContainer">
-        </div>
+
+        <div class="container" id="container1"></div>
+        <div class="container" id="container2"></div>
+        <div class="container" id="container3"></div>
+        <div class="container" id="container4"></div>
+        
         <div id="controls">
         <label for="trialSlider">Trial: </label>
         <input type="range" id="trialSlider" min="1"  value="1">
-        
         <span id="trialNumber">1</span>
     </div>
     
@@ -43,6 +46,23 @@
             document.getElementById('indexView').style.display = 'none';
             document.getElementById('heatmapView').style.display = 'block';
         }
+      
+        function showHeatmapView() {
+            // Existing logic to show the heatmap view and hide the index view, if any
+            
+            // Initialize the heatmaps
+            const heatmap1 = new Heatmap();
+            heatmap1.container = '#container1';
+            heatmap1.initialize();
+
+            const heatmap2 = new Heatmap();
+            heatmap2.container = '#container2';
+            heatmap2.initialize();
+
+            const heatmap3 = new Heatmap();
+            heatmap3.container = '#container3';
+            heatmap3.initialize();
+        }
 
         function showIndexView() {
             document.title = 'Home Page';
@@ -54,3 +74,13 @@
         }
     </script>
 </body>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+

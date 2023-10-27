@@ -18,6 +18,15 @@ body {
     font-size: 25px;
 }
 
+.container {
+    width: 100%;
+    height: 25vh;
+    border: 1px solid black;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #464444; 
+}
+
 #heatmapContainer {
     display: flex;
     justify-content: center;
