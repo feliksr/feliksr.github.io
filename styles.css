@@ -23,9 +23,9 @@ body {
     height: 25vh;
     overflow: hidden;
     background-color: #464444; 
-    /* margin-top: 10px; 
-    margin-bottom: 10px;  */
-    display: block;
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+    /* display: block; */
 }
 
 #containers {
