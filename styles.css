@@ -25,14 +25,12 @@ body {
     background-color: #464444; 
     margin-top: 10px; 
     margin-bottom: 10px; 
-    /* display: block; */
 }
 
 #containers {
     display: flex;
     flex-direction: column;  /* This makes the flex items stack vertically */
     align-items: center;        /* Center children horizontally */
-    justify-content: center;    /* Center children vertically */
 }
 
 #controls {
