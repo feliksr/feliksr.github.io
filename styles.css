@@ -21,7 +21,6 @@ body {
 .container {
     width: 50%;
     height: 25vh;
-    box-sizing: border-box;
     overflow: hidden;
     background-color: #464444; 
     margin-top: 10px; 
@@ -29,7 +28,7 @@ body {
 }
 
 #containers {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
 }
