@@ -31,6 +31,8 @@ body {
 #containers {
     display: flex;
     flex-direction: column;  /* This makes the flex items stack vertically */
+    align-items: center;        /* Center children horizontally */
+    justify-content: center;    /* Center children vertically */
 }
 
 #controls {
