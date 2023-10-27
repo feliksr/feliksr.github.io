@@ -19,9 +19,9 @@ body {
 }
 
 .container {
-    width: 50%;
-    height: 25vh;
-    overflow: hidden;
+    /* width: 75%; */
+    /* height: 25vh; */
+    /* overflow: hidden; */
     background-color: #464444; 
     margin-top: 10px; 
     margin-bottom: 10px; 
@@ -29,15 +29,14 @@ body {
 
 #containers {
     display: flex;
-    flex-direction: column;  /* This makes the flex items stack vertically */
-    align-items: center;        /* Center children horizontally */
+    flex-direction: column;  
+    align-items: center;        
 }
 
 #controls {
     margin: 20px 10px;
     text-align: center;
     padding: 10px;
-    /* background-color: #464444; */
 }
 
 #controls label, #controls span {
