@@ -25,6 +25,9 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     background-color: #464444; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #heatmapContainer {
