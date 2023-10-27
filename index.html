@@ -44,7 +44,7 @@
         function showHeatmapView() {
             document.title = document.getElementById('channelDisplay').textContent;
             document.getElementById('indexView').style.display = 'none';
-            document.getElementById('heatmapView').style.display = 'block';
+            const heatmapView = document.getElementById('heatmapView')
             heatmapView.style.display = 'flex';
             heatmapView.style.justifyContent = 'center';
             heatmapView.style.alignItems = 'center';
