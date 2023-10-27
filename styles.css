@@ -24,25 +24,21 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     background-color: #464444; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 10px; 
     margin-bottom: 10px; 
 }
 
-#heatmapView {
+#containers {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #464444;
 }
 
 #controls {
     margin: 20px 0;
     text-align: center;
     padding: 10px;
-    background-color: #464444;
+    /* background-color: #464444; */
 }
 
 #controls label, #controls span {
