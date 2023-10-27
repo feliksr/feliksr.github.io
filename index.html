@@ -47,10 +47,6 @@
             document.getElementById('heatmapView').style.display = 'block';
         }
       
-        function showHeatmapView() {
-            // Existing logic to show the heatmap view and hide the index view, if any
-            
-            // Initialize the heatmaps
             const heatmap1 = new Heatmap();
             heatmap1.container = '#container1';
             heatmap1.initialize();
@@ -62,7 +58,6 @@
             const heatmap3 = new Heatmap();
             heatmap3.container = '#container3';
             heatmap3.initialize();
-        }
 
         function showIndexView() {
             document.title = 'Home Page';
