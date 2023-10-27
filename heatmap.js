@@ -21,7 +21,8 @@ function previousChannel() {
 }
 
 class Heatmap {
-    constructor() {
+    cconstructor(containers) {
+        this.containers = containers;
         this.width = 800;
         this.height = 500;
         this.margin = {
@@ -30,7 +31,6 @@ class Heatmap {
             bottom: 100,
             left: 100
         };
-        // this.container = "#heatmapContainer";
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
 
@@ -72,6 +72,7 @@ class Heatmap {
     }
 
     initSvg() {
+        this.containers.forEach(containerId => {
         d3.select(this.container).select("svg").remove(); 
 
         this.svg = d3.select(this.container).append("svg")
@@ -116,11 +117,12 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
+            console.log(this.singleTrialData)
             .attr("width", this.width / this.singleTrialData[0].length)
-            .attr("height", this.height / this.singleTrialData.length)
+            .attr("height", this.height / 4 / this.singleTrialData.length)
             .attr("fill", d => this.colorScale(d.power));
+        });
     }
-
     drawHeatmap() {
         this.svg.selectAll("rect")
             .data(this.singleTrialData)

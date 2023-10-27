@@ -47,17 +47,8 @@
             document.getElementById('heatmapView').style.display = 'block';
         }
       
-            const heatmap1 = new Heatmap();
-            heatmap1.container = '#container1';
-            heatmap1.initialize();
-
-            const heatmap2 = new Heatmap();
-            heatmap2.container = '#container2';
-            heatmap2.initialize();
-
-            const heatmap3 = new Heatmap();
-            heatmap3.container = '#container3';
-            heatmap3.initialize();
+        const heatmapObj = new Heatmap(['#container1', '#container2', '#container3']);
+        heatmapObj.initialize();
 
         function showIndexView() {
             document.title = 'Home Page';
