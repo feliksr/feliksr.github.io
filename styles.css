@@ -19,11 +19,11 @@ body {
 }
 
 .container {
-    width: 100%;
+    width: 50%;
     height: 25vh;
     border: 1px solid black;
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
     background-color: #464444; 
     display: flex;
     justify-content: center;
