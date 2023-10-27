@@ -21,9 +21,8 @@ body {
 .container {
     width: 50%;
     height: 25vh;
-    border: 1px solid black;
     box-sizing: border-box;
-    /* overflow: hidden; */
+    overflow: hidden;
     background-color: #464444; 
     display: flex;
     justify-content: center;
@@ -32,7 +31,7 @@ body {
     margin-bottom: 10px; 
 }
 
-#heatmapContainer {
+.heatmapView {
     display: flex;
     justify-content: center;
     align-items: center;
