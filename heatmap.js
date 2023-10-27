@@ -129,3 +129,6 @@ class Heatmap {
             .attr("fill", d => this.colorScale(d.power));
     }
 }
+
+const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
+heatmap.initialize();
