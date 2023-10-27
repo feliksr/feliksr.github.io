@@ -18,14 +18,14 @@ body {
     font-size: 25px;
 }
 
-.container {
-    width: 100vh;
-    height: 100vh;
-    /* overflow: hidden; */
+/* .container {
+    width: 500px;
+    height: 200px;
+    overflow: hidden;
     background-color: #464444; 
     margin-top: 10px; 
     margin-bottom: 10px; 
-}
+} */
 
 #containers {
     display: flex;
