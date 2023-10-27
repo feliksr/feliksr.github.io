@@ -24,12 +24,12 @@ class Heatmap {
     constructor(containers) {
         this.containers = containers;
         this.width = 800;
-        this.height = 500;
+        this.height = 100;
         this.margin = {
             top: 0,
             right: 0,
-            bottom: 100,
-            left: 100
+            bottom: 20,
+            left: 20
         };
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
