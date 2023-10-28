@@ -82,7 +82,7 @@ class Heatmap {
             .attr("width", this.width)
             .attr("height", this.height + this.margin.bottom)
             .append("g")
-            .attr("transform", `translate(${this.margin.left}, 0)`);
+            // .attr("transform", `translate(${this.margin.left}, 0)`);
         
         this.createScales();
 
@@ -108,7 +108,7 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left/2) 
-            .attr("x", this.height) 
+            .attr("x", -this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
