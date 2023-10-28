@@ -24,7 +24,7 @@ class Heatmap {
     constructor(containers) {
         this.containers = containers;
         this.width = 600;
-        this.height = 100;
+        this.height = 200;
         this.margin = {
             top: 0,
             right: 0,
@@ -122,15 +122,15 @@ class Heatmap {
             .attr("y", d => this.yScale(d.frequency))
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
-            // .attr("width", this.width / 200)
-            // .attr("height", this.height  /28 )
             .attr("fill", d => this.colorScale(d.power));
         });
     }
     drawHeatmap() {
-        this.svg.selectAll("rect")
+        this.containers.forEach(container => {
+            container.svg.selectAll("rect")
             .data(this.singleTrialData)
             .attr("fill", d => this.colorScale(d.power));
+        })
     }
 }
 
