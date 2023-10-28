@@ -64,7 +64,7 @@ class Heatmap {
     createScales() {
         this.xScale = d3.scaleLinear()
             .range([0, this.width])
-            .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
+            .domain([d3.min(filteredData, d => d.time), d3.max(filteredData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
             .range([0, this.height])
@@ -145,7 +145,7 @@ const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
 heatmap.initialize();
 
 frequencyBins = [
-    { min: 0, max: 20 },
+    { min: 60, max: 200 },
     { min: 20, max: 60 },
-    { min: 60, max: 200 }
+    { min: 0, max: 20 }
 ];
