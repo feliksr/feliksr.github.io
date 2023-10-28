@@ -98,20 +98,21 @@ class Heatmap {
         
         svg.select(".x-axis")
             .append("text")
-            .attr("class", "axis-label") 
-            .attr("x", this.margin.left)  
-            .attr("y", this.height)  
-            .style("text-anchor", "middle")  
+            .attr("class", "axis-label")
+            .attr("x", this.width / 2)  
+            .attr("y", this.height + 20) 
+            .style("text-anchor", "middle")
             .text("Time from Response (sec)");
 
         svg.select(".y-axis")
             .append("text")
-            .attr("class", "axis-label")  
-            .attr("y", -this.margin.left) 
-            .attr("x", this.height) 
-            .attr("transform", "rotate(-90)") 
-            .style("text-anchor", "middle") 
+            .attr("class", "axis-label")
+            .attr("y", -this.margin.left + 20)  
+            .attr("x", -this.height / 2)
+            .attr("transform", "rotate(-90)")
+            .style("text-anchor", "middle")
             .text("Frequency (Hz)");
+
 
         
         svg.selectAll("rect")
