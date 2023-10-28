@@ -86,16 +86,16 @@ class Heatmap {
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
         
-            this.svgs[container] = svg 
+            
 
         this.createScales();
 
-        this.svg.append("g")
+        svg.append("g")
             .attr("class", "y-axis")
             .call(d3.axisLeft(this.yScale)
             .tickFormat(d => {return parseFloat(d.toPrecision(2))}));
             
-        this.svg.append("g")
+        svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
             .attr("transform", `translate(0, ${this.height})`);
@@ -108,7 +108,7 @@ class Heatmap {
         //     .style("text-anchor", "middle")  
         //     .text("Time from Response (sec)");
 
-        this.svg.select(".y-axis")
+        svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
             // .attr("y", -this.margin.left / 2) 
@@ -118,7 +118,7 @@ class Heatmap {
             .text("Frequency (Hz)");
 
         
-        this.svg.selectAll("rect")
+        svg.selectAll("rect")
             .data(this.singleTrialData)
             .enter()
             .append("rect")
@@ -127,6 +127,8 @@ class Heatmap {
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
+        
+        this.svgs[container] = svg 
         })
     }
     drawHeatmap() {
