@@ -123,7 +123,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) - height/numFreqBins - (1/this.height/numFreqBins))
+            .attr("y", d => this.yScale(d.frequency) -  this.height/numFreqBins - (1/this.height/numFreqBins))
             .attr("width", (this.width+(this.width/numTimeBins))/ numTimeBins)
             .attr("height", (this.height+(this.height/numFreqBins)) / numFreqBins)
             .attr("fill", d => this.colorScale(d.power));
