@@ -29,7 +29,7 @@ class Heatmap {
             top: 0,
             right: 0,
             bottom: 50,
-            left: 50
+            left: 75
         };
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
@@ -109,9 +109,9 @@ class Heatmap {
         svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            .attr("y", this.margin.left / 2) 
+            // .attr("y", this.margin.left / 2) 
             // .attr("x", this.height) 
-            .attr("transform", "rotate(-90)") 
+            // .attr("transform", "rotate(-90)") 
             // .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
 
@@ -121,7 +121,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.height - this.yScale(d.frequency))
+            .attr("y", d => this.height - this.yScale(d.frequency) - this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
