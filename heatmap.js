@@ -48,13 +48,12 @@ class Heatmap {
     async initialize() {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
+        
         this.numTrials = responseData.numTrials;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
+        this.maxColor = responseData.maxColor;
 
-        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, responseData.maxColor]);
-        
         this.initSvg();
         this.drawHeatmap();
 
@@ -116,6 +115,7 @@ class Heatmap {
         
         const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
         const numTimeBins = new Set(filteredData.map(d => d.time)).size
+        
         svg.selectAll("rect")
             .data(filteredData)
             .enter()
@@ -125,7 +125,6 @@ class Heatmap {
             .attr("width", this.width /  (numTimeBins - 1))
             .attr("height", this.height / (numFreqBins - 1))
             .attr("shape-rendering", "crispEdges")
-            .attr("fill", d => this.colorScale(d.power));
         })
     }
     drawHeatmap() {
@@ -133,11 +132,13 @@ class Heatmap {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             
+            const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, this.maxColor]);
             const svg = d3.select(container).select("svg");
             
             svg.selectAll("rect")
                 .data(filteredData)
-                .attr("fill", d => this.colorScale(d.power));
+                .attr("fill", d => colorScale(d.power));
         });
     }
 }
