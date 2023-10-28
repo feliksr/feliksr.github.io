@@ -83,11 +83,11 @@ class Heatmap {
         
         this.xScale = d3.scaleLinear()
             .range([0, this.width])
-            .domain([d3.min(filteredData, d => d.time), d3.max(filteredData, d => d.time)]);
+            .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
             .range([0, this.height])
-            .domain([d3.max(this.singleTrialData, d => d.frequency),d3.min(this.singleTrialData, d => d.frequency)]);
+            .domain([d3.max(filteredData, d => d.frequency),d3.min(filteredData, d => d.frequency)]);
 
         svg.append("g")
             .attr("class", "y-axis")
@@ -102,8 +102,8 @@ class Heatmap {
         svg.select(".x-axis")
             .append("text")
             .attr("class", "axis-label")
-            .attr("x", this.width / 2)  
-            .attr("y", this.height + 20) 
+            .attr("x", this.width / 2)
+            .attr("y", 40) 
             .style("text-anchor", "middle")
             .text("Time from Response (sec)");
 
