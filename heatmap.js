@@ -104,7 +104,7 @@ class Heatmap {
             .style("text-anchor", "middle")  
             .text("Time from Response (sec)");
 
-        g.select(".y-axis")
+        svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
             .attr("y", -this.margin.left/2) 
