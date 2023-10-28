@@ -29,7 +29,7 @@ class Heatmap {
             top: 0,
             right: 0,
             bottom: 50,
-            left: 100
+            left: 50
         };
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
