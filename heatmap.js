@@ -96,7 +96,7 @@ class Heatmap {
         svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${-this.height})`);
+            .attr("transform", `translate(0, ${this.height})`);
         
         // this.svg.select(".x-axis")
         //     .append("text")
@@ -112,7 +112,7 @@ class Heatmap {
             .attr("y", this.margin.left / 2) 
             // .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
-            .style("text-anchor", "middle") 
+            // .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
 
         
@@ -122,7 +122,7 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
-            .attr("width", (this.width - this.margin.left) / new Set(this.singleTrialData.map(d => d.time)).size)
+            .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
         
