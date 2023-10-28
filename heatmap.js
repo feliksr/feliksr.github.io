@@ -115,15 +115,17 @@ class Heatmap {
             .attr("transform", "rotate(-90)")
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
-
+        
+        const rectHeight = new Set(filteredData.map(d => d.frequency)).size
+        const rectWidth = new Set(filteredData.map(d => d.time)).size
         svg.selectAll("rect")
             .data(filteredData)
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) - (this.height / new Set(filteredData.map(d => d.frequency)).size))
-            .attr("width", this.width / new Set(filteredData.map(d => d.time)).size)
-            .attr("height", this.height / new Set(filteredData.map(d => d.frequency)).size)
+            .attr("y", d => this.yScale(d.frequency) - this.height / rectHeight)
+            .attr("width", (this.width+rectWidth) / rectWidth)
+            .attr("height", (this.height+rectHeight) / rectHeight)
             .attr("fill", d => this.colorScale(d.power));
         })
     }
