@@ -72,17 +72,20 @@ class Heatmap {
     }
 
     initSvg() {
+        this.svgs = {};
         this.containers.forEach(container => {
-            d3.select(container).style("width", this.width + "px")
-                                .style("height", this.height + "px")
-                                .select("svg")
-                                .remove(); 
+            d3.select(container)
+                .style("width", this.width + "px")
+                .style("height", this.height + "px")
+                .select("svg")
+                .remove(); 
 
-        this.svg = d3.select(container).append("svg")
-            .attr("width", this.width + this.margin.left + this.margin.right)
+        const svg = d3.select(container).append("svg")
+            .attr("width", this.width - this.margin.left - this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
+        this.svgs[container] = svg; // Store the SVG in the collection
 
         this.createScales();
 
@@ -127,9 +130,10 @@ class Heatmap {
     }
     drawHeatmap() {
         this.containers.forEach(container => {
-            container.svg.selectAll("rect")
-            .data(this.singleTrialData)
-            .attr("fill", d => this.colorScale(d.power));
+            const svg = this.svgs[container];
+            svg.selectAll("rect")
+                .data(this.singleTrialData)
+                .attr("fill", d => this.colorScale(d.power));
         })
     }
 }
