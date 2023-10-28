@@ -67,7 +67,7 @@ class Heatmap {
             .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
-            .range([0, this.height])
+            .range([this.height, 0])
             .domain([d3.min(this.singleTrialData, d => d.frequency), d3.max(this.singleTrialData, d => d.frequency)]);
     }
 
