@@ -75,13 +75,13 @@ class Heatmap {
         this.svgs = {};
         this.containers.forEach(container => {
             d3.select(container)
-                .style("width", this.width + "px")
-                .style("height", this.height + "px")
+                .style("width", this.width +  this.margin.left + "px")
+                .style("height", this.height + this.bottom.margin + "px")
                 .select("svg")
                 .remove(); 
 
         const svg = d3.select(container).append("svg")
-            .attr("width", this.width - this.margin.left - this.margin.right)
+            .attr("width", this.width - this.margin.left)
             .attr("height", this.height)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
