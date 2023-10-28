@@ -82,12 +82,10 @@ class Heatmap {
 
         const svg = d3.select(container).append("svg")
             .attr("width", this.width - this.margin.left - this.margin.right)
-            .attr("height", this.height - this.margin.top - this.margin.bottom)
+            .attr("height", this.height)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
         
-            
-
         this.createScales();
 
         svg.append("g")
@@ -124,7 +122,7 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency))
-            .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
+            .attr("width", (this.width - this.margin.left) / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
         
