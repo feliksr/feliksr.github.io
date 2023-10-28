@@ -123,9 +123,11 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) -  this.height/(numFreqBins +1))
+            .attr("y", d => this.yScale(d.frequency))
+            // .attr("y", d => this.yScale(d.frequency) -  this.height/(numFreqBins +1))
+
             .attr("width", this.width /  (numTimeBins - 1))
-            .attr("height", this.height / (numFreqBins - 1))
+            .attr("height", - this.height / (numFreqBins - 1))
             .attr("fill", d => this.colorScale(d.power));
         })
     }
