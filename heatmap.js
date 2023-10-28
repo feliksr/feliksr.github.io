@@ -82,7 +82,7 @@ class Heatmap {
             .attr("width", this.width + this.margin.left)
             .attr("height", this.height + this.margin.bottom)
             .append("g")
-            // .attr("transform", `translate(${this.margin.left}, 0)`);
+            .attr("transform", `translate(${this.margin.left}, 0)`);
         
         this.createScales();
 
