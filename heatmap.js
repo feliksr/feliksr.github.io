@@ -116,16 +116,16 @@ class Heatmap {
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
         
-        const rectHeight = new Set(filteredData.map(d => d.frequency)).size
-        const rectWidth = new Set(filteredData.map(d => d.time)).size
+        const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
+        const numTimeBins = new Set(filteredData.map(d => d.time)).size
         svg.selectAll("rect")
             .data(filteredData)
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) - this.height / rectHeight)
-            .attr("width", (this.width+(this.width/rectWidth))/ rectWidth)
-            .attr("height", (this.height+(this.height/rectHeight)) / rectHeight)
+            .attr("y", d => this.yScale(d.frequency) + this.height / numFreqBins)
+            .attr("width", (this.width+(this.width/numTimeBins))/ numTimeBins)
+            .attr("height", (this.height+(this.height/numFreqBins)) / numFreqBins)
             .attr("fill", d => this.colorScale(d.power));
         })
     }
