@@ -51,18 +51,16 @@ class Heatmap {
         this.numTrials = responseData.numTrials;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
+
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, responseData.maxColor]);
         
         this.initSvg();
         this.drawHeatmap();
+
         document.getElementById('trialSlider').max = this.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-    }
-
-    createScales() {
-
     }
 
     initSvg() {
@@ -126,6 +124,7 @@ class Heatmap {
             .attr("y", d => this.yScale(d.frequency) -  this.height/(numFreqBins -1))
             .attr("width", this.width /  (numTimeBins - 1))
             .attr("height", this.height / (numFreqBins - 1))
+            .attr("shape-rendering", "crispEdges")
             .attr("fill", d => this.colorScale(d.power));
         })
     }
