@@ -67,7 +67,7 @@ class Heatmap {
             .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
-            .range([this.height, 0])
+            .range([0, this.height])
             .domain([d3.min(this.singleTrialData, d => d.frequency), d3.max(this.singleTrialData, d => d.frequency)]);
     }
 
@@ -121,7 +121,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.height - (this.yScale(d.frequency) + this.height / new Set(this.singleTrialData.map(d => d.frequency)).size))
+            .attr("y", d => this.height - this.yScale(d.frequency))
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
