@@ -27,7 +27,7 @@ class Heatmap {
         this.height = 200;
         this.margin = {
             top: 0,
-            right: 0,
+            right: 50,
             bottom: 50,
             left: 75
         };
@@ -62,13 +62,7 @@ class Heatmap {
     }
 
     createScales() {
-        this.xScale = d3.scaleLinear()
-            .range([0, this.width])
-            .domain([d3.min(filteredData, d => d.time), d3.max(filteredData, d => d.time)]);
-        
-        this.yScale = d3.scaleLog()
-            .range([0, this.height])
-            .domain([d3.max(this.singleTrialData, d => d.frequency),d3.min(this.singleTrialData, d => d.frequency)]);
+
     }
 
     initSvg() {
@@ -82,12 +76,18 @@ class Heatmap {
         const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
         
         const svg = d3.select(container).append("svg")
-            .attr("width", this.width + this.margin.left)
+            .attr("width", this.width + this.margin.left + this.margin.bottom)
             .attr("height", this.height + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
         
-        this.createScales();
+        this.xScale = d3.scaleLinear()
+            .range([0, this.width])
+            .domain([d3.min(filteredData, d => d.time), d3.max(filteredData, d => d.time)]);
+        
+        this.yScale = d3.scaleLog()
+            .range([0, this.height])
+            .domain([d3.max(this.singleTrialData, d => d.frequency),d3.min(this.singleTrialData, d => d.frequency)]);
 
         svg.append("g")
             .attr("class", "y-axis")
