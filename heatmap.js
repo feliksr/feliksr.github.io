@@ -75,8 +75,6 @@ class Heatmap {
         this.svgs = {};
         this.containers.forEach(container => {
             d3.select(container)
-                // .style("width", this.width +  this.margin.left + "px")
-                // .style("height", this.height + this.margin.bottom + "px")
                 .select("svg")
                 .remove(); 
 
@@ -98,19 +96,19 @@ class Heatmap {
             .call(d3.axisBottom(this.xScale).ticks(5))
             .attr("transform", `translate(0, ${this.height})`);
         
-        // this.svg.select(".x-axis")
-        //     .append("text")
-        //     .attr("class", "axis-label") 
-        //     .attr("x", (this.width + this.margin.left) / 2)  
-        //     .attr("y", this.height + (this.margin.bottom / 2))  
-        //     .style("text-anchor", "middle")  
-        //     .text("Time from Response (sec)");
+        svg.select(".x-axis")
+            .append("text")
+            .attr("class", "axis-label") 
+            .attr("x", this.margin.left)  
+            .attr("y", this.height)  
+            .style("text-anchor", "middle")  
+            .text("Time from Response (sec)");
 
-        svg.select(".y-axis")
+        g.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            // .attr("y", -this.width - this.margin.left  - 20) 
-            // .attr("x", this.height) 
+            .attr("y", -this.margin.left/2) 
+            .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
             .text("Frequency (Hz)");
