@@ -67,8 +67,8 @@ class Heatmap {
             .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
-            .range([this.height, 0])
-            .domain([d3.min(this.singleTrialData, d => d.frequency), d3.max(this.singleTrialData, d => d.frequency)]);
+            .range([0, this.height])
+            .domain([d3.max(this.singleTrialData, d => d.frequency),d3.min(this.singleTrialData, d => d.frequency)]);
     }
 
     initSvg() {
@@ -96,7 +96,7 @@ class Heatmap {
         svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height})`);
+            // .attr("transform", `translate(0, ${this.height})`);
         
         // this.svg.select(".x-axis")
         //     .append("text")
@@ -109,7 +109,7 @@ class Heatmap {
         svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            .attr("y", -this.width - this.margin.left/2) 
+            // .attr("y", -this.width - this.margin.left  - 20) 
             // .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
@@ -121,7 +121,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency)-this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
+            .attr("y", d => this.yScale(d.frequency))
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
