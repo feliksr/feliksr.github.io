@@ -28,7 +28,7 @@ class Heatmap {
         this.margin = {
             top: 0,
             right: 0,
-            bottom: 100,
+            bottom: 50,
             left: 100
         };
         this.channel = currentChannel;
@@ -81,7 +81,7 @@ class Heatmap {
                 .remove(); 
 
         const svg = d3.select(container).append("svg")
-            .attr("width", this.width - this.margin.left)
+            .attr("width", this.width)
             .attr("height", this.height)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
