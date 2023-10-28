@@ -124,8 +124,8 @@ class Heatmap {
             .append("rect")
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency) - this.height / rectHeight)
-            .attr("width", (this.width+rectWidth) / rectWidth)
-            .attr("height", (this.height+rectHeight) / rectHeight)
+            .attr("width", (this.width+(this.width/rectWidth))/ rectWidth)
+            .attr("height", (this.height+(this.height/rectHeight)) / rectHeight)
             .attr("fill", d => this.colorScale(d.power));
         })
     }
