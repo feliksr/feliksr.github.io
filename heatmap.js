@@ -73,11 +73,14 @@ class Heatmap {
 
     initSvg() {
         this.svgs = {};
-        this.containers.forEach(container => {
+        this.containers.forEach((container,index) => {
             d3.select(container)
                 .select("svg")
                 .remove(); 
 
+        const bin = frequencyBins[index];
+        const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
+        
         const svg = d3.select(container).append("svg")
             .attr("width", this.width + this.margin.left)
             .attr("height", this.height + this.margin.bottom)
@@ -113,30 +116,36 @@ class Heatmap {
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
 
-
-        
         svg.selectAll("rect")
-            .data(this.singleTrialData)
+            .data(filteredData)
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) - (this.height / new Set(this.singleTrialData.map(d => d.frequency)).size))
-            .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
-            .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
+            .attr("y", d => this.yScale(d.frequency) - (this.height / new Set(filteredData.map(d => d.frequency)).size))
+            .attr("width", this.width / new Set(filteredData.map(d => d.time)).size)
+            .attr("height", this.height / new Set(filteredData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
-        
-        this.svgs[container] = svg 
         })
     }
     drawHeatmap() {
-        this.containers.forEach(container => {
-            const svg = this.svgs[container];
+        this.containers.forEach((container, index) => {
+            const bin = frequencyBins[index];
+            const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
+            
+            const svg = d3.select(container).select("svg");
+            
             svg.selectAll("rect")
-                .data(this.singleTrialData)
-                .attr("fill", d => this.colorScale(d.power))
-        })
+                .data(filteredData)
+                .attr("fill", d => this.colorScale(d.power));
+        });
     }
 }
 
 const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
 heatmap.initialize();
+
+frequencyBins = [
+    { min: 0, max: 20 },
+    { min: 20, max: 60 },
+    { min: 60, max: 200 }
+];
