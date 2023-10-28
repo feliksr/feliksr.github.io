@@ -96,7 +96,7 @@ class Heatmap {
         svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height})`);
+            // .attr("transform", `translate(0, ${this.height})`);
         
         // this.svg.select(".x-axis")
         //     .append("text")
@@ -121,7 +121,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.height - this.yScale(d.frequency))
+            .attr("y", d => this.yScale(d.frequency)-this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("width", this.width / new Set(this.singleTrialData.map(d => d.time)).size)
             .attr("height", this.height / new Set(this.singleTrialData.map(d => d.frequency)).size)
             .attr("fill", d => this.colorScale(d.power));
