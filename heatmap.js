@@ -96,7 +96,7 @@ class Heatmap {
         svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height})`);
+            .attr("transform", `translate(0, ${this.height + this.margin.bottom})`);
         
         // this.svg.select(".x-axis")
         //     .append("text")
@@ -109,7 +109,7 @@ class Heatmap {
         svg.select(".y-axis")
             .append("text")
             .attr("class", "axis-label")  
-            // .attr("y", -this.margin.left / 2) 
+            .attr("y", -this.margin.left / 2) 
             // .attr("x", this.height) 
             .attr("transform", "rotate(-90)") 
             .style("text-anchor", "middle") 
