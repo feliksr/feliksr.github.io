@@ -23,8 +23,8 @@ function previousChannel() {
 class Heatmap {
     constructor(containers) {
         this.containers = containers;
-        this.width = 600;
-        this.height = 200;
+        this.width = 1000;
+        this.height = 400;
         this.margin = {
             top: 0,
             right: 50,
