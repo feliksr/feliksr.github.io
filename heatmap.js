@@ -110,8 +110,7 @@ class Heatmap {
                     .attr("y", heightSVG + 20) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
-                    .attr("transform", `translate(0, ${heightSVG})`);
- } 
+            } 
             svg.selectAll("rect")
                 .data(filteredData)
                 .enter()
