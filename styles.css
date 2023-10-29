@@ -53,8 +53,14 @@ input[type=range] {
     font-size: 16px;
 }
 
-.axis-label {
-    font-size: 10px;  
+.x-axis-label {
+    font-size: 16px;  
     fill: #ffffff
 }
 
+.y-axis-label {
+    writing-mode: vertical-rl;  
+    transform: rotate(180deg);  
+    margin-right: 10px; 
+    
+}

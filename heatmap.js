@@ -100,20 +100,11 @@ class Heatmap {
         
         svg.select(".x-axis")
             .append("text")
-            .attr("class", "axis-label")
+            .attr("class", "x-axis-label")
             .attr("x", this.width / 2)
             .attr("y", 40) 
             .style("text-anchor", "middle")
             .text("Time from Response (sec)");
-
-        svg.select(".y-axis")
-            .append("text")
-            .attr("class", "axis-label")
-            .attr("y", -this.margin.left + 20)  
-            .attr("x", -this.height * (numFreqBins/allFreqBins) / 2)
-            .attr("transform", "rotate(-90)")
-            .style("text-anchor", "middle")
-            .text("Frequency (Hz)");
                
         svg.selectAll("rect")
             .data(filteredData)
