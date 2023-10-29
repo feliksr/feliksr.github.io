@@ -97,14 +97,13 @@ class Heatmap {
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(this.yScale)
                 .tickFormat(d => {return parseFloat(d.toPrecision(2))}));
-
-            if (container === "#container3") {    
-                svg.append("g")
-                    .attr("class", "x-axis")
-                    .call(d3.axisBottom(this.xScale).ticks(5))
-                    .attr("transform", `translate(0, ${this.height * (numFreqBins/allFreqBins)})`);
+              
+            svg.append("g")
+                .attr("class", "x-axis")
+                .call(d3.axisBottom(this.xScale).ticks(5))
+                .attr("transform", `translate(0, ${this.height * (numFreqBins/allFreqBins)})`);
             
-            
+            if (container === "#container3") { 
                 svg.select(".x-axis")
                     .append("text")
                     .attr("class", "x-axis-label")
@@ -113,6 +112,7 @@ class Heatmap {
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)");
             }        
+            
             svg.selectAll("rect")
                 .data(filteredData)
                 .enter()
