@@ -102,17 +102,23 @@ class Heatmap {
                 .attr("class", "x-axis")
                 .call(d3.axisBottom(this.xScale).ticks(5))
                 .attr("transform", `translate(0, ${this.height * (numFreqBins/allFreqBins)})`);
+
+            svg.append("g")
+                .attr("class", "x-axis")
+                .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  // Empty tick format for no labels
+                .attr("transform", `translate(0, ${this.height})`);
             
             if (container === "#container3") { 
                 svg.select(".x-axis")
+                    .call(d3.axisBottom(this.xScale).ticks(5))  // Overwrite the previous tick format to show labels
                     .append("text")
-                    .attr("class", "x-axis-label")
-                    .attr("x", this.width / 2)
-                    .attr("y", 40) 
+                    .attr("class", "axis-label")
+                    .attr("x", this.width / 2)  
+                    .attr("y", this.height + 20) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)");
             }        
-            
+
             svg.selectAll("rect")
                 .data(filteredData)
                 .enter()
