@@ -63,11 +63,13 @@ input[type=range] {
     fill: #ffffff
 }
 
-.y-axis-label {
+#y-axis-label {
     writing-mode: vertical-rl;
-    transform: rotate(90);
+    transform: rotate(180deg);
     margin-right: 8px;
     font-size: 24px;
+    display: inline-block;
 }
+
 
 
