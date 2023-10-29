@@ -75,7 +75,7 @@ class Heatmap {
 
         const svg = d3.select(container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.bottom)
-            .attr("height", this.height *(numFreqBins/allFreqBins) + this.margin.bottom)
+            .attr("height", this.height * (numFreqBins/allFreqBins) + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
         
@@ -84,7 +84,7 @@ class Heatmap {
             .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
         
         this.yScale = d3.scaleLog()
-            .range([0, this.height])
+            .range([0, this.height * (numFreqBins/allFreqBins)])
             .domain([d3.max(filteredData, d => d.frequency),d3.min(filteredData, d => d.frequency)]);
 
         svg.append("g")
@@ -95,7 +95,7 @@ class Heatmap {
         svg.append("g")
             .attr("class", "x-axis")
             .call(d3.axisBottom(this.xScale).ticks(5))
-            .attr("transform", `translate(0, ${this.height})`);
+            .attr("transform", `translate(0, ${this.height * (numFreqBins/allFreqBins)})`);
         
         svg.select(".x-axis")
             .append("text")
@@ -109,7 +109,7 @@ class Heatmap {
             .append("text")
             .attr("class", "axis-label")
             .attr("y", -this.margin.left + 20)  
-            .attr("x", -this.height / 2)
+            .attr("x", -this.height * (numFreqBins/allFreqBins) / 2)
             .attr("transform", "rotate(-90)")
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
@@ -122,7 +122,7 @@ class Heatmap {
             .attr("x", d => this.xScale(d.time))
             .attr("y", d => this.yScale(d.frequency) -  this.height/(numFreqBins -1))
             .attr("width", this.width /  (numTimeBins - 1))
-            .attr("height", this.height / (numFreqBins - 1))
+            .attr("height", this.height * (numFreqBins/allFreqBins) / (numFreqBins - 1))
             .attr("shape-rendering", "crispEdges")
         })
     }
