@@ -65,10 +65,9 @@ input[type=range] {
 
 .y-axis-label {
     writing-mode: vertical-rl;
-    transform: rotate(180deg);
+    transform: rotate(90);
     margin-right: 8px;
     font-size: 24px;
-    display: inline-block; 
 }
 
 
