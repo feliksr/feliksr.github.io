@@ -114,8 +114,7 @@ class Heatmap {
             .attr("transform", "rotate(-90)")
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
-        
-       
+               
         svg.selectAll("rect")
             .data(filteredData)
             .enter()
@@ -130,6 +129,7 @@ class Heatmap {
     drawHeatmap() {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
+
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
           
             let powerValues = [];
@@ -144,8 +144,8 @@ class Heatmap {
             const maxColor = 3 * d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
+
             const svg = d3.select(container).select("svg");
-            
             svg.selectAll("rect")
                 .data(filteredData)
                 .attr("fill", d => colorScale(d.power));
