@@ -52,8 +52,7 @@ class Heatmap {
         this.numTrials = responseData.numTrials;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        this.maxColor = responseData.maxColor;
-
+        console.log(this.singleTrialData.size)
         this.initSvg();
         this.drawHeatmap();
 
@@ -72,9 +71,13 @@ class Heatmap {
         const bin = frequencyBins[index];
         const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
         
+        const allFreqBins = new Set(this.singleTrialData.map(d => d.frequency)).size
+        const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
+        const numTimeBins = new Set(filteredData.map(d => d.time)).size
+
         const svg = d3.select(container).append("svg")
             .attr("width", this.width + this.margin.left + this.margin.bottom)
-            .attr("height", this.height + this.margin.bottom)
+            .attr("height", this.height *(numFreqBins/allFreqBins) + this.margin.bottom)
             .append("g")
             .attr("transform", `translate(${this.margin.left}, 0)`);
         
@@ -113,9 +116,7 @@ class Heatmap {
             .style("text-anchor", "middle")
             .text("Frequency (Hz)");
         
-        const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
-        const numTimeBins = new Set(filteredData.map(d => d.time)).size
-        
+       
         svg.selectAll("rect")
             .data(filteredData)
             .enter()
@@ -131,9 +132,9 @@ class Heatmap {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
-            
+            const maxColor = d3.deviation(filteredData);
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, this.maxColor]);
+                .domain([0, maxColor]);
             const svg = d3.select(container).select("svg");
             
             svg.selectAll("rect")
