@@ -98,7 +98,7 @@ class Heatmap {
                 .call(d3.axisLeft(this.yScale)
                 .tickFormat(d => {return parseFloat(d.toPrecision(2))}));
 
-            if (container === "container3") {    
+            if (container === "#container3") {    
                 svg.append("g")
                     .attr("class", "x-axis")
                     .call(d3.axisBottom(this.xScale).ticks(5))
