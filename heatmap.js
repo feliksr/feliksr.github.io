@@ -2,6 +2,8 @@ let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
+    document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
+
     currentChannel++;
     heatmap.channel = currentChannel;
     document.getElementById('trialSlider').disabled = true;
@@ -11,6 +13,8 @@ function nextChannel() {
 
 function previousChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
+    document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
+
     if (currentChannel > 1) {
         currentChannel--;
         heatmap.channel = currentChannel;
@@ -58,6 +62,7 @@ class Heatmap {
         document.getElementById('trialSlider').max = responseData.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
+        document.getElementById("y-axis-label").style.display = 'block' // Display "Frequency (Hz)"
     }
 
     initSvg() {
