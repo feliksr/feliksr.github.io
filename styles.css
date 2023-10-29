@@ -18,8 +18,12 @@ body {
 
 #containers {
     display: flex;
-    flex-direction: column;  
     align-items: center;        
+}
+
+.heatmap-wrapper {
+    display: flex;
+    flex-direction: column; 
 }
 
 #controls {
@@ -59,8 +63,9 @@ input[type=range] {
 }
 
 .y-axis-label {
-    writing-mode: vertical-rl;  
-    transform: rotate(180deg);  
-    margin-right: 10px; 
-    
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin-right: 10px;
 }
+
+
