@@ -67,7 +67,7 @@ input[type=range] {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     margin-right: 8px;
-    font-size: 16px;
+    font-size: 24px;
 }
 
 
