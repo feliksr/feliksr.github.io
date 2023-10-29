@@ -46,21 +46,4 @@
     </div>
     
     </div>
-
-    <script>
-        function showHeatmapView() {
-            document.title = document.getElementById('channelDisplay').textContent;
-            document.getElementById('indexView').style.display = 'none';
-            document.getElementById('heatmapView').style.display = 'block';
-        }
-      
-        function showIndexView() {
-            document.title = 'Home Page';
-            const indexView = document.getElementById('indexView');
-            indexView.style.display = 'flex';
-            indexView.style.justifyContent = 'center';
-            indexView.style.alignItems = 'center';
-            document.getElementById('heatmapView').style.display = 'none';
-        }
-    </script>
 </body>

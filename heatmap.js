@@ -1,5 +1,19 @@
 let currentChannel = 1;  // Initialize with channel 1
 
+function showHeatmapView() {
+    document.title = document.getElementById('channelDisplay').textContent;
+    document.getElementById('indexView').style.display = 'none';
+    document.getElementById('heatmapView').style.display = 'block';
+}
+
+function showIndexView() {
+    document.title = 'Home Page';
+    const indexView = document.getElementById('indexView');
+    indexView.style.display = 'flex';
+    indexView.style.justifyContent = 'center';
+    indexView.style.alignItems = 'center';
+    document.getElementById('heatmapView').style.display = 'none';
+}
 function nextChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
@@ -50,6 +64,8 @@ class Heatmap {
     }
 
     async initialize() {
+        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)"
+
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
         
@@ -62,7 +78,7 @@ class Heatmap {
         document.getElementById('trialSlider').max = responseData.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-        document.getElementById("y-axis-label").style.display = 'block' // Display "Frequency (Hz)"
+        document.getElementById("y-axis-label").style.display = "inline-block" // Display "Frequency (Hz)"
     }
 
     initSvg() {
