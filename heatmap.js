@@ -78,7 +78,7 @@ class Heatmap {
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
             const svg = d3.select(container).append("svg")
-                .attr("width", this.width + this.margin.left + this.margin.bottom)
+                .attr("width", this.width + this.margin.left + this.margin.right)
                 .attr("height", heightSVG + this.margin.bottom)
                 .append("g")
                 .attr("transform", `translate(${this.margin.left}, 0)`);
