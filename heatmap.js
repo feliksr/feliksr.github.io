@@ -111,6 +111,7 @@ class Heatmap {
             if (container === "#container3") { 
                 svg.select(".x-axis")
                     .call(d3.axisBottom(this.xScale).ticks(5)) 
+                    .attr("transform", `translate(0, ${this.height})`)
                     .append("text")
                     .attr("class", "axis-label")
                     .attr("x", this.width / 2)  
