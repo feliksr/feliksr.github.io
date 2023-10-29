@@ -2,7 +2,6 @@ let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-    document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
 
     currentChannel++;
     heatmap.channel = currentChannel;
@@ -13,7 +12,6 @@ function nextChannel() {
 
 function previousChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-    document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
 
     if (currentChannel > 1) {
         currentChannel--;
