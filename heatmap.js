@@ -121,7 +121,7 @@ class Heatmap {
             .enter()
             .append("rect")
             .attr("x", d => this.xScale(d.time))
-            .attr("y", d => this.yScale(d.frequency) -  this.height/(numFreqBins -1))
+            .attr("y", d => this.yScale(d.frequency) -  (this.height * (numFreqBins/allFreqBins))/(numFreqBins -1))
             .attr("width", this.width /  (numTimeBins - 1))
             .attr("height", this.height * (numFreqBins/allFreqBins) / (numFreqBins - 1))
             .attr("shape-rendering", "crispEdges")
