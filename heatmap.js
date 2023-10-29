@@ -51,6 +51,7 @@ class Heatmap {
         
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
+        
         this.initSvg();
         this.drawHeatmap();
 
@@ -130,7 +131,7 @@ class Heatmap {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
-            const powerValues = filteredData.map(d => d.power);
+            const powerValues = this.allTrialsData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max).map(d => d.power);
             const maxColor = d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
