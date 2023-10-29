@@ -49,14 +49,12 @@ class Heatmap {
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
         
-        this.numTrials = responseData.numTrials;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        console.log(this.singleTrialData.size)
         this.initSvg();
         this.drawHeatmap();
 
-        document.getElementById('trialSlider').max = this.numTrials;
+        document.getElementById('trialSlider').max = responseData.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
     }
