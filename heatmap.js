@@ -141,7 +141,7 @@ class Heatmap {
                 });
             })
             
-            const maxColor = d3.deviation(powerValues)
+            const maxColor = 3 * d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
             const svg = d3.select(container).select("svg");
