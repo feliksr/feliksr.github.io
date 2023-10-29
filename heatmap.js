@@ -130,7 +130,7 @@ class Heatmap {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
-            const maxColor = d3.deviation(filteredData);
+            const maxColor = d3.deviation(JSON.parse(filteredData));
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
             const svg = d3.select(container).select("svg");
