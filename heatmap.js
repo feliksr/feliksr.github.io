@@ -76,10 +76,10 @@ class Heatmap {
             const allFreqBins = new Set(this.singleTrialData.map(d => d.frequency)).size
             const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
-
+            const heightSVG = this.height * (numFreqBins/allFreqBins)
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.bottom)
-                .attr("height", this.height * (numFreqBins/allFreqBins) + this.margin.bottom)
+                .attr("height", heightSVG + this.margin.bottom)
                 .append("g")
                 .attr("transform", `translate(${this.margin.left}, 0)`);
             
@@ -88,7 +88,7 @@ class Heatmap {
                 .domain([d3.min(this.singleTrialData, d => d.time), d3.max(this.singleTrialData, d => d.time)]);
             
             this.yScale = d3.scaleLog()
-                .range([0, this.height * (numFreqBins/allFreqBins)])
+                .range([0, heightSVG])
                 .domain([d3.max(filteredData, d => d.frequency),d3.min(filteredData, d => d.frequency)]);
 
             svg.append("g")
@@ -99,7 +99,7 @@ class Heatmap {
             svg.append("g")
                 .attr("class", "x-axis")
                 .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  
-                .attr("transform", `translate(0, ${this.height * (numFreqBins/allFreqBins)})`);
+                .attr("transform", `translate(0, ${heightSVG})`);
             
             if (container === "#container3") { 
                 svg.select(".x-axis")
@@ -107,7 +107,7 @@ class Heatmap {
                     .append("text")
                     .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
-                    .attr("y", this.height + 20) 
+                    .attr("y", heightSVG + 20) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)");
             }        
@@ -117,9 +117,9 @@ class Heatmap {
                 .enter()
                 .append("rect")
                 .attr("x", d => this.xScale(d.time))
-                .attr("y", d => this.yScale(d.frequency) -  (this.height * (numFreqBins/allFreqBins))/(numFreqBins -1))
+                .attr("y", d => this.yScale(d.frequency) -  heightSVG/(numFreqBins -1))
                 .attr("width", this.width /  (numTimeBins - 1))
-                .attr("height", this.height * (numFreqBins/allFreqBins) / (numFreqBins - 1))
+                .attr("height", heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges")
         })
     }
