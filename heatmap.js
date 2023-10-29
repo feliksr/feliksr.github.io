@@ -1,19 +1,5 @@
 let currentChannel = 1;  // Initialize with channel 1
 
-function showHeatmapView() {
-    document.title = document.getElementById('channelDisplay').textContent;
-    document.getElementById('indexView').style.display = 'none';
-    document.getElementById('heatmapView').style.display = 'block';
-}
-
-function showIndexView() {
-    document.title = 'Home Page';
-    const indexView = document.getElementById('indexView');
-    indexView.style.display = 'flex';
-    indexView.style.justifyContent = 'center';
-    indexView.style.alignItems = 'center';
-    document.getElementById('heatmapView').style.display = 'none';
-}
 function nextChannel() {
     document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     document.getElementById("y-axis-label").style.display = 'none' // Hide "Frequency (Hz)"
@@ -121,12 +107,12 @@ class Heatmap {
 
             svg.append("g")
                 .attr("class", "x-axis")
-                .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  // Empty tick format for no labels
+                .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  
                 .attr("transform", `translate(0, ${this.height})`);
             
             if (container === "#container3") { 
                 svg.select(".x-axis")
-                    .call(d3.axisBottom(this.xScale).ticks(5))  // Overwrite the previous tick format to show labels
+                    .call(d3.axisBottom(this.xScale).ticks(5)) 
                     .append("text")
                     .attr("class", "axis-label")
                     .attr("x", this.width / 2)  
