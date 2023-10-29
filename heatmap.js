@@ -107,7 +107,7 @@ class Heatmap {
                     .append("text")
                     .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
-                    .attr("y", heightSVG + 20) 
+                    .attr("y", heightSVG + this.margin.bottom/2) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
             } 
