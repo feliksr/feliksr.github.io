@@ -1,8 +1,6 @@
 let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
-    document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-
     currentChannel++;
     heatmap.channel = currentChannel;
     document.getElementById('trialSlider').disabled = true;
@@ -11,8 +9,6 @@ function nextChannel() {
 }
 
 function previousChannel() {
-    document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-
     if (currentChannel > 1) {
         currentChannel--;
         heatmap.channel = currentChannel;
@@ -35,6 +31,8 @@ class Heatmap {
         };
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
+        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)"
+
 
         this.currentTrial = 1;
         document.getElementById('trialSlider').disabled = true;
@@ -48,7 +46,7 @@ class Heatmap {
     }
 
     async initialize() {
-        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)"
+        document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
 
         const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
         const responseData = await response.json();
@@ -62,7 +60,7 @@ class Heatmap {
         document.getElementById('trialSlider').max = responseData.numTrials;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-        document.getElementById("y-axis-label").style.display = "inline-block" // Display "Frequency (Hz)"
+        document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
     }
 
     initSvg() {
@@ -112,7 +110,7 @@ class Heatmap {
                 svg.select(".x-axis")
                     .call(d3.axisBottom(this.xScale).ticks(5)) 
                     .append("text")
-                    .attr("class", "axis-label")
+                    .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
                     .attr("y", this.height + 20) 
                     .style("text-anchor", "middle")
