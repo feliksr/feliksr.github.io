@@ -122,8 +122,7 @@ class Heatmap {
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
             
-            this.colorScales.append(colorScale)
-
+            this.colorScales[index] = colorScale;
  
                 // create heatmap SVGs
             const svg = d3.select(container).append("svg")
