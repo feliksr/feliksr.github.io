@@ -31,7 +31,7 @@ class Colorbar {
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
                 y: rectHeight * i,
-                color: colorScale(i)
+                color: colorScale.domain(i)
             };
         });
         const colorbarGroup = svg.append("g")
