@@ -31,7 +31,7 @@ class Colorbar {
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
                 y: rectHeight * i,
-                color: colorScale(i/(this.numStops-1).domain)
+                color: colorScale(i / (this.numStops - 1))
             };
         });
         const colorbarGroup = svg.append("g")
@@ -172,7 +172,6 @@ class Heatmap {
                     .attr("y", this.margin.bottom + 50) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
-
             } 
 
             colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right); 
