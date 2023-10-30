@@ -34,7 +34,7 @@ class Colorbar {
         const colorRects = samplePoints.map(value => {
             return {
                 y: heightSVG * value,
-                color: this.colorScale(value*maxColor)
+                color: this.colorScale(1)
             };
         });
         const colorbarGroup = svg.append("g")
