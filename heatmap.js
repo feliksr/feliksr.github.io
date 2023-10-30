@@ -20,14 +20,13 @@ function previousChannel() {
 
 class Colorbar {
     constructor() {
-        this.height = 100;
         this.width = 20;
         this.numStops = 10;
     }
 
-    generate(colorScale,svg,widthSVG,marginSVG) {
+    generate(colorScale,svg,heightSVG,widthSVG,marginSVG) {
        
-        const rectHeight = this.height / this.numStops;
+        const rectHeight = heightSVG / this.numStops;
 
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
@@ -85,7 +84,7 @@ class Heatmap {
         
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        
+        this.colorScales = {};
         this.initSVG();
         this.drawHeatmap();
 
@@ -109,6 +108,7 @@ class Heatmap {
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
             
+                // Set color scaling
             let powerValues = [];
             Object.values(this.allTrialsData).forEach(array => {
                 array.forEach(d => {
@@ -122,6 +122,9 @@ class Heatmap {
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
             
+            this.colorScales.append(colorScale)
+
+ 
                 // create heatmap SVGs
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
@@ -146,7 +149,19 @@ class Heatmap {
                 .attr("class", "x-axis")
                 .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  
                 .attr("transform", `translate(0, ${heightSVG})`);
-            
+
+            svg.selectAll("rect")
+                .data(filteredData)
+                .enter()
+                .append("rect")
+                .attr("x", d => this.xScale(d.time))
+                .attr("y", d => this.yScale(d.frequency) -  heightSVG/(numFreqBins -1))
+                .attr("width", this.width /  (numTimeBins - 1))
+                .attr("height", heightSVG / (numFreqBins - 1))
+                .attr("shape-rendering", "crispEdges");
+
+            colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right);  
+
             if (container === "#container3") { 
                 d3.select(container).select("svg")
                     .attr("height", heightSVG + this.margin.bottom + 50);
@@ -159,18 +174,8 @@ class Heatmap {
                     .attr("y", this.margin.bottom) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
-            } 
-            svg.selectAll("rect")
-                .data(filteredData)
-                .enter()
-                .append("rect")
-                .attr("x", d => this.xScale(d.time))
-                .attr("y", d => this.yScale(d.frequency) -  heightSVG/(numFreqBins -1))
-                .attr("width", this.width /  (numTimeBins - 1))
-                .attr("height", heightSVG / (numFreqBins - 1))
-                .attr("shape-rendering", "crispEdges");
 
-            colorbar.generate(colorScale,svg,this.width,this.margin.right);
+            } 
         })
     }
         
@@ -182,7 +187,7 @@ class Heatmap {
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
-                .attr("fill", d => colorScale(d.power));
+                .attr("fill", d => colorScales[index](d.power));
         });
     }
 }
