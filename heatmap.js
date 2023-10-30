@@ -186,7 +186,7 @@ class Heatmap {
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
-                .attr("fill", d => colorScales[index](d.power));
+                .attr("fill", d => this.colorScales[index](d.power));
         });
     }
 }
