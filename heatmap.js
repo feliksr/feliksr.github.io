@@ -37,6 +37,7 @@ class Colorbar {
                 color: value
             };
         });
+        console.log(colorRects)
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
 
