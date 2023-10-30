@@ -24,17 +24,17 @@ class Colorbar {
         this.numStops = 10;
     }
 
-    generate(maxColor,svg,heightSVG,widthSVG,marginSVG) {
-       
+    generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
         const rectHeight = heightSVG / this.numStops;
-
+        
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
 
-        const colorRects = Array.from({ length: this.numStops }, (_, i) => {
+        const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops - 1));
+        const colorRects = samplePoints.map(value => {
             return {
-                y: rectHeight * i,
-                color: this.colorScale(i)
+                y: rectHeight * value,
+                color: this.colorScale(value)
             };
         });
         const colorbarGroup = svg.append("g")
