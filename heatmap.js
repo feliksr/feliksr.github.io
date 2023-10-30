@@ -160,7 +160,7 @@ class Heatmap {
                 .attr("height", heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
-            colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right);  
+            // colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right);  
 
             if (container === "#container3") { 
                 d3.select(container).select("svg")
