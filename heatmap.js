@@ -24,14 +24,17 @@ class Colorbar {
         this.numStops = 10;
     }
 
-    generate(colorScale,svg,heightSVG,widthSVG,marginSVG) {
+    generate(maxColor,svg,heightSVG,widthSVG,marginSVG) {
        
         const rectHeight = heightSVG / this.numStops;
+
+        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, maxColor]);
 
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
                 y: rectHeight * i,
-                color: colorScale(i / (this.numStops - 1))
+                color: this.colorScale(i / (this.numStops - 1))
             };
         });
         const colorbarGroup = svg.append("g")
@@ -45,7 +48,7 @@ class Colorbar {
             .attr("y", d => d.y)
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => colorScale(d.color))
+            .attr("fill", d => this.colorScale(d.color))
             .attr("shape-rendering", "crispEdges");
     }
 }
@@ -174,7 +177,7 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right); 
+            colorbar.generate(maxColor,svg,heightSVG,this.width,this.margin.right); 
         })
     }
         
