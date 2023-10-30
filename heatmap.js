@@ -34,7 +34,7 @@ class Colorbar {
         const colorRects = samplePoints.map(value => {
             return {
                 y: heightSVG * value,
-                color: value
+                color: this.colorScale(Math.round(value*maxColor))
             };
         });
         console.log(colorRects)
@@ -49,7 +49,7 @@ class Colorbar {
             .attr("y", d => d.y)
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => this.colorScale(d.color))
+            .attr("fill", d => d.color)
             .attr("shape-rendering", "crispEdges");
     }
 }
