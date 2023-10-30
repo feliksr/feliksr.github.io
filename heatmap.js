@@ -88,7 +88,7 @@ class Heatmap {
         this.initSVG();
         this.drawHeatmap();
 
-        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData.length);
+        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
         document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
