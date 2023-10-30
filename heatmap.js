@@ -18,6 +18,38 @@ function previousChannel() {
     }
 }
 
+class Colorbar {
+    constructor() {
+        this.height = 100;
+        this.width = 20;
+        this.numStops = 10;
+    }
+
+    generate(colorScale,widthSVG,marginSVG) {
+       
+        const rectHeight = this.height / numStops;
+
+        const colorRects = Array.from({ length: this.numStops }, (_, i) => {
+            return {
+                y: rectHeight * i,
+                color: colorScale(i / (this.numStops - 1))
+            };
+        });
+        const colorbarGroup = svg.append("g")
+            .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
+
+        colorbarGroup.selectAll(".colorbar-rect")
+            .data(colorRects)
+            .enter().append("rect")
+            .attr("class", "colorbar-rect")
+            .attr("x", 0) 
+            .attr("y", d => d.y)
+            .attr("width", this.width)
+            .attr("height", rectHeight)
+            .attr("fill", d => colorScale(d.color));
+    }
+}
+
 class Heatmap {
     constructor(containers) {
         this.containers = containers;
@@ -54,17 +86,16 @@ class Heatmap {
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
         
-        this.initSvg();
+        this.initSVG();
         this.drawHeatmap();
 
-        document.getElementById('trialSlider').max = responseData.numTrials;
+        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData.length);
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
         document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
     }
 
-    initSvg() {
-        this.svgs = {};
+    initSVG() {
         this.containers.forEach((container,index) => {
             d3.select(container)
                 .select("svg")
@@ -77,6 +108,21 @@ class Heatmap {
             const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
+            
+            let powerValues = [];
+            Object.values(this.allTrialsData).forEach(array => {
+                array.forEach(d => {
+                    if (d.frequency >= bin.min && d.frequency <= bin.max) {
+                        powerValues.push(d.power);
+                    };
+                });
+            })
+            
+            const maxColor = 3 * d3.deviation(powerValues)
+            const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, maxColor]);
+            
+                // create heatmap SVGs
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
                 .attr("height", heightSVG + this.margin.bottom)
@@ -107,7 +153,7 @@ class Heatmap {
                     .append("text")
                     .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
-                    .attr("y", this.margin.bottom/1.5) 
+                    .attr("y", this.margin.bottom) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
             } 
@@ -119,29 +165,17 @@ class Heatmap {
                 .attr("y", d => this.yScale(d.frequency) -  heightSVG/(numFreqBins -1))
                 .attr("width", this.width /  (numTimeBins - 1))
                 .attr("height", heightSVG / (numFreqBins - 1))
-                .attr("shape-rendering", "crispEdges")
+                .attr("shape-rendering", "crispEdges");
+
+            colorbar.generate(colorScale,this.width,this.margin.right);
         })
     }
-
+        
     drawHeatmap() {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
-
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
           
-            let powerValues = [];
-            Object.values(this.allTrialsData).forEach(array => {
-                array.forEach(d => {
-                    if (d.frequency >= bin.min && d.frequency <= bin.max) {
-                        powerValues.push(d.power);
-                    };
-                });
-            })
-            
-            const maxColor = 3 * d3.deviation(powerValues)
-            const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, maxColor]);
-
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
@@ -151,6 +185,7 @@ class Heatmap {
 }
 
 const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
+const colorbar = new Colorbar();
 heatmap.initialize();
 
 frequencyBins = [
