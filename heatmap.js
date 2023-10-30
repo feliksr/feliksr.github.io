@@ -30,7 +30,7 @@ class Colorbar {
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
 
-        const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops - 1));
+        const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
             return {
                 y: rectHeight * value,
