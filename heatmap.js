@@ -31,7 +31,7 @@ class Colorbar {
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
                 y: rectHeight * i,
-                color: colorScale(i / (this.numStops - 1))
+                color: colorScale(i)
             };
         });
         const colorbarGroup = svg.append("g")
@@ -45,7 +45,8 @@ class Colorbar {
             .attr("y", d => d.y)
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => colorScale(d.color));
+            .attr("fill", d => colorScale(d.color))
+            .attr("shape-rendering", "crispEdges");
     }
 }
 
@@ -57,7 +58,7 @@ class Heatmap {
         this.margin = {
             top: 0,
             right: 50,
-            bottom: 100,
+            bottom: 20,
             left: 75
         };
         this.channel = currentChannel;
