@@ -122,7 +122,7 @@ class Heatmap {
             const maxColor = 3 * d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
-            
+            console.log(colorScale)
             this.colorScales[index] = colorScale;
  
                 // create heatmap SVGs
@@ -169,7 +169,7 @@ class Heatmap {
                     .append("text")
                     .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
-                    .attr("y", this.margin.bottom + 50) 
+                    .attr("y", this.margin.bottom + 40) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
             } 
