@@ -33,7 +33,7 @@ class Colorbar {
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
             return {
-                y: rectHeight * value,
+                y: value,
                 color: this.colorScale(value)
             };
         });
