@@ -25,7 +25,7 @@ class Colorbar {
         this.numStops = 10;
     }
 
-    generate(colorScale,widthSVG,marginSVG) {
+    generate(colorScale,svg,widthSVG,marginSVG) {
        
         const rectHeight = this.height / this.numStops;
 
@@ -170,7 +170,7 @@ class Heatmap {
                 .attr("height", heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
-            colorbar.generate(colorScale,this.width,this.margin.right);
+            colorbar.generate(colorScale,svg,this.width,this.margin.right);
         })
     }
         
