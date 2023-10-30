@@ -31,7 +31,7 @@ class Colorbar {
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
                 y: rectHeight * i,
-                color: colorScale.domain(i/(this.numStops-1))
+                color: colorScale(i/(this.numStops-1).domain)
             };
         });
         const colorbarGroup = svg.append("g")
@@ -160,8 +160,6 @@ class Heatmap {
                 .attr("height", heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
-            // colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right);  
-
             if (container === "#container3") { 
                 d3.select(container).select("svg")
                     .attr("height", heightSVG + this.margin.bottom + 50);
@@ -171,11 +169,13 @@ class Heatmap {
                     .append("text")
                     .attr("class", "x-axis-label")
                     .attr("x", this.width / 2)  
-                    .attr("y", this.margin.bottom) 
+                    .attr("y", this.margin.bottom + 50) 
                     .style("text-anchor", "middle")
                     .text("Time from Response (sec)")
 
             } 
+
+            colorbar.generate(colorScale,svg,heightSVG,this.width,this.margin.right); 
         })
     }
         
