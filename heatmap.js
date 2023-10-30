@@ -27,7 +27,7 @@ class Colorbar {
 
     generate(colorScale,widthSVG,marginSVG) {
        
-        const rectHeight = this.height / numStops;
+        const rectHeight = this.height / this.numStops;
 
         const colorRects = Array.from({ length: this.numStops }, (_, i) => {
             return {
@@ -58,7 +58,7 @@ class Heatmap {
         this.margin = {
             top: 0,
             right: 50,
-            bottom: 50,
+            bottom: 100,
             left: 75
         };
         this.channel = currentChannel;
@@ -148,6 +148,9 @@ class Heatmap {
                 .attr("transform", `translate(0, ${heightSVG})`);
             
             if (container === "#container3") { 
+                d3.select(container).select("svg")
+                    .attr("height", heightSVG + this.margin.bottom + 50);
+
                 svg.select(".x-axis")
                     .call(d3.axisBottom(this.xScale).ticks(5)) 
                     .append("text")
