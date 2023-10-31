@@ -28,7 +28,7 @@ class Colorbar {
         const rectHeight = heightSVG / this.numStops;
         
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .range(0, heightSVG)
+            .range([0, heightSVG])
             .domain([0, maxColor]);
 
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
