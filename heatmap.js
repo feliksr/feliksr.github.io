@@ -22,6 +22,7 @@ function previousChannel() {
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
+document.getElementById("loadingText").style.display = "none";  // Display "Loading..."
 
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
