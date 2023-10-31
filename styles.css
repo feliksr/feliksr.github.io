@@ -76,7 +76,8 @@ input[type=range] {
 .group-button-container {
     display: flex;
     justify-content: center;  
-    align-items: center;      
+    align-items: center;  
+    gap: 50px;    
 }
 
 .groupButton.active {
