@@ -18,6 +18,15 @@ function previousChannel() {
     }
 }
 
+const buttons = document.querySelectorAll(".groupButton");
+buttons.forEach(button => {
+    button.addEventListener("click", (event) => {
+        group = event.target.textContent
+        heatmap.initialize();
+
+    });
+});
+
 class Colorbar {
     constructor() {
         this.width = 30;
@@ -48,7 +57,7 @@ class Colorbar {
             .attr("y", d => colorbarScale(d * maxColor / this.numStops)-rectHeight)
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => d3.interpolateViridis(d / (this.numStops - 1)))
+            .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
             .attr("shape-rendering", "crispEdges");
     }
 }
@@ -83,8 +92,7 @@ class Heatmap {
 
     async initialize() {
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-
-        const response = await fetch(`https://froyzen.pythonanywhere.com/Target/${this.channel}`);
+        const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
@@ -198,7 +206,6 @@ class Heatmap {
 
 const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
 const colorbar = new Colorbar();
-heatmap.initialize();
 
 frequencyBins = [
     { min: 60, max: 200 },

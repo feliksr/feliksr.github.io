@@ -11,17 +11,23 @@
     <!-- Index View -->
     <div id="indexView" style="display: flex; justify-content: center;">
         <button onclick="showHeatmapView()" class="button">Session 1</button>
+        
     </div>
 
     <!-- Heatmap View (hidden by default) -->
     <div id="heatmapView" style="display: none;">
         
         <span onclick="showIndexView()" class="return-home">Return Home</span>
+
+        <button class="groupButton">Target</button>
+        <button class="groupButton">Distractor</button>
+        <button class="groupButton">Irrelevant</button>
+        
         <h1 id="loadingText" style="text-align:center;">Loading...</h1>
+
         <h1 id="channelDisplay" style="text-align:center;"></h1>
         
         <div id = "containers">
-
         <span id="y-axis-label">Frequency (Hz)</span>
         
         <div class="heatmap-wrapper">
