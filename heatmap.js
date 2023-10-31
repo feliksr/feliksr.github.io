@@ -131,7 +131,7 @@ class Heatmap {
                 .attr("width", this.width + this.margin.left + this.margin.right)
                 .attr("height", heightSVG + this.margin.bottom)
                 .append("g")
-                .attr("transform", `translate(${this.margin.left}, 0)`);
+                .attr("transform", `translate(${this.margin.left/2}, 0)`);
             
             this.xScale = d3.scaleLinear()
                 .range([0, this.width])
