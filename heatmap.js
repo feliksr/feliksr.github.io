@@ -68,17 +68,17 @@ class Heatmap {
         this.height = 400;
         this.margin = {
             top: 0,
-            right: 50,
+            right: 60,
             bottom: 20,
             left: 75
         };
+        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)" y-axis-label while Loading...
+        
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
-        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)"
-
-
-        // this.currentTrial = 1;
-        document.getElementById('trialSlider').disabled = true;
+        
+        
+        this.currentTrial = 1;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             document.getElementById('trialNumber').textContent = this.currentTrial
@@ -88,6 +88,7 @@ class Heatmap {
     }
 
     async initialize() {
+        document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
