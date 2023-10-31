@@ -36,7 +36,9 @@ class Colorbar {
         
         colorbarGroup.append("g")
             .attr("class", "colorbar-axis")
-            .call(d3.axisRight(colorbarScale).ticks(10));
+            .call(d3.axisRight(colorbarScale).ticks(5))
+            .attr("transform", `translate(${this.width}, 0)`); 
+
         
         colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
