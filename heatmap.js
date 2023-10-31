@@ -32,15 +32,14 @@ class Colorbar {
             .domain([0, maxColor]) 
             .range([heightSVG, 0]);  
 
-
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
             return {
                 y: heightSVG * (1-value) - rectHeight,
-                color: this.colorScale(Math.round(value*maxColor))
+                color: colorbarScale(Math.round(value*maxColor))
             };
         });
-        
+
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
         
