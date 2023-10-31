@@ -98,7 +98,7 @@ class Heatmap {
     async initialize() {
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-        
+
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
         
@@ -212,8 +212,6 @@ class Heatmap {
     }
 }
 
-const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
-const colorbar = new Colorbar();
 
 frequencyBins = [
     { min: 60, max: 200 },
