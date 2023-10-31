@@ -27,8 +27,11 @@ class Colorbar {
     generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
         const rectHeight = heightSVG / this.numStops;
         
-        this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, maxColor]);
+  
+        const colorbarScale = d3.scaleLinear()
+            .domain([0, maxColor]) 
+            .range([heightSVG, 0]);  
+
 
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
@@ -37,13 +40,13 @@ class Colorbar {
                 color: this.colorScale(Math.round(value*maxColor))
             };
         });
+        
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
-
+        
         colorbarGroup.append("g")
             .attr("class", "colorbar-axis")
-            .call(d3.axisLeft([0, heightSVG]))
-            .ticks(10);
+            .call(d3.axisLeft(colorbarScale).ticks(10));
         
         colorbarGroup.selectAll(".colorbar-rect")
             .data(colorRects)
