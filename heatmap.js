@@ -21,7 +21,7 @@ function previousChannel() {
 class Colorbar {
     constructor() {
         this.width = 30;
-        this.numStops = 10;
+        this.numStops = 30;
     }
 
     generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
@@ -43,7 +43,7 @@ class Colorbar {
             .enter().append("rect")
             .attr("class", "colorbar-rect")
             .attr("x", 0)
-            .attr("y", d => colorbarScale(d * maxColor / this.numStops))
+            .attr("y", d => colorbarScale(d * maxColor / this.numStops)-rectHeight)
             .attr("width", this.width)
             .attr("height", rectHeight)
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops - 1)))
