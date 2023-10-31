@@ -20,8 +20,8 @@ function previousChannel() {
 
 class Colorbar {
     constructor() {
-        this.width = 20;
-        this.numStops = 10;
+        this.width = 30;
+        this.numStops = 30;
     }
 
     generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
@@ -33,7 +33,7 @@ class Colorbar {
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
             return {
-                y: heightSVG * value,
+                y: heightSVG * (1-value),
                 color: this.colorScale(Math.round(value*maxColor))
             };
         });
