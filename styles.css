@@ -79,7 +79,7 @@ input[type=range] {
     align-items: center;      
 }
 
-.group-button.active {
+.groupButton.active {
     background-color: #555;
     color: white;
 }

@@ -18,24 +18,21 @@ function previousChannel() {
     }
 }
 
-const buttons = document.querySelectorAll(".groupButton");
-buttons.forEach(button => {
-    button.addEventListener("click", (event) => {
-        group = event.target.textContent
-        heatmap.initialize();
-    });
-});
-
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function(event) {
+        // Set the group based on button's text content
+        group = event.target.textContent;
+        heatmap.initialize();
+
         // Remove 'active' class from all group buttons
         groupButtons.forEach(btn => btn.classList.remove('active'));
-        
+
         // Add 'active' class to clicked button
         this.classList.add('active');
     });
 });
+
 
 class Colorbar {
     constructor() {
@@ -101,6 +98,7 @@ class Heatmap {
     async initialize() {
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
+        
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
         
