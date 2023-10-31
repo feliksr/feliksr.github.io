@@ -48,7 +48,7 @@ class Colorbar {
         this.numStops = 30;
     }
 
-    generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
+    initialize(maxColor, svg, heightSVG, widthSVG, marginSVG) {
         const rectHeight = heightSVG / this.numStops;
           
         const colorbarScale = d3.scaleLinear()
@@ -71,10 +71,16 @@ class Colorbar {
             .attr("y", d => colorbarScale(d * maxColor / this.numStops)-rectHeight)
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
             .attr("shape-rendering", "crispEdges");
     }
+
+    draw() {
+        colorbarGroup.selectAll(".colorbar-rect")
+            .data(d3.range(this.numStops))
+            .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
+    }
 }
+
 
 
 class Heatmap {
@@ -205,7 +211,8 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.generate(maxColor,svg,heightSVG,this.width,this.margin.right); 
+            colorbar.initialize(maxColor,svg,heightSVG,this.width,this.margin.right); 
+            colorbar.draw();
         })
     }
         
