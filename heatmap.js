@@ -77,12 +77,11 @@ class Heatmap {
         document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)"
 
 
-        this.currentTrial = 1;
+        // this.currentTrial = 1;
         document.getElementById('trialSlider').disabled = true;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
-            const trialNumberDisplay = document.getElementById('trialNumber')
-            trialNumberDisplay.textContent = this.currentTrial;
+            document.getElementById('trialNumber').textContent = this.currentTrial
             this.singleTrialData = this.allTrialsData[this.currentTrial];
             this.drawHeatmap();
         });
@@ -94,7 +93,7 @@ class Heatmap {
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
-        this.singleTrialData = this.allTrialsData[1];
+        this.singleTrialData = this.allTrialsData[this.currentTrial];
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         
         this.colorScales = {};
