@@ -9,7 +9,8 @@ function nextChannel() {
     currentChannel++;
     heatmap.channel = currentChannel;
     document.getElementById('trialSlider').disabled = true;
-    heatmap.initialize();
+    heatmap.getData();
+    heatmap.draw();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
 
@@ -18,7 +19,8 @@ function previousChannel() {
         currentChannel--;
         heatmap.channel = currentChannel;
         document.getElementById('trialSlider').disabled = true;
-        heatmap.initialize();
+        heatmap.getData();
+        heatmap.draw();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
@@ -29,8 +31,10 @@ groupButtons.forEach(button => {
         // Set the group based on button's text content
         group = event.target.textContent;
         heatmap.currentTrial = 1;
-        heatmap.initialize();
-
+        heatmap.getData();
+        heatmap.draw();
+        colorbar.draw();
+        
         // Remove 'active' class from all group buttons
         groupButtons.forEach(btn => btn.classList.remove('active'));
 
@@ -46,39 +50,35 @@ class Colorbar {
         this.numStops = 30;
     }
 
-    initialize(maxColor, svg, heightSVG, widthSVG, marginSVG) {
+    initialize(svg, heightSVG) {
         const rectHeight = heightSVG / this.numStops;
-          
-        const colorbarScale = d3.scaleLinear()
-            .domain([0, maxColor]) 
-            .range([heightSVG, 0]);  
-
+    
         this.colorbarGroup = svg.append("g")
-            .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
-        
-        this.colorbarGroup.append("g")
-            .attr("class", "colorbar-axis")
-            .call(d3.axisRight(colorbarScale).ticks(5))
-            .attr("transform", `translate(${this.width}, 0)`); 
-
+            .attr("transform", `translate(${heatmap.width + heatmap.margin.right / 2}, 0)`); 
+    
         this.colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
             .enter().append("rect")
             .attr("class", "colorbar-rect")
             .attr("x", 0)
-            .attr("y", d => colorbarScale(d * maxColor / this.numStops)-rectHeight)
+            .attr("y", (_, i) => i * rectHeight)
             .attr("width", this.width)
             .attr("height", rectHeight)
+            .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
             .attr("shape-rendering", "crispEdges");
     }
 
     draw() {
-        this.colorbarGroup.selectAll(".colorbar-rect")
-            .data(d3.range(this.numStops))
-            .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
+        this.colorbarScale = d3.scaleLinear()
+            .domain([0, this.maxColor]) 
+            .range([heightSVG, 0]);  
+
+        this.colorbarGroup.append("g")
+            .attr("class", "colorbar-axis")
+            .call(d3.axisRight(this.colorbarScale).ticks(5))
+            .attr("transform", `translate(${this.width}, 0)`); 
     }
 }
-
 
 
 class Heatmap {
@@ -102,11 +102,11 @@ class Heatmap {
             this.currentTrial = event.target.value;
             document.getElementById('trialNumber').textContent = this.currentTrial
             this.singleTrialData = this.allTrialsData[this.currentTrial];
-            this.drawHeatmap();
+            heatmap.draw();
         });
     }
 
-    async initialize() {
+    async getData() {
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "text-align:center";  // Display "Loading..."
 
@@ -121,8 +121,6 @@ class Heatmap {
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         
         this.colorScales = {};
-        this.initSVG();
-        this.drawHeatmap();
         
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
@@ -153,9 +151,9 @@ class Heatmap {
                 });
             })
             
-            const maxColor = 3 * d3.deviation(powerValues)
+            this.maxColor = 3 * d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, maxColor]);
+                .domain([0, this.maxColor]);
             this.colorScales[index] = colorScale;
  
                 // create heatmap SVGs
@@ -209,12 +207,11 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.initialize(maxColor,svg,heightSVG,this.width,this.margin.right); 
-            colorbar.draw();
+            colorbar.initialize(svg,heightSVG); 
         })
     }
         
-    drawHeatmap() {
+    draw() {
         this.containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
