@@ -58,6 +58,7 @@
     <script>
     function showHeatmapView() {
         document.title = document.getElementById('channelDisplay').textContent;
+        document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
         document.getElementById('indexView').style.display = 'none';
         document.getElementById('heatmapView').style.display = 'block';
     }

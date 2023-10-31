@@ -23,8 +23,6 @@ function previousChannel() {
     }
 }
 
-document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
     button.addEventListener('click', function(event) {
