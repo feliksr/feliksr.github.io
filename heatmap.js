@@ -23,7 +23,6 @@ buttons.forEach(button => {
     button.addEventListener("click", (event) => {
         group = event.target.textContent
         heatmap.initialize();
-
     });
 });
 
@@ -94,14 +93,14 @@ class Heatmap {
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
-        
+        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
         this.colorScales = {};
+        
         this.initSVG();
         this.drawHeatmap();
-
-        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
+        
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
         document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
