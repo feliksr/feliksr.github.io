@@ -55,15 +55,15 @@ class Colorbar {
             .domain([0, maxColor]) 
             .range([heightSVG, 0]);  
 
-        const colorbarGroup = svg.append("g")
+        this.colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
         
-        colorbarGroup.append("g")
+        this.colorbarGroup.append("g")
             .attr("class", "colorbar-axis")
             .call(d3.axisRight(colorbarScale).ticks(5))
             .attr("transform", `translate(${this.width}, 0)`); 
 
-        colorbarGroup.selectAll(".colorbar-rect")
+        this.colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
             .enter().append("rect")
             .attr("class", "colorbar-rect")
@@ -75,7 +75,7 @@ class Colorbar {
     }
 
     draw() {
-        colorbarGroup.selectAll(".colorbar-rect")
+        this.colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
     }
