@@ -28,6 +28,7 @@ groupButtons.forEach(button => {
     button.addEventListener('click', function(event) {
         // Set the group based on button's text content
         group = event.target.textContent;
+        heatmap.currentTrial = 1;
         heatmap.initialize();
 
         // Remove 'active' class from all group buttons
@@ -89,8 +90,7 @@ class Heatmap {
         
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
-        
-        
+                
         this.currentTrial = 1;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
