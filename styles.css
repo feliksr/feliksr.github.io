@@ -41,18 +41,7 @@ input[type=range] {
     width: 50%; 
 }
 
-.channel-buttons-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-}
 
-.button ,.groupButton {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    border-radius: 5px;
-}
 
 .x-axis text, .y-axis text {
     font-size: 18px;
@@ -71,9 +60,26 @@ input[type=range] {
     display: inline-block;
 }
 
-.button-container {
+.button ,.groupButton {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+}
+
+.channel-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.group-button-container {
     display: flex;
     justify-content: center;  
     align-items: center;      
 }
 
+.group-button.active {
+    background-color: #555;
+    color: white;
+}

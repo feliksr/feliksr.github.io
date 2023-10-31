@@ -26,6 +26,17 @@ buttons.forEach(button => {
     });
 });
 
+const groupButtons = document.querySelectorAll('.groupButton');
+groupButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        // Remove 'active' class from all group buttons
+        groupButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add 'active' class to clicked button
+        this.classList.add('active');
+    });
+});
+
 class Colorbar {
     constructor() {
         this.width = 30;
