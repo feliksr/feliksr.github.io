@@ -31,16 +31,6 @@ class Colorbar {
             .domain([0, maxColor]) 
             .range([heightSVG, 0]);  
 
-        const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
-        const colorRects = samplePoints.map(value => {
-            return {
-                y: heightSVG * (1-value) - rectHeight,
-                color: colorbarScale(Math.round(value))
-            };
-        });
-
-        console.log(colorRects)
-        
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
         
@@ -49,17 +39,18 @@ class Colorbar {
             .call(d3.axisLeft(colorbarScale).ticks(10));
         
         colorbarGroup.selectAll(".colorbar-rect")
-            .data(colorRects)
+            .data(d3.range(this.numStops))
             .enter().append("rect")
             .attr("class", "colorbar-rect")
-            .attr("x", 0) 
-            .attr("y", d => d.y)
+            .attr("x", 0)
+            .attr("y", d => colorbarScale(d * maxColor / this.numStops))
             .attr("width", this.width)
             .attr("height", rectHeight)
-            .attr("fill", d => d.color)
+            .attr("fill", d => d3.interpolateViridis(d / (this.numStops - 1)))
             .attr("shape-rendering", "crispEdges");
     }
 }
+
 
 class Heatmap {
     constructor(containers) {
