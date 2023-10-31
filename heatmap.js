@@ -21,7 +21,7 @@ function previousChannel() {
 class Colorbar {
     constructor() {
         this.width = 30;
-        this.numStops = 30;
+        this.numStops = 10;
     }
 
     generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
