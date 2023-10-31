@@ -28,7 +28,8 @@ class Colorbar {
         const rectHeight = heightSVG / this.numStops;
         
         this.colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, maxColor]);
+            .range(0, heightSVG)
+            .domain([0, maxColor]);
 
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
@@ -41,7 +42,7 @@ class Colorbar {
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
 
         colorbarGroup.append("g")
-            .attr("class", "y-axis")
+            .attr("class", "colorbar-axis")
             .call(d3.axisRight(this.colorScale))
             .ticks(10);
         
