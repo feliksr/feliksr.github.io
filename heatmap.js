@@ -91,7 +91,7 @@ class Heatmap {
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
         
         
-        // this.currentTrial = 1;
+        this.currentTrial = 1;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
             this.currentTrial = event.target.value;
             document.getElementById('trialNumber').textContent = this.currentTrial
