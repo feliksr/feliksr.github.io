@@ -33,11 +33,10 @@ class Colorbar {
         const samplePoints = Array.from({ length: this.numStops }, (_, i) => i / (this.numStops));
         const colorRects = samplePoints.map(value => {
             return {
-                y: heightSVG * (1-value),
+                y: heightSVG * (1-value) - rectHeight,
                 color: this.colorScale(Math.round(value*maxColor))
             };
         });
-        console.log(colorRects)
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
 
@@ -126,7 +125,6 @@ class Heatmap {
             const maxColor = 3 * d3.deviation(powerValues)
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxColor]);
-            console.log(colorScale(1));
             this.colorScales[index] = colorScale;
  
                 // create heatmap SVGs
