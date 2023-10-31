@@ -110,7 +110,7 @@ class Heatmap {
 
     async initialize() {
         document.getElementById('trialSlider').disabled = true;
-        document.getElementById("loadingText").style.display = "text-align:center;";  // Display "Loading..."
+        document.getElementById("loadingText").style.display = "text-align:center";  // Display "Loading..."
 
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
