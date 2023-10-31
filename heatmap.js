@@ -22,7 +22,8 @@ function previousChannel() {
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
-document.getElementById("loadingText").style.display = "none";  // Display "Loading..."
+
+document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
 
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
@@ -103,7 +104,7 @@ class Heatmap {
 
     async initialize() {
         document.getElementById('trialSlider').disabled = true;
-        document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
+        document.getElementById("loadingText").style.display = "text-align:center;";  // Display "Loading..."
 
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
