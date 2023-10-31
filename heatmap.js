@@ -26,8 +26,7 @@ class Colorbar {
 
     generate(maxColor, svg, heightSVG, widthSVG, marginSVG) {
         const rectHeight = heightSVG / this.numStops;
-        
-  
+          
         const colorbarScale = d3.scaleLinear()
             .domain([0, maxColor]) 
             .range([heightSVG, 0]);  
@@ -36,10 +35,12 @@ class Colorbar {
         const colorRects = samplePoints.map(value => {
             return {
                 y: heightSVG * (1-value) - rectHeight,
-                color: colorbarScale(Math.round(value*maxColor))
+                color: colorbarScale(Math.round(value))
             };
         });
 
+        console.log(colorRects)
+        
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
         
