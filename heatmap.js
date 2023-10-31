@@ -109,8 +109,9 @@ class Heatmap {
         
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        
+
         document.getElementById('trialSlider').value = this.currentTrial;
+        document.getElementById('trialNumber').textContent = this.currentTrial
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         
         this.colorScales = {};
