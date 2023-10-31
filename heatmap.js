@@ -47,7 +47,6 @@ class Colorbar {
             .call(d3.axisRight(colorbarScale).ticks(5))
             .attr("transform", `translate(${this.width}, 0)`); 
 
-        
         colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
             .enter().append("rect")
@@ -95,7 +94,7 @@ class Heatmap {
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
-        this.singleTrialData = this.allTrialsData[this.currentTrial];
+        this.singleTrialData = this.allTrialsData[1];
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         
         this.colorScales = {};
