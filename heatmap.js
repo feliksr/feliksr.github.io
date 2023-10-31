@@ -40,6 +40,11 @@ class Colorbar {
         const colorbarGroup = svg.append("g")
             .attr("transform", `translate(${widthSVG + marginSVG / 2}, 0)`); 
 
+        colorbarGroup.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisRight(this.colorScale))
+            .ticks(10);
+        
         colorbarGroup.selectAll(".colorbar-rect")
             .data(colorRects)
             .enter().append("rect")
@@ -149,7 +154,9 @@ class Heatmap {
 
             svg.append("g")
                 .attr("class", "x-axis")
-                .call(d3.axisBottom(this.xScale).ticks(5).tickFormat(''))  
+                .call(d3.axisBottom(this.xScale)
+                    .ticks(5)
+                    .tickFormat(''))  
                 .attr("transform", `translate(0, ${heightSVG})`);
 
             svg.selectAll("rect")
