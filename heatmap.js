@@ -93,11 +93,12 @@ class Heatmap {
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
-        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
+        
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        this.colorScales = {};
+        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         
+        this.colorScales = {};
         this.initSVG();
         this.drawHeatmap();
         
