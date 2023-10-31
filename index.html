@@ -11,7 +11,6 @@
     <!-- Index View -->
     <div id="indexView" style="display: flex; justify-content: center;">
         <button onclick="showHeatmapView()" class="button">Session 1</button>
-        
     </div>
 
     <!-- Heatmap View (hidden by default) -->
@@ -53,6 +52,9 @@
         <button onclick="previousChannel()" class="button">Previous Channel</button>
         <button onclick="nextChannel()" class="button">Next Channel</button>
     </div>
+    
+    </div>
+
     <script>
     function showHeatmapView() {
         document.title = document.getElementById('channelDisplay').textContent;
@@ -68,10 +70,6 @@
         indexView.style.alignItems = 'center';
         document.getElementById('heatmapView').style.display = 'none';
     }
-
-    const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
-    const colorbar = new Colorbar();
-
     </script>
-    </div>
+    
 </body>

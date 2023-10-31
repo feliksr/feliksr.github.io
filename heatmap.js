@@ -1,3 +1,8 @@
+frequencyBins = [
+    { min: 60, max: 200 },
+    { min: 20, max: 60 },
+    { min: 0, max: 20 }
+];
 let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
@@ -212,9 +217,6 @@ class Heatmap {
     }
 }
 
+const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
+const colorbar = new Colorbar();
 
-frequencyBins = [
-    { min: 60, max: 200 },
-    { min: 20, max: 60 },
-    { min: 0, max: 20 }
-];
