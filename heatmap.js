@@ -35,10 +35,10 @@ groupButtons.forEach(button => {
     button.addEventListener('click', function(event) {
         // Set the group based on button's text content
         group = event.target.textContent;
-
-        heatmap.currentTrial = 1;
-        heatmap.getData();
-        heatmap.draw();
+        console.log(group)
+        heatmap.currentTrial = 1
+        heatmap.getData()
+        heatmap.draw()
         colorbar.draw();
         
         // Remove 'active' class from all group buttons
