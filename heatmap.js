@@ -80,7 +80,7 @@ class Colorbar {
             .enter().append("rect")
             .attr("class", "colorbar-rect")
             .attr("x", 0)
-            .attr("y", (_, i) => (this.numStops - i) * rectHeight)-rectHeight
+            .attr("y", (_, i) => (this.numStops - i) * rectHeight - rectHeight)
             .attr("width", this.width)
             .attr("height", rectHeight)
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
@@ -89,19 +89,20 @@ class Colorbar {
 
     draw() {
         containers.forEach((container, index) => {
-        const bin = frequencyBins[index];
-
-        const maxColor = getMaxColor(bin)
-        let colorbarScale = d3.scaleLinear()
-                .domain([0, maxColor]) 
-                .range([heatmap.svgHeights[index], 0]);  
-
-        getSelection(container).select(svg).append('g')
-            .attr("class", "colorbar-axis")
-            .call(d3.axisRight(colorbarScale).ticks(5))
-            .attr("transform", `translate(${this.width}, 0)`); 
-        })    
+            const bin = frequencyBins[index];
+    
+            const maxColor = getMaxColor(bin);
+            const colorbarScale = d3.scaleLinear()
+                .domain([0, maxColor])
+                .range([heightSVG, 0]);
+    
+            d3.select(container).select("svg").append('g')
+                .attr("class", "colorbar-axis")
+                .call(d3.axisRight(colorbarScale).ticks(5))
+                .attr("transform", `translate(${this.width}, 0)`);
+        })
     }
+    
 }
 
 class Heatmap {
