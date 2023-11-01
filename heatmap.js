@@ -60,10 +60,11 @@ class Colorbar {
     initColorBar(svg, heightSVG) {
         const rectHeight = heightSVG / this.numStops;
     
-        this.colorbarGroup = svg.append("g")
+        const colorbarGroup = svg.append("g")
+            .attr("class", 'colorBar')
             .attr("transform", `translate(${heatmap.width + heatmap.margin.right / 2}, 0)`); 
     
-        this.colorbarGroup.selectAll(".colorbar-rect")
+        colorbarGroup.selectAll(".colorbar-rect")
             .data(d3.range(this.numStops))
             .enter().append("rect")
             .attr("class", "colorbar-rect")
@@ -86,12 +87,11 @@ class Colorbar {
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
             
-            const selectedColorbarGroup = d3.select(container).select("colorbar.colorbarGroup")
-
-            selectedColorbarGroup.append('g')
-                .attr("class", "colorbar-axis")
-                .call(d3.axisRight(colorbarScale).ticks(5))
-                .attr("transform", `translate(0, 0)`); 
+            const colorBar = d3.select(container).select('svg').select(".colorBar")
+            
+            colorBar.append('g')
+            .call(d3.axisRight(colorbarScale).ticks(5))
+                .attr("transform", `translate(${colorbar.width}, 0)`); 
         })
     }   
 }
@@ -131,7 +131,6 @@ class Heatmap {
         this.allTrialsData = responseData.trials_data;
         this.meanTrialsData = d3.mean(this.allTrialsData)
         this.singleTrialData = this.allTrialsData[this.currentTrial];
-        console.log(this.singleTrialData)
 
         document.getElementById('trialSlider').value = this.currentTrial;
         document.getElementById('trialNumber').textContent = this.currentTrial
