@@ -101,7 +101,7 @@ class Colorbar {
             selectedColorbarGroup.append('g')
                 .attr("class", "colorbar-axis")
                 .call(d3.axisRight(colorbarScale).ticks(5))
-                .attr("transform", `translate(${this.width}, 0)`); 
+                .attr("transform", `translate(0, 0)`); 
 
         })
     }   
