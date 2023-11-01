@@ -35,6 +35,7 @@ groupButtons.forEach(button => {
     button.addEventListener('click', function(event) {
         // Set the group based on button's text content
         group = event.target.textContent;
+
         heatmap.currentTrial = 1;
         heatmap.getData();
         heatmap.draw();
@@ -67,7 +68,7 @@ class Colorbar {
         this.numStops = 30;
     }
 
-    initialize(svg, heightSVG) {
+    initColorBar(svg, heightSVG) {
         const rectHeight = heightSVG / this.numStops;
     
         this.colorbarGroup = svg.append("g")
@@ -130,7 +131,7 @@ class Heatmap {
     async getData() {
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "text-align:center";  // Display "Loading..."
-
+        console.log(group)
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
         const responseData = await response.json();
         
@@ -211,7 +212,7 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.initialize(svg,heightSVG); 
+            colorbar.initColorBar(svg,heightSVG); 
         })
     }
         
