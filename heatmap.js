@@ -1,12 +1,12 @@
-frequencyBins = [
+const frequencyBins = [
     { min: 60, max: 200 },
     { min: 20, max: 60 },
     { min: 0, max: 20 }
 ];
 
-containers = ['#container1', '#container2', '#container3'];
+const containers = ['#container1', '#container2', '#container3'];
 
-let currentChannel = 1;  // Initialize with channel 1
+const currentChannel = 1;  // Initialize with channel 1
 let group;
 
 function nextChannel() {
@@ -69,7 +69,7 @@ class Colorbar {
         this.numStops = 30;
     }
 
-    initColorBar(svg) {
+    initColorBar(svg, heightSVG) {
         const rectHeight = heightSVG / this.numStops;
     
         this.colorbarGroup = svg.append("g")
@@ -94,7 +94,7 @@ class Colorbar {
         const maxColor = getMaxColor(bin)
         let colorbarScale = d3.scaleLinear()
                 .domain([0, maxColor]) 
-                .range([heightSVG, 0]);  
+                .range([this.svgHeights[index], 0]);  
 
         select(container).select(svg).append('g')
             .attr("class", "colorbar-axis")
@@ -156,7 +156,7 @@ class Heatmap {
                 .remove(); 
 
             const bin = frequencyBins[index];
-            const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
+            let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             
             const allFreqBins = new Set(this.singleTrialData.map(d => d.frequency)).size
             const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
@@ -214,14 +214,14 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.initColorBar(svg); 
+            colorbar.initColorBar(svg,heightSVG); 
         })
     }
         
     draw() {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
-            const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
+            let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, getMaxColor(bin)])
             const svg = d3.select(container).select("svg");
