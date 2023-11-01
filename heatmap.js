@@ -51,19 +51,6 @@ groupButtons.forEach(button => {
     });
 });
 
-function getMaxColor(bin) {
-    let powerValues = [];
-    Object.values(heatmap.allTrialsData).forEach(array => {
-        array.forEach(d => {
-            if (d.frequency >= bin.min && d.frequency <= bin.max) {
-                powerValues.push(d.power);
-            };
-        });
-    })
-    const maxColor = 3 * d3.deviation(powerValues)
-    return maxColor
-}
-
 class Colorbar {
     constructor() {
         this.width = 30;
@@ -92,12 +79,16 @@ class Colorbar {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
     
-            const maxColor = getMaxColor(bin);
+            const powerValues = heatmap.getPowerValues(bin);
+            const meanPower = d3.mean(powerValues);
+            const maxColor = 3 * d3.deviation(powerValues);
+            
+            
             const colorbarScale = d3.scaleLinear()
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
             
-            const selectedColorbarGroup = d3.select(container).select("g")
+            const selectedColorbarGroup = d3.select(container).select(".colorbarGroup")
 
             selectedColorbarGroup.append('g')
                 .attr("class", "colorbar-axis")
@@ -140,6 +131,7 @@ class Heatmap {
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
+        this.meanTrialsData = d3.mean(this.allTrialsData)
         this.singleTrialData = this.allTrialsData[this.currentTrial];
         console.log(this.singleTrialData)
 
@@ -234,6 +226,18 @@ class Heatmap {
                 .data(filteredData)
                 .attr("fill", d => colorScale(d.power));
         });
+    }
+
+    getPowerValues(bin) {
+        let powerValues = [];
+        Object.values(heatmap.allTrialsData).forEach(array => {
+            array.forEach(d => {
+                if (d.frequency >= bin.min && d.frequency <= bin.max) {
+                    powerValues.push(d.power);
+                };
+            });
+        });
+        return powerValues;
     }
 }
 
