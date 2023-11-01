@@ -6,7 +6,7 @@ const frequencyBins = [
 
 const containers = ['#container1', '#container2', '#container3'];
 
-const currentChannel = 1;  // Initialize with channel 1
+let currentChannel = 1;  // Initialize with channel 1
 let group;
 
 function nextChannel() {
@@ -15,7 +15,7 @@ function nextChannel() {
     document.getElementById('trialSlider').disabled = true;
     heatmap.getData();
     heatmap.drawHeatmap();
-    colorbar.drawColorBar();
+    // colorbar.drawColorBar();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
 
@@ -26,7 +26,7 @@ function previousChannel() {
         document.getElementById('trialSlider').disabled = true;
         heatmap.getData();
         heatmap.drawHeatmap();
-        colorbar.drawColorBar();
+        // colorbar.drawColorBar();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
@@ -92,7 +92,6 @@ class Colorbar {
                 .attr("class", "colorbar-axis")
                 .call(d3.axisRight(colorbarScale).ticks(5))
                 .attr("transform", `translate(0, 0)`); 
-
         })
     }   
 }
@@ -124,8 +123,9 @@ class Heatmap {
     async getData() {
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "text-align:center";  // Display "Loading..."
-        console.log(group)
+        
         const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
+        // const response = await fetch(`http://localhost:5000/${group}/${this.channel}`);
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
