@@ -8,6 +8,7 @@ containers = ['#container1', '#container2', '#container3'];
 
 let currentChannel = 1;  // Initialize with channel 1
 let group;
+
 function nextChannel() {
     currentChannel++;
     heatmap.channel = currentChannel;
@@ -68,7 +69,7 @@ class Colorbar {
         this.numStops = 30;
     }
 
-    initColorBar(svg, heightSVG) {
+    initColorBar(svg) {
         const rectHeight = heightSVG / this.numStops;
     
         this.colorbarGroup = svg.append("g")
@@ -90,14 +91,14 @@ class Colorbar {
         containers.forEach((container, index) => {
         const bin = frequencyBins[index];
 
-        maxColor = getMaxColor(bin)
-        colorbarScale = d3.scaleLinear()
+        const maxColor = getMaxColor(bin)
+        let colorbarScale = d3.scaleLinear()
                 .domain([0, maxColor]) 
                 .range([heightSVG, 0]);  
 
         select(container).select(svg).append('g')
             .attr("class", "colorbar-axis")
-            .call(d3.axisRight(this.colorbarScale).ticks(5))
+            .call(d3.axisRight(colorbarScale).ticks(5))
             .attr("transform", `translate(${this.width}, 0)`); 
         })    
     }
@@ -148,6 +149,7 @@ class Heatmap {
     }
 
     initSVG() {
+        this.svgHeights=[]
         containers.forEach((container,index) => {
             d3.select(container)
                 .select("svg")
@@ -160,7 +162,7 @@ class Heatmap {
             const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
-
+            this.svgHeights[index] = heightSVG
                 // create heatmap SVGs
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
@@ -212,7 +214,7 @@ class Heatmap {
                     .text("Time from Response (sec)")
             } 
 
-            colorbar.initColorBar(svg,heightSVG); 
+            colorbar.initColorBar(svg); 
         })
     }
         
