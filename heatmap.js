@@ -34,6 +34,12 @@ function previousChannel() {
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
     button.addEventListener('click', async function(event) {
+        // Remove 'active' class from all group buttons
+        groupButtons.forEach(btn => btn.classList.remove('active'));
+
+        // Add 'active' class to clicked button
+        this.classList.add('active');
+        
         // Set the group based on button's text content
         group = event.target.textContent
         heatmap.currentTrial = 1
@@ -42,11 +48,7 @@ groupButtons.forEach(button => {
         heatmap.draw()
         colorbar.draw();
         
-        // Remove 'active' class from all group buttons
-        groupButtons.forEach(btn => btn.classList.remove('active'));
 
-        // Add 'active' class to clicked button
-        this.classList.add('active');
     });
 });
 
