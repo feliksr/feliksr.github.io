@@ -33,12 +33,12 @@ function previousChannel() {
 
 const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
-    button.addEventListener('click', function(event) {
+    button.addEventListener('click', async function(event) {
         // Set the group based on button's text content
         group = event.target.textContent
-        console.log(group)
         heatmap.currentTrial = 1
-        heatmap.getData()
+        await heatmap.getData()
+        heatmap.initSVG()
         heatmap.draw()
         colorbar.draw();
         
