@@ -34,7 +34,7 @@ const groupButtons = document.querySelectorAll('.groupButton');
 groupButtons.forEach(button => {
     button.addEventListener('click', function(event) {
         // Set the group based on button's text content
-        group = event.target.textContent;
+        group = event.target.textContent
         console.log(group)
         heatmap.currentTrial = 1
         heatmap.getData()
