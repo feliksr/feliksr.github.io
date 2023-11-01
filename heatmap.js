@@ -231,6 +231,6 @@ class Heatmap {
 }
 
 const heatmap = new Heatmap();
+const colorbar = new Colorbar();
 heatmap.getData();
 heatmap.initSVG();
-const colorbar = new Colorbar();
