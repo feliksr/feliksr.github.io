@@ -96,7 +96,7 @@ class Colorbar {
                 .domain([0, maxColor]) 
                 .range([heatmap.svgHeights[index], 0]);  
 
-        getSelection(container).select("svg").append('g')
+        getSelection(container).select(svg).append('g')
             .attr("class", "colorbar-axis")
             .call(d3.axisRight(colorbarScale).ticks(5))
             .attr("transform", `translate(${this.width}, 0)`); 
