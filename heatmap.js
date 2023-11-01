@@ -95,11 +95,14 @@ class Colorbar {
             const colorbarScale = d3.scaleLinear()
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
-    
-            d3.select(container).select("svg").select(".colorbarGroup").append('g')
+            
+            const selectedColorbarGroup = d3.select(container).select("svg").select(".colorbarGroup");
+
+            selectedColorbarGroup.append('g')
                 .attr("class", "colorbar-axis")
                 .call(d3.axisRight(colorbarScale).ticks(5))
-                .attr("transform", `translate(${this.width}, 0)`);
+                .attr("transform", `translate(${this.width}, 0)`); 
+
         })
     }   
 }
