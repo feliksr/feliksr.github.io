@@ -80,7 +80,7 @@ class Colorbar {
             .enter().append("rect")
             .attr("class", "colorbar-rect")
             .attr("x", 0)
-            .attr("y", (_, i) => (1 - i) * rectHeight)
+            .attr("y", (_, i) => (this.numStops - i) * rectHeight)-rectHeight
             .attr("width", this.width)
             .attr("height", rectHeight)
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
