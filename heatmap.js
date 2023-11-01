@@ -7,7 +7,7 @@ frequencyBins = [
 containers = ['#container1', '#container2', '#container3'];
 
 let currentChannel = 1;  // Initialize with channel 1
-
+let group;
 function nextChannel() {
     currentChannel++;
     heatmap.channel = currentChannel;
