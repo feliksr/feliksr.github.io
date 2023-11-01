@@ -3,6 +3,9 @@ frequencyBins = [
     { min: 20, max: 60 },
     { min: 0, max: 20 }
 ];
+
+containers = ['#container1', '#container2', '#container3'];
+
 let currentChannel = 1;  // Initialize with channel 1
 
 function nextChannel() {
@@ -43,6 +46,18 @@ groupButtons.forEach(button => {
     });
 });
 
+function getMaxColor(bin) {
+    let powerValues = [];
+    Object.values(heatmap.allTrialsData).forEach(array => {
+        array.forEach(d => {
+            if (d.frequency >= bin.min && d.frequency <= bin.max) {
+                powerValues.push(d.power);
+            };
+        });
+    })
+    const maxColor = 3 * d3.deviation(powerValues)
+    return maxColor
+}
 
 class Colorbar {
     constructor() {
@@ -69,21 +84,25 @@ class Colorbar {
     }
 
     draw() {
-        this.colorbarScale = d3.scaleLinear()
-            .domain([0, this.maxColor]) 
-            .range([heightSVG, 0]);  
+        containers.forEach((container, index) => {
+        const bin = frequencyBins[index];
 
-        this.colorbarGroup.append("g")
+        maxColor = getMaxColor(bin)
+        colorbarScale = d3.scaleLinear()
+                .domain([0, maxColor]) 
+                .range([heightSVG, 0]);  
+
+        select(container).select(svg).append('g')
             .attr("class", "colorbar-axis")
             .call(d3.axisRight(this.colorbarScale).ticks(5))
             .attr("transform", `translate(${this.width}, 0)`); 
+        })    
     }
 }
 
 
 class Heatmap {
-    constructor(containers) {
-        this.containers = containers;
+    constructor() {
         this.width = 1000;
         this.height = 400;
         this.margin = {
@@ -119,16 +138,14 @@ class Heatmap {
         document.getElementById('trialSlider').value = this.currentTrial;
         document.getElementById('trialNumber').textContent = this.currentTrial
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
-        
-        this.colorScales = {};
-        
+
         document.getElementById('trialSlider').disabled = false;
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
         document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
     }
 
     initSVG() {
-        this.containers.forEach((container,index) => {
+        containers.forEach((container,index) => {
             d3.select(container)
                 .select("svg")
                 .remove(); 
@@ -140,22 +157,7 @@ class Heatmap {
             const numFreqBins = new Set(filteredData.map(d => d.frequency)).size
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
-            
-                // Set color scaling
-            let powerValues = [];
-            Object.values(this.allTrialsData).forEach(array => {
-                array.forEach(d => {
-                    if (d.frequency >= bin.min && d.frequency <= bin.max) {
-                        powerValues.push(d.power);
-                    };
-                });
-            })
-            
-            this.maxColor = 3 * d3.deviation(powerValues)
-            const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, this.maxColor]);
-            this.colorScales[index] = colorScale;
- 
+
                 // create heatmap SVGs
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
@@ -212,18 +214,18 @@ class Heatmap {
     }
         
     draw() {
-        this.containers.forEach((container, index) => {
+        containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             const filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
-          
+            const colorScale = d3.scaleSequential(d3.interpolateViridis)
+                .domain([0, getMaxColor(bin)])
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
-                .attr("fill", d => this.colorScales[index](d.power));
+                .attr("fill", d => colorScale(d.power));
         });
     }
 }
 
-const heatmap = new Heatmap(['#container1', '#container2', '#container3']);
+const heatmap = new Heatmap();
 const colorbar = new Colorbar();
-
