@@ -14,8 +14,8 @@ function nextChannel() {
     heatmap.channel = currentChannel;
     document.getElementById('trialSlider').disabled = true;
     heatmap.getData();
-    heatmap.draw();
-    colorbar.draw();
+    heatmap.drawHeatmap();
+    colorbar.drawColorBar();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
 
@@ -25,8 +25,8 @@ function previousChannel() {
         heatmap.channel = currentChannel;
         document.getElementById('trialSlider').disabled = true;
         heatmap.getData();
-        heatmap.draw();
-        colorbar.draw();
+        heatmap.drawHeatmap();
+        colorbar.drawColorBar();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
@@ -45,8 +45,8 @@ groupButtons.forEach(button => {
         heatmap.currentTrial = 1
         await heatmap.getData()
         heatmap.initSVG()
-        heatmap.draw()
-        colorbar.draw();
+        heatmap.drawHeatmap()
+        colorbar.drawColorBar();
         
     });
 });
@@ -75,7 +75,7 @@ class Colorbar {
             .attr("shape-rendering", "crispEdges");
     }
 
-    draw() {
+    drawColorBar() {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
     
@@ -119,7 +119,7 @@ class Heatmap {
             this.currentTrial = event.target.value;
             document.getElementById('trialNumber').textContent = this.currentTrial
             this.singleTrialData = this.allTrialsData[this.currentTrial];
-            heatmap.draw();
+            heatmap.drawHeatmap();
         });
     }
 
@@ -214,13 +214,13 @@ class Heatmap {
         })
     }
         
-    draw() {
+    drawHeatmap() {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
             console.log(this.singleTrialData)
             let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, getMaxColor(bin)])
+                .domain([0, 3 * d3.stddev(this.getPowerValues(bin))])
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
