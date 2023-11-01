@@ -80,10 +80,8 @@ class Colorbar {
             const bin = frequencyBins[index];
     
             const powerValues = heatmap.getPowerValues(bin);
-            const meanPower = d3.mean(powerValues);
             const maxColor = 3 * d3.deviation(powerValues);
-            
-            
+                        
             const colorbarScale = d3.scaleLinear()
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
@@ -217,10 +215,12 @@ class Heatmap {
     drawHeatmap() {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
-            console.log(this.singleTrialData)
             let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
+            
+            const maxPower = 3 * d3.deviation(this.getPowerValues(bin))
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
-                .domain([0, 3 * d3.stddev(this.getPowerValues(bin))])
+                .domain([0, maxPower])
+            
             const svg = d3.select(container).select("svg");
             svg.selectAll("rect")
                 .data(filteredData)
