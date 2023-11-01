@@ -48,7 +48,6 @@ groupButtons.forEach(button => {
         heatmap.draw()
         colorbar.draw();
         
-
     });
 });
 
@@ -98,7 +97,7 @@ class Colorbar {
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
             
-            const selectedColorbarGroup = d3.select(container).select("svg").select("colorbar.colorbarGroup");
+            const selectedColorbarGroup = d3.select(container).select("g")
 
             selectedColorbarGroup.append('g')
                 .attr("class", "colorbar-axis")
