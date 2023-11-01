@@ -14,6 +14,7 @@ function nextChannel() {
     document.getElementById('trialSlider').disabled = true;
     heatmap.getData();
     heatmap.draw();
+    colorbar.draw();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
 
@@ -24,6 +25,7 @@ function previousChannel() {
         document.getElementById('trialSlider').disabled = true;
         heatmap.getData();
         heatmap.draw();
+        colorbar.draw();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
