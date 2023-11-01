@@ -138,6 +138,7 @@ class Heatmap {
         
         this.allTrialsData = responseData.trials_data;
         this.singleTrialData = this.allTrialsData[this.currentTrial];
+        console.log(this.singleTrialData)
 
         document.getElementById('trialSlider').value = this.currentTrial;
         document.getElementById('trialNumber').textContent = this.currentTrial
@@ -221,6 +222,7 @@ class Heatmap {
     draw() {
         containers.forEach((container, index) => {
             const bin = frequencyBins[index];
+            console.log(this.singleTrialData)
             let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, getMaxColor(bin)])
