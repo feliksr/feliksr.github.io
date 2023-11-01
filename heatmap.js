@@ -37,6 +37,7 @@ groupButtons.forEach(button => {
         group = event.target.textContent;
         heatmap.currentTrial = 1;
         heatmap.getData();
+        heatmap.initSVG();
         heatmap.draw();
         colorbar.draw();
         
