@@ -86,7 +86,7 @@ class Colorbar {
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
             
-            const selectedColorbarGroup = d3.select(container).select(".colorbarGroup")
+            const selectedColorbarGroup = d3.select(container).select("colorbar.colorbarGroup")
 
             selectedColorbarGroup.append('g')
                 .attr("class", "colorbar-axis")
