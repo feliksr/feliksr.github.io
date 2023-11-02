@@ -8,61 +8,69 @@ const containers = ['#container1', '#container2', '#container3'];
 
 let currentChannel = 1;  // Initialize with channel 1
 let group;
+let currentTrial = 1;
+let meanTrials = false;
+
+
+async function switchChannel(){
+    document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
+    heatmap.channel = currentChannel;
+    document.getElementById('trialSlider').disabled = true;
+    await heatmap.getData()
+    heatmap.drawHeatmap();
+    colorbar.drawColorBar();
+}
 
 function nextChannel() {
     currentChannel++;
-    heatmap.channel = currentChannel;
-    document.getElementById('trialSlider').disabled = true;
-    heatmap.getData();
-    heatmap.drawHeatmap();
-    document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
+    switchChannel();
 }
 
 function previousChannel() {
     if (currentChannel > 1) {
         currentChannel--;
-        heatmap.channel = currentChannel;
-        document.getElementById('trialSlider').disabled = true;
-        heatmap.getData();
-        heatmap.drawHeatmap();
-        document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
+        switchChannel();
     }
 }
 
-const groupButtons = document.querySelectorAll('.groupButton');
-groupButtons.forEach(button => {
-    button.addEventListener('click', async function(event) {
-        // Remove 'active' class from all group buttons
-        groupButtons.forEach(btn => btn.classList.remove('active'));
-
-        // Add 'active' class to clicked button
-        this.classList.add('active');
+class Buttons {
+    setGroupButtons(){
+        const groupButtons = document.querySelectorAll('.groupButton');
+        groupButtons.forEach(button => {
+                button.addEventListener('click', async function(event) {
+                // Remove 'active' class from all group buttons
+                groupButtons.forEach(btn => btn.classList.remove('active'));
         
-        // Set the group based on button's text content
-        group = event.target.textContent
-        heatmap.currentTrial = 1
-        await heatmap.getData()
-        heatmap.initSVG()
-        heatmap.drawHeatmap()
-        colorbar.drawColorBar();
-    });
-});
+                // Add 'active' class to clicked button
+                this.classList.add('active');
+        
+                // Set the group based on button's text content
+                group = event.target.textContent
+                currentTrial = 1
+                await heatmap.getData()
+                heatmap.initSVG()
+                heatmap.drawHeatmap()
+                colorbar.drawColorBar();
+            });
+        });
+    }    
 
-let meanTrials = false;
-const meanTrialsButton = document.getElementById('meanTrialsButton');
-meanTrialsButton.addEventListener('click', async () => {
-    if (meanTrials === true) {
-        meanTrials = false;
-    } else {
-        meanTrials = true;
+    setAverageButton(){
+        const meanTrialsButton = document.getElementById('meanTrialsButton');
+        meanTrialsButton.addEventListener('click', async () => {
+            if (meanTrials === true) {
+                meanTrials = false;
+            } else {
+                meanTrials = true;
+            }
+            document.getElementById('trialSlider').disabled = true;
+            currentTrial = 1
+            await heatmap.getData();
+            heatmap.drawHeatmap();
+            colorbar.drawColorBar();
+        });    
     }
-    document.getElementById('trialSlider').disabled = true;
-    heatmap.currentTrial = 1
-    await heatmap.getData();
-    heatmap.drawHeatmap();
-    colorbar.drawColorBar();
-});
-
+}
 
 class Colorbar {
     constructor() {
@@ -127,11 +135,11 @@ class Heatmap {
         this.channel = currentChannel;
         document.getElementById('channelDisplay').textContent = `Channel: ${this.channel}`;
                 
-        this.currentTrial = 1;
+        // this.currentTrial = 1;
         document.getElementById('trialSlider').addEventListener('input', (event) => {
-            this.currentTrial = event.target.value;
-            document.getElementById('trialNumber').textContent = this.currentTrial
-            this.singleTrialData = this.allTrialsData[this.currentTrial];
+            currentTrial = event.target.value;
+            document.getElementById('trialNumber').textContent = currentTrial
+            this.singleTrialData = this.allTrialsData[currentTrial];
             heatmap.drawHeatmap();
         });
 
@@ -158,10 +166,10 @@ class Heatmap {
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
-        this.singleTrialData = this.allTrialsData[this.currentTrial];
+        this.singleTrialData = this.allTrialsData[currentTrial];
 
-        document.getElementById('trialSlider').value = this.currentTrial;
-        document.getElementById('trialNumber').textContent = this.currentTrial
+        document.getElementById('trialSlider').value = currentTrial;
+        document.getElementById('trialNumber').textContent = currentTrial
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
 
         document.getElementById('trialSlider').disabled = false;
@@ -268,6 +276,9 @@ class Heatmap {
         return powerValues;
     }
 }
+const pageButtons = new Buttons();
+pageButtons.setGroupButtons();
+pageButtons.setAverageButton();
 
 const heatmap = new Heatmap();
 const colorbar = new Colorbar();
