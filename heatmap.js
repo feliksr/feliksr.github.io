@@ -15,7 +15,6 @@ function nextChannel() {
     document.getElementById('trialSlider').disabled = true;
     heatmap.getData();
     heatmap.drawHeatmap();
-    // colorbar.drawColorBar();
     document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
 }
 
@@ -26,7 +25,6 @@ function previousChannel() {
         document.getElementById('trialSlider').disabled = true;
         heatmap.getData();
         heatmap.drawHeatmap();
-        // colorbar.drawColorBar();
         document.getElementById('channelDisplay').textContent = `Channel: ${currentChannel}`;
     }
 }
@@ -47,9 +45,23 @@ groupButtons.forEach(button => {
         heatmap.initSVG()
         heatmap.drawHeatmap()
         colorbar.drawColorBar();
-        
     });
 });
+
+let meanTrials = false;
+const meanTrialsButton = document.getElementById('meanTrialsButton');
+meanTrialsButton.addEventListener('click', async () => {
+    if (meanTrials === true) {
+        meanTrials = false;
+    } else {
+        meanTrials = true;
+    }
+    document.getElementById('trialSlider').disabled = true;
+    heatmap.currentTrial = 1
+    await heatmap.getData();
+    heatmap.drawHeatmap();
+});
+
 
 class Colorbar {
     constructor() {
@@ -118,18 +130,30 @@ class Heatmap {
             this.singleTrialData = this.allTrialsData[this.currentTrial];
             heatmap.drawHeatmap();
         });
+
     }
 
     async getData() {
         document.getElementById('trialSlider').disabled = true;
-        document.getElementById("loadingText").style.display = "text-align:center";  // Display "Loading..."
-        
-        const response = await fetch(`https://froyzen.pythonanywhere.com/${group}/${this.channel}`);
-        // const response = await fetch(`http://localhost:5000/${group}/${this.channel}`);
+        document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
+
+        let args = {
+            group: group,
+            channel: this.channel,
+            meanTrials: meanTrials,
+        };
+
+        const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
+        // const response = await fetch(`http://localhost:5000/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(args)
+        })
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
-        this.meanTrialsData = d3.mean(this.allTrialsData)
         this.singleTrialData = this.allTrialsData[this.currentTrial];
 
         document.getElementById('trialSlider').value = this.currentTrial;
@@ -156,7 +180,8 @@ class Heatmap {
             const numTimeBins = new Set(filteredData.map(d => d.time)).size
             const heightSVG = this.height * (numFreqBins/allFreqBins)
             this.svgHeights[index] = heightSVG
-                // create heatmap SVGs
+                
+            // create heatmap SVGs
             const svg = d3.select(container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
                 .attr("height", heightSVG + this.margin.bottom)
@@ -216,7 +241,7 @@ class Heatmap {
             const bin = frequencyBins[index];
             let filteredData = this.singleTrialData.filter(d => d.frequency >= bin.min && d.frequency <= bin.max);
             
-            const maxPower = 3 * d3.deviation(this.getPowerValues(bin))
+            const maxPower = 3 * d3.deviation(heatmap.getPowerValues(bin))
             const colorScale = d3.scaleSequential(d3.interpolateViridis)
                 .domain([0, maxPower])
             

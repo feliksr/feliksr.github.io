@@ -16,7 +16,6 @@ body {
     font-size: 25px;
 }
 
-
 #containers {
     display: flex;
     align-items: center;  
@@ -42,8 +41,6 @@ input[type=range] {
     width: 50%; 
 }
 
-
-
 .x-axis text, .y-axis text {
     font-size: 18px;
 }
@@ -67,11 +64,17 @@ input[type=range] {
     border-radius: 5px;
 }
 
+#meanTrialsButton {
+    padding: 5px 10px;
+    font-size: 1.1em;
+    border-radius: 5px; 
+}
+
 .channel-buttons-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 40px;
 }
 
 .group-button-container {
