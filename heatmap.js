@@ -60,6 +60,7 @@ meanTrialsButton.addEventListener('click', async () => {
     heatmap.currentTrial = 1
     await heatmap.getData();
     heatmap.drawHeatmap();
+    colorbar.drawColorBar();
 });
 
 
@@ -99,10 +100,13 @@ class Colorbar {
                 .domain([0, maxColor])
                 .range([heatmap.svgHeights[index], 0]);
             
-            const colorBar = d3.select(container).select('svg').select(".colorBar")
+            const colorBar = d3.select(container).select('svg').select(".colorBar");
             
+            colorBar.select('.colorbar-axis').remove();
+
             colorBar.append('g')
             .call(d3.axisRight(colorbarScale).ticks(5))
+                .attr('class', 'colorbar-axis')
                 .attr("transform", `translate(${colorbar.width}, 0)`); 
         })
     }   
