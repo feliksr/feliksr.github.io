@@ -21,6 +21,7 @@ class Page{
         this.setGroup();
 
         const prevChan = document.getElementById('previousChannel');
+
         prevChan.addEventListener('click', () => {
         if (this.args.channel > 1) {
                 this.args.channel--;
@@ -36,6 +37,18 @@ class Page{
             this.getData();
            
         })
+
+        const meanTrialsButton = document.getElementById('meanTrialsButton');
+        meanTrialsButton.addEventListener('click', async () => {
+            if (this.args.meanTrials === true) {
+                this.args.meanTrials = false;
+            } else {
+                this.args.meanTrials = true;
+            }
+            this.args.trial = 1
+            await this.getData();
+            this.setContainers
+        });    
     }
     
     setGroup() {
@@ -96,22 +109,7 @@ class Page{
             colorbar.initColorbar();
         })
     }
-
-    setAverageButton(){
-        const meanTrialsButton = document.getElementById('meanTrialsButton');
-        meanTrialsButton.addEventListener('click', async () => {
-            if (this.args.meanTrials === true) {
-                this.args.meanTrials = false;
-            } else {
-                this.args.meanTrials = true;
-            }
-            await this.getData();
-            this.setContainers
-        });    
-    }
 }
 
 window.Page = Page;
 const page = new window.Page;
-// page.setAverageButton();
-
