@@ -45,15 +45,18 @@
         </div>
     
         <div class="channel-buttons-container">
-            <button onclick="previousChannel()" class="button">Previous Channel</button>
-            <button onclick="nextChannel()" class="button">Next Channel</button>
+            <button id="previousChannel" class="button">Previous Channel</button>
+            <button id="nextChannel" class="button">Next Channel</button>
         </div>
 
         <h1 id="loadingText", style="text-align:center;">Loading...</h1>
     </div>
     
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src= "page.js"></script>
     <script src="heatmap.js"></script>
+    <script src= "colorbar.js"></script>
+
 
     <script>
         function showHeatmapView() {

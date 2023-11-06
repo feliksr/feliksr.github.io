@@ -45,9 +45,10 @@ input[type=range] {
     font-size: 18px;
 }
 
-.x-axis-label {
-    font-size: 32px;  
+.x-axis-label{
+    font-size: 32px;
     fill: #ffffff
+    
 }
 
 #y-axis-label {
@@ -88,3 +89,7 @@ input[type=range] {
     background-color: #555;
     color: white;
 }
+
+.colorbar-rect {
+    cursor: pointer;
+  }
