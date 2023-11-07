@@ -59,13 +59,21 @@ input[type=range] {
     display: inline-block;
 }
 
+#colorbar-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin-left: 0px;
+    font-size: 24px;
+    display: inline-block;
+}
+
 .button ,.groupButton {
     padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
 }
 
-#meanTrialsButton {
+#meanTrialsButton, #ANOVAbutton {
     padding: 5px 10px;
     font-size: 1.1em;
     border-radius: 5px; 
@@ -89,6 +97,8 @@ input[type=range] {
     background-color: #555;
     color: white;
 }
+
+
 
 .colorbar-rect {
     cursor: pointer;

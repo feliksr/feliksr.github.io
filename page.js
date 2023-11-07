@@ -5,6 +5,8 @@ class Page{
             trial: 1,
             channel: 1,
             meanTrials: false,
+            ANOVA: false,
+            allGroups: ['Target','Distractor','Irrelevant']
         }
         
         this.frequencyBins = [
@@ -15,10 +17,10 @@ class Page{
     
         this.containers= ['#container1', '#container2', '#container3'];
         
-        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency (Hz)" y-axis-label while Loading...
+        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency" y-axis-label while Loading...
+        document.getElementById("colorbar-label").style.display = "none" // Hide "Power" colorbar-label while Loading...
         document.getElementById('channelDisplay').textContent = 'Channel 1';
 
-        this.setGroup();
 
         const prevChan = document.getElementById('previousChannel');
 
@@ -48,7 +50,21 @@ class Page{
             this.args.trial = 1
             await this.getData();
             this.setContainers
-        });    
+        });   
+        
+        const ANOVAbutton = document.getElementById('ANOVAbutton');
+        ANOVAbutton.addEventListener('click', async () => {
+            if (this.args.ANOVA === true) {
+                this.args.ANOVA = false;
+            } else {
+                this.args.ANOVA = true;
+            }
+            this.args.trial = 1
+            await this.getData();
+            this.setContainers
+        }); 
+
+        this.setGroup();
     }
     
     setGroup() {
@@ -70,8 +86,6 @@ class Page{
     }
 
     async getData() {
-        
-        
         document.getElementById('trialSlider').disabled = true;
         document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
     
@@ -93,9 +107,9 @@ class Page{
         document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
         document.getElementById('trialSlider').disabled = false;
 
-        
         document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-        document.getElementById("y-axis-label").style.display = "block" // Display "Frequency (Hz)"
+        document.getElementById("y-axis-label").style.display = "block" // Display "Frequency"
+        document.getElementById("colorbar-label").style.display = "block" // Display "Power"
 
         this.setContainers();
     }

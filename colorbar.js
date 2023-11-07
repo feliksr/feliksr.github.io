@@ -32,6 +32,10 @@ class Colorbar {
         this.colorbarScale = d3.scaleLinear()
             .domain([0, this.heatmap.maxPower])
             .range([this.heatmap.heightSVG, 0]);
+        
+        if (this.heatmap.maxPower == 0.1){
+            this.colorbarScale.domain([this.heatmap.maxPower, 0])
+        }
 
         this.drawColorBar();
     }

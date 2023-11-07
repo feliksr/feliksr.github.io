@@ -83,18 +83,28 @@ class Heatmap {
                     .attr("x", this.width / 2)  
                     .attr("y", this.margin.bottom + 40) 
                     .style("text-anchor", "middle")
-                    .style("font-size", "20px")  // Set font size directly with D3
+                    .style("font-size", "20px") 
                     .text("Time from Response (sec)");
             }
-            
-            this.maxPower = 3 * d3.deviation(this.getPowerValues());
+            if (this.page.args.ANOVA == true){
+                this.maxPower = 0.1
+                document.getElementById('colorbar-label').textContent = 'p-Values'
+            }
+            else {
+                this.maxPower = 3 * d3.deviation(this.getPowerValues())
+                document.getElementById('colorbar-label').innerHTML = 'Power  (uV / Hz<sup>2</sup>)'
+            }
+
             this.drawHeatmap();
     }
     
     drawHeatmap() {
         const colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, this.maxPower])
-        
+        if (this.page.args.ANOVA == true) {
+            colorScale.domain([this.maxPower, 0])
+        }
+
         this.svg.selectAll("rect")
             .data(this.filteredData)
             .attr("fill", d => colorScale(d.power));
