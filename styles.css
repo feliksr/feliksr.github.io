@@ -93,11 +93,10 @@ input[type=range] {
     gap: 50px;    
 }
 
-.groupButton.active {
+.groupButton.active, #ANOVAbutton.active, #meanTrialsButton.active {
     background-color: #555;
     color: white;
 }
-
 
 
 .colorbar-rect {

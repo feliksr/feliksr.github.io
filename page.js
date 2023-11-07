@@ -1,6 +1,7 @@
 // page.js
 class Page{
     constructor() {
+        // Initial page parameters
         this.args = {
             trial: 1,
             channel: 1,
@@ -9,6 +10,9 @@ class Page{
             allGroups: ['Target','Distractor','Irrelevant']
         }
         
+        this.ANOVAbutton = document.getElementById('ANOVAbutton');
+        this.meanTrialsButton = document.getElementById('meanTrialsButton');
+
         this.frequencyBins = [
             { min: 60, max: 200 },
             { min: 20, max: 60 },
@@ -21,9 +25,7 @@ class Page{
         document.getElementById("colorbar-label").style.display = "none" // Hide "Power" colorbar-label while Loading...
         document.getElementById('channelDisplay').textContent = 'Channel 1';
 
-
         const prevChan = document.getElementById('previousChannel');
-
         prevChan.addEventListener('click', () => {
         if (this.args.channel > 1) {
                 this.args.channel--;
@@ -32,45 +34,38 @@ class Page{
             }
         })
         
+
         const nextChan = document.getElementById('nextChannel');
         nextChan.addEventListener('click', () => {
             this.args.channel++;
             document.getElementById('channelDisplay').textContent = 'Channel' + this.args.channel;
             this.getData();
-           
         })
+ 
 
-        const meanTrialsButton = document.getElementById('meanTrialsButton');
-        meanTrialsButton.addEventListener('click', async () => {
-            if (this.args.meanTrials === true) {
-                this.args.meanTrials = false;
-            } else {
-                this.args.meanTrials = true;
-            }
-            this.args.trial = 1
-            await this.getData();
-            this.setContainers
-        });   
+        this.meanTrialsButton.addEventListener('click', () => {
+            this.args.meanTrials = !this.args.meanTrials; 
+            this.ANOVAbutton.disabled = this.args.meanTrials; 
+            this.meanTrialsButton.classList.toggle('active'); 
         
-        const ANOVAbutton = document.getElementById('ANOVAbutton');
-        ANOVAbutton.addEventListener('click', async () => {
-            if (this.args.ANOVA === true) {
-                this.args.ANOVA = false;
-            } else {
-                this.args.ANOVA = true;
-            }
-            this.args.trial = 1
-            await this.getData();
-            this.setContainers
-        }); 
+            this.args.trial = 1;
+            this.getData();
+        });
+        
 
-        this.setGroup();
-    }
-    
-    setGroup() {
+        this.ANOVAbutton.addEventListener('click', () => {
+            this.args.ANOVA = !this.args.ANOVA; 
+            this.meanTrialsButton.disabled = this.args.ANOVA; 
+            this.ANOVAbutton.classList.toggle('active');
+        
+            this.args.trial = 1;
+            this.getData();
+        });
+        
+        
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
-            button.addEventListener('click', (event) => { // Use arrow function here
+            button.addEventListener('click', (event) => {
                 // Remove 'active' class from all group buttons
                 groupButtons.forEach(btn => btn.classList.remove('active'));
         
@@ -82,8 +77,10 @@ class Page{
                 this.args.trial = 1;
                 this.getData();
             });
-        });
+        })
+    
     }
+
 
     async getData() {
         document.getElementById('trialSlider').disabled = true;
@@ -113,6 +110,7 @@ class Page{
 
         this.setContainers();
     }
+
 
     setContainers() {
         this.containers.forEach((container,index) => {
