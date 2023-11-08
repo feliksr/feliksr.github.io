@@ -89,7 +89,7 @@ class Heatmap {
                 this.ANOVA = true
                 this.maxPower = document.getElementById('pVal').value
                 this.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([this.maxPower,0])
-                document.getElementById('colorbar-label').textContent = 'p-Values'
+                document.getElementById('colorbar-label').textContent = 'p-Value'
             }
             else {
                 this.ANOVA = false

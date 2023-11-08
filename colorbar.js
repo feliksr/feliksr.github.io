@@ -7,9 +7,9 @@ class Colorbar {
 
         const pVal = document.getElementById('pVal')
         pVal.addEventListener('change', (event) => {
-            heatmap.maxPower = event.target.value;
-            heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([heatmap.maxPower,0])
-            heatmap.drawHeatmap();
+            this.heatmap.maxPower = event.target.value;
+            this.heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([this.heatmap.maxPower,0])
+            this.heatmap.drawHeatmap();
             this.setInitScale();
         });
     }
@@ -60,10 +60,11 @@ class Colorbar {
     addDragBehavior() {
 
         const dragged = () => {
-            const yPosition = d3.event.y * 0.02; 
+            const yPosition = d3.event.y * 0.03; 
             this.heatmap.maxPower = this.colorbarScale.invert(yPosition);
             this.colorbarScale.domain([0, this.heatmap.maxPower]);
             this.drawColorBar();
+            this.heatmap.colorScale.domain([0, this.heatmap.maxPower])
             this.heatmap.drawHeatmap();
             }
 
