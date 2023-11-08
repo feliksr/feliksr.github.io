@@ -17,13 +17,12 @@
     <div id="heatmapView" style="display: none;">
         
         <span onclick="showIndexView()" class="return-home">Return Home</span>
-
-        <div class="group-button-container">
-            <button class="groupButton">Target</button>
-            <button class="groupButton">Distractor</button>
-            <button class="groupButton">Irrelevant</button>
+        
+        <div class="channel-buttons-container">
+            <button id="previousChannel" class="button">Previous Channel</button>
+            <button id="nextChannel" class="button">Next Channel</button>
         </div>
-
+        
         <h1 id="channelDisplay" style="text-align:center;"></h1>
     
         <div id = "containers">
@@ -52,9 +51,12 @@
 
         </div>
     
-        <div class="channel-buttons-container">
-            <button id="previousChannel" class="button">Previous Channel</button>
-            <button id="nextChannel" class="button">Next Channel</button>
+        
+
+        <div class="group-button-container">
+            <button class="groupButton">Target</button>
+            <button class="groupButton">Distractor</button>
+            <button class="groupButton">Irrelevant</button>
         </div>
 
         <h1 id="loadingText", style="text-align:center;">Loading...</h1>
