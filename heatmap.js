@@ -86,29 +86,26 @@ class Heatmap {
                     .text("Time from Response (sec)");
             }
             if (this.page.args.ANOVA === true){
-                this.maxPower = document.getElementById('pVal').value
                 this.ANOVA = true
+                this.maxPower = document.getElementById('pVal').value
+                this.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([this.maxPower,0])
                 document.getElementById('colorbar-label').textContent = 'p-Values'
             }
             else {
                 this.ANOVA = false
                 this.maxPower = 3 * d3.deviation(this.getPowerValues())
+                this.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([0, this.maxPower])
                 document.getElementById('colorbar-label').innerHTML = 'Power  (uV / Hz<sup>2</sup>)'
             }
-
+            
             this.drawHeatmap();
     }
     
-    drawHeatmap() {
-        const colorScale = d3.scaleSequential(d3.interpolateViridis)
-            .domain([0, this.maxPower])
-        if (this.page.args.ANOVA === true) {
-            colorScale.domain([this.maxPower, 0])
-        }
 
+    drawHeatmap() {
         this.svg.selectAll("rect")
             .data(this.filteredData)
-            .attr("fill", d => colorScale(d.power));
+            .attr("fill", d => this.colorScale(d.power));
     }
 
     getPowerValues() {

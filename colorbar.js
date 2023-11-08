@@ -8,6 +8,7 @@ class Colorbar {
         const pVal = document.getElementById('pVal')
         pVal.addEventListener('change', (event) => {
             heatmap.maxPower = event.target.value;
+            heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([heatmap.maxPower,0])
             heatmap.drawHeatmap();
             this.setInitScale();
         });
