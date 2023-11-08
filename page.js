@@ -9,7 +9,7 @@ class Page{
             ANOVA: false,
             allGroups: ['Target','Distractor','Irrelevant']
         }
-        
+
         this.ANOVAbutton = document.getElementById('ANOVAbutton');
         this.meanTrialsButton = document.getElementById('meanTrialsButton');
 
@@ -25,6 +25,7 @@ class Page{
         document.getElementById("colorbar-label").style.display = "none" // Hide "Power" colorbar-label while Loading...
         document.getElementById('channelDisplay').textContent = 'Channel 1';
 
+        
         const prevChan = document.getElementById('previousChannel');
         prevChan.addEventListener('click', () => {
         if (this.args.channel > 1) {
@@ -52,11 +53,18 @@ class Page{
             this.getData();
         });
         
+        const pVal = document.getElementById('pVal')
 
         this.ANOVAbutton.addEventListener('click', () => {
             this.args.ANOVA = !this.args.ANOVA; 
             this.meanTrialsButton.disabled = this.args.ANOVA; 
             this.ANOVAbutton.classList.toggle('active');
+            if (this.args.ANOVA) {
+                pVal.style.display = 'inline-block'; 
+                pVal.focus();
+            } else {
+                pVal.style.display = 'none'; 
+            }
         
             this.args.trial = 1;
             this.getData();

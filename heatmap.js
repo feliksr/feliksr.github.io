@@ -21,7 +21,6 @@ class Heatmap {
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 
         });
-
     }
 
     initialize() {
@@ -86,11 +85,13 @@ class Heatmap {
                     .style("font-size", "20px") 
                     .text("Time from Response (sec)");
             }
-            if (this.page.args.ANOVA == true){
-                this.maxPower = 0.1
+            if (this.page.args.ANOVA === true){
+                this.maxPower = document.getElementById('pVal').value
+                this.ANOVA = true
                 document.getElementById('colorbar-label').textContent = 'p-Values'
             }
             else {
+                this.ANOVA = false
                 this.maxPower = 3 * d3.deviation(this.getPowerValues())
                 document.getElementById('colorbar-label').innerHTML = 'Power  (uV / Hz<sup>2</sup>)'
             }
@@ -101,7 +102,7 @@ class Heatmap {
     drawHeatmap() {
         const colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([0, this.maxPower])
-        if (this.page.args.ANOVA == true) {
+        if (this.page.args.ANOVA === true) {
             colorScale.domain([this.maxPower, 0])
         }
 

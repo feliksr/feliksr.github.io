@@ -4,6 +4,13 @@ class Colorbar {
         this.heatmap = heatmap;
         this.width = 30;
         this.numStops = 30;
+
+        const pVal = document.getElementById('pVal')
+        pVal.addEventListener('change', (event) => {
+            heatmap.maxPower = event.target.value;
+            heatmap.drawHeatmap();
+            this.setInitScale();
+        });
     }
 
     initColorbar() {
@@ -33,7 +40,7 @@ class Colorbar {
             .domain([0, this.heatmap.maxPower])
             .range([this.heatmap.heightSVG, 0]);
         
-        if (this.heatmap.maxPower == 0.1){
+        if (this.heatmap.ANOVA === true){
             this.colorbarScale.domain([this.heatmap.maxPower, 0])
         }
 
