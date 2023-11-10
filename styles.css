@@ -51,7 +51,7 @@ input[type=range] {
     
 }
 
-#y-axis-label {
+#yAxisLabel {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     margin-right: 8px;
@@ -59,7 +59,7 @@ input[type=range] {
     display: inline-block;
 }
 
-#colorbar-label {
+#colorbarLabel {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
     margin-left: 0px;
@@ -73,7 +73,7 @@ input[type=range] {
     border-radius: 5px;
 }
 
-#meanTrialsButton, #ANOVAbutton {
+#meanTrialsButton, #ANOVAbutton, #excludeTrialButton {
     padding: 5px 10px;
     font-size: 1.1em;
     border-radius: 5px; 
@@ -93,11 +93,10 @@ input[type=range] {
     gap: 50px;    
 }
 
-.groupButton.active, #ANOVAbutton.active, #meanTrialsButton.active {
+.groupButton.active, #ANOVAbutton.active, #meanTrialsButton.active, #excludeTrialButton.active {
     background-color: #555;
     color: white;
 }
-
 
 .colorbar-rect {
     cursor: pointer;

@@ -17,16 +17,18 @@
     <div id="heatmapView" style="display: none;">
         
         <span onclick="showIndexView()" class="return-home">Return Home</span>
-        
+
         <div class="channel-buttons-container">
-            <button id="previousChannel" class="button">Previous Channel</button>
-            <button id="nextChannel" class="button">Next Channel</button>
+            <button id="prevChan" class="button">Previous Channel</button>
+            <h1 id="channelDisplay" style="text-align:center;"></h1>
+            <button id="nextChan" class="button">Next Channel</button>
         </div>
         
-        <h1 id="channelDisplay" style="text-align:center;"></h1>
-    
+           
         <div id = "containers">
-            <span id="y-axis-label">Frequency  (Hz)</span>
+            <div id="excludedTrialsContainer", style="width: 10%;">
+            </div>
+            <span id="yAxisLabel">Frequency  (Hz)</span>
     
             <div class="heatmap-wrapper">
                 <div class="container" id="container1"></div>
@@ -35,23 +37,19 @@
                 <div class="container" id="container4"></div>
             </div>
 
-            <span id="colorbar-label"></span>
-
+            <span id="colorbarLabel"></span>
         </div>
 
         <div id="controls">
+            <button id = "excludeTrialButton">Exclude Trial</button>
             <label for="trialSlider">Trial: </label>
             <input type="range" id="trialSlider" min="1"  value="1">
             <span id="trialNumber">1</span>
             <button id="meanTrialsButton">Average Trials</button>
             <button id="ANOVAbutton">ANOVA</button>
             <input type="text" id="pVal" placeholder="p-Value" value= "0.10" style="width: 75px; height: 20px; display: none;">
-            
-
-
         </div>
-    
-        
+           
 
         <div class="group-button-container">
             <button class="groupButton">Target</button>
@@ -66,7 +64,6 @@
     <script src= "page.js"></script>
     <script src="heatmap.js"></script>
     <script src= "colorbar.js"></script>
-
 
     <script>
         function showHeatmapView() {

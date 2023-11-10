@@ -5,12 +5,11 @@ class Colorbar {
         this.width = 30;
         this.numStops = 30;
 
-        const pVal = document.getElementById('pVal')
-        pVal.addEventListener('change', (event) => {
-            this.heatmap.maxPower = event.target.value;
-            this.heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([this.heatmap.maxPower,0])
+        document.getElementById('pVal').addEventListener('change', (event) => {
+            const maxPower = event.target.value;
+            this.heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([maxPower,0])
             this.heatmap.drawHeatmap();
-            this.setInitScale();
+            this.setColorbarScale();
         });
     }
 
@@ -32,11 +31,11 @@ class Colorbar {
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
             .attr("shape-rendering", "crispEdges");
         
-        this.setInitScale();
+        this.setColorbarScale();
         this.addDragBehavior();
     }
 
-    setInitScale(){
+    setColorbarScale(){
         this.colorbarScale = d3.scaleLinear()
             .domain([0, this.heatmap.maxPower])
             .range([this.heatmap.heightSVG, 0]);
@@ -61,10 +60,11 @@ class Colorbar {
 
         const dragged = () => {
             const yPosition = d3.event.y * 0.03; 
-            this.heatmap.maxPower = this.colorbarScale.invert(yPosition);
-            this.colorbarScale.domain([0, this.heatmap.maxPower]);
+            const maxPower = this.colorbarScale.invert(yPosition);
+
+            this.colorbarScale.domain([0, maxPower]);
             this.drawColorBar();
-            this.heatmap.colorScale.domain([0, this.heatmap.maxPower])
+            this.heatmap.colorScale.domain([0, maxPower])
             this.heatmap.drawHeatmap();
             }
 

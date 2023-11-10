@@ -2,17 +2,49 @@
 class Page{
     constructor() {
         // Initial page parameters
-        this.args = {
-            trial: 1,
-            channel: 1,
-            meanTrials: false,
-            ANOVA: false,
-            allGroups: ['Target','Distractor','Irrelevant']
-        }
+            this.trial = 1,
+            this.channel = 1,
+            this.meanTrials = false,
+            this.ANOVA =  false,
+            this.allGroups = ['Target','Distractor','Irrelevant']
+            this.excludedTrialsList = {}
 
-        this.ANOVAbutton = document.getElementById('ANOVAbutton');
-        this.meanTrialsButton = document.getElementById('meanTrialsButton');
-
+            const ids = [
+                'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
+                'meanTrialsButton', 'loadingText', 'excludeTrialButton',
+                'pVal', 'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber', 'excludedTrialsContainer'
+            ];
+            
+            ids.forEach(id => {
+                this[id] = document.getElementById(id);
+            });
+    
+        this.excludeTrialButton.addEventListener('click', () => {
+            if (this.excludeTrialButton.classList.contains('active')) { 
+                const trialIndex = this.excludedTrialsList[this.group].indexOf(this.trial);
+                if (trialIndex > -1) {
+                    this.excludedTrialsList[this.group].splice(trialIndex, 1);
+                }
+            }else{
+                this.excludedTrialsList[this.group].push(this.trial)
+                const button = document.createElement('button');
+                button.textContent = `Trial ${this.trial}`;
+                button.setAttribute('data-trial', this.trial);
+                button.id = `Trial ${this.trial}`; 
+                this.excludedTrialsContainer.appendChild(button);
+                
+                button.addEventListener('click', () => {
+                    this.trialSlider.value = button.getAttribute('data-trial');
+                    console.log(this.trialSlider.value)
+                    this.trialSlider.dispatchEvent(new Event('input'));
+                });
+            }
+            
+            this.excludeTrialButton.classList.toggle('active');
+            this.getData();
+            
+        });
+        
         this.frequencyBins = [
             { min: 60, max: 200 },
             { min: 20, max: 60 },
@@ -21,52 +53,55 @@ class Page{
     
         this.containers= ['#container1', '#container2', '#container3'];
         
-        document.getElementById("y-axis-label").style.display = "none" // Hide "Frequency" y-axis-label while Loading...
-        document.getElementById("colorbar-label").style.display = "none" // Hide "Power" colorbar-label while Loading...
-        document.getElementById('channelDisplay').textContent = 'Channel 1';
-
+        this.yAxisLabel.style.display = 'none'; // Hide "Frequency" y-axis-label while Loading...
+        this.colorbarLabel.style.display = "none" // Hide "Power" colorbar-label while Loading...
+        this.channelDisplay.textContent = 'Channel 1' 
+        this.trialSlider.disabled=true
         
-        const prevChan = document.getElementById('previousChannel');
-        prevChan.addEventListener('click', () => {
-        if (this.args.channel > 1) {
-                this.args.channel--;
-                document.getElementById('channelDisplay').textContent = 'Channel' + this.args.channel;
+        this.prevChan.addEventListener('click', () => {
+        if (this.channel > 1) {
+                this.channel--;
+                this.channelDisplay.textContent = 'Channel' + this.channel;
                 this.getData();
             }
         })
         
-
-        const nextChan = document.getElementById('nextChannel');
-        nextChan.addEventListener('click', () => {
-            this.args.channel++;
-            document.getElementById('channelDisplay').textContent = 'Channel' + this.args.channel;
+        this.nextChan.addEventListener('click', () => {
+            this.channel++;
+            this.channelDisplay.textContent = 'Channel' + this.channel;
             this.getData();
         })
  
-
         this.meanTrialsButton.addEventListener('click', () => {
-            this.args.meanTrials = !this.args.meanTrials; 
-            this.ANOVAbutton.disabled = this.args.meanTrials; 
+            this.meanTrials = !this.meanTrials; 
+            this.ANOVAbutton.disabled = this.meanTrials; 
+            this.excludeTrialButton.disabled = !this.excludeTrialButton.disabled
             this.meanTrialsButton.classList.toggle('active'); 
         
-            this.args.trial = 1;
+            this.trial = 1;
             this.getData();
         });
         
-        const pVal = document.getElementById('pVal')
-
         this.ANOVAbutton.addEventListener('click', () => {
-            this.args.ANOVA = !this.args.ANOVA; 
-            this.meanTrialsButton.disabled = this.args.ANOVA; 
+            this.ANOVA = !this.ANOVA; 
+            this.meanTrialsButton.disabled = this.ANOVA; 
             this.ANOVAbutton.classList.toggle('active');
-            if (this.args.ANOVA) {
-                pVal.style.display = 'inline-block'; 
-                pVal.focus();
+            this.excludeTrialButton.disabled = !this.excludeTrialButton.disabled
+            document.querySelectorAll('.groupButton').forEach(button => {
+                if (button.textContent !== this.group) {
+                    button.classList.toggle('active');
+                }
+                button.disabled = !button.disabled;
+            });
+            
+            if (this.ANOVA) {
+                this.pVal.style.display = 'inline-block'; 
+                this.pVal.focus();
             } else {
-                pVal.style.display = 'none'; 
+                this.pVal.style.display = 'none'; 
             }
         
-            this.args.trial = 1;
+            this.trial = 1;
             this.getData();
         });
         
@@ -81,9 +116,13 @@ class Page{
                 event.target.classList.add('active'); 
         
                 // Set the group based on button's text content
-                this.args.group = event.target.textContent;
-                this.args.trial = 1;
+                this.group = event.target.textContent;
+                this.trial = 1;
+                if (!this.excludedTrialsList[this.group]) {
+                    this.excludedTrialsList[this.group] = [];
+                }
                 this.getData();
+                
             });
         })
     
@@ -91,31 +130,40 @@ class Page{
 
 
     async getData() {
-        document.getElementById('trialSlider').disabled = true;
-        document.getElementById("loadingText").style.display = "block";  // Display "Loading..."
-    
-        const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
-        // const response = await fetch(`http://localhost:5000/`, {
+        
+        this.trialSlider.disabled = true; // Disable trial slider while loading data
+        this.loadingText.style.display = "block";  // Display "Loading..." while data loads
+        
+        const args = {
+            group: this.group,
+            channel: this.channel,
+            meanTrials: this.meanTrials,
+            ANOVA: this.ANOVA,
+            allGroups: this.allGroups        
+        }
+
+        // const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
+        const response = await fetch(`http://localhost:5000/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.args)
+            body: JSON.stringify(args)
         })
         const responseData = await response.json();
         
         this.allTrialsData = responseData.trials_data;
-        this.singleTrialData = this.allTrialsData[this.args.trial];
+        this.singleTrialData = this.allTrialsData[this.trial];
         
-        document.getElementById('trialNumber').textContent = this.args.trial
-        document.getElementById('trialSlider').value = this.args.trial
-        document.getElementById('trialSlider').max = Object.keys(this.allTrialsData).length;
-        document.getElementById('trialSlider').disabled = false;
+        this.trialNumber.textContent = this.trial
+        this.trialSlider.value = this.trial
+        this.trialSlider.max = Object.keys(this.allTrialsData).length;
+        this.trialSlider.disabled = false;
 
-        document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-        document.getElementById("y-axis-label").style.display = "block" // Display "Frequency"
-        document.getElementById("colorbar-label").style.display = "block" // Display "Power"
-
+        this.loadingText.style.display = "none";  // Hide "Loading..."
+        this.yAxisLabel.style.display = "block" // Display "Frequency"
+        this.colorbarLabel.style.display = "block" // Display "Power"
+        
         this.setContainers();
     }
 
@@ -129,7 +177,38 @@ class Page{
             colorbar.initColorbar();
         })
     }
-}
 
-window.Page = Page;
-const page = new window.Page;
+    getPowerValues(freqBin) {
+        let powerValues = [];
+
+        Object.entries(this.allTrialsData).forEach(([trialNum, array]) => {
+            if (!this.excludedTrialsList[this.group].includes(trialNum)) {
+                array.forEach(d => {
+                    if (d.frequency >= freqBin.min && d.frequency <= freqBin.max) {
+                        powerValues.push(d.power);
+                    };
+                });
+            }
+        });
+        return powerValues;
+    }
+
+    setColorScale(heatmap){
+       const freqBin = heatmap.freqBin
+
+       if (this.ANOVA === true){
+            heatmap.ANOVA =true
+            heatmap.maxPower = this.pVal.value
+            heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([heatmap.maxPower,0])
+            this.colorbarLabel.textContent = 'p-Value'
+        }
+        else {
+            heatmap.ANOVA = false
+            heatmap.maxPower = 3 * d3.deviation(this.getPowerValues(freqBin))
+            heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([0, heatmap.maxPower])
+            this.colorbarLabel.innerHTML = 'Power  (uV / Hz<sup>2</sup>)'
+        }
+    }
+} 
+
+const page = new Page;

@@ -14,12 +14,18 @@ class Heatmap {
         };
 
         document.getElementById('trialSlider').addEventListener('input', (event) => {
-            this.page.args.trial = event.target.value;
-            document.getElementById('trialSlider').value = this.page.args.trial
-            document.getElementById('trialNumber').textContent = this.page.args.trial
-            this.singleTrialData = this.page.allTrialsData[this.page.args.trial];
+            this.page.trial = event.target.value;
+            document.getElementById('trialSlider').value = this.page.trial
+            document.getElementById('trialNumber').textContent = this.page.trial
+            this.singleTrialData = this.page.allTrialsData[this.page.trial];
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 
+            
+            if (this.page.excludedTrialsList[this.page.group].includes(this.page.trial)) {
+                this.page.excludeTrialButton.classList.add('active');
+            } else {
+                this.page.excludeTrialButton.classList.remove('active');
+            }
         });
     }
 
@@ -85,40 +91,16 @@ class Heatmap {
                     .style("font-size", "20px") 
                     .text("Time from Response (sec)");
             }
-            if (this.page.args.ANOVA === true){
-                this.ANOVA = true
-                this.maxPower = document.getElementById('pVal').value
-                this.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([this.maxPower,0])
-                document.getElementById('colorbar-label').textContent = 'p-Value'
-            }
-            else {
-                this.ANOVA = false
-                this.maxPower = 3 * d3.deviation(this.getPowerValues())
-                this.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([0, this.maxPower])
-                document.getElementById('colorbar-label').innerHTML = 'Power  (uV / Hz<sup>2</sup>)'
-            }
-            
+            this.page.setColorScale(this)           
             this.drawHeatmap();
     }
-    
-
+        
     drawHeatmap() {
         this.svg.selectAll("rect")
             .data(this.filteredData)
             .attr("fill", d => this.colorScale(d.power));
     }
 
-    getPowerValues() {
-        let powerValues = [];
-        Object.values(this.page.allTrialsData).forEach(array => {
-            array.forEach(d => {
-                if (d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max) {
-                    powerValues.push(d.power);
-                };
-            });
-        });
-        return powerValues;
-    }
 }
 
 window.Heatmap = Heatmap;
