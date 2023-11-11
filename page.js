@@ -2,55 +2,57 @@
 class Page{
     constructor() {
         // Initial page parameters
-            this.trial = 1,
-            this.channel = 1,
-            this.meanTrials = false,
-            this.ANOVA =  false,
-            this.allGroups = ['Target','Distractor','Irrelevant']
-            this.excludedTrialsList = {}
+        this.allGroups = ['Target','Distractor','Irrelevant']
+        this.trial = 1,
+        this.channel = 1,
+        this.meanTrials = false,
+        this.ANOVA =  false,
+        this.frequencyBins = [
+            { min: 60, max: 200 },
+            { min: 20, max: 60 },
+            { min: 0, max: 20 }
+        ];
 
-            const ids = [
-                'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
-                'meanTrialsButton', 'loadingText', 'excludeTrialButton',
-                'pVal', 'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber', 'excludedTrialsContainer'
-            ];
-            
-            ids.forEach(id => {
-                this[id] = document.getElementById(id);
-            });
+        this.excludedTrialsContainer = {
+            'Target': document.getElementById('excludedTrialsContainerTarget'),
+            'Distractor': document.getElementById('excludedTrialsContainerDistractor'),
+            'Irrelevant': document.getElementById('excludedTrialsContainerIrrelevant')
+        }
+
+        const ids = [
+            'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
+            'meanTrialsButton', 'loadingText', 'excludeTrialButton',
+            'pVal', 'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber'
+        ];
+        
+        ids.forEach(id => {
+            this[id] = document.getElementById(id);
+        });
     
         this.excludeTrialButton.addEventListener('click', () => {
-            if (this.excludeTrialButton.classList.contains('active')) { 
-                const trialIndex = this.excludedTrialsList[this.group].indexOf(this.trial);
-                if (trialIndex > -1) {
-                    this.excludedTrialsList[this.group].splice(trialIndex, 1);
-                }
-            }else{
-                this.excludedTrialsList[this.group].push(this.trial)
+            const trialButtonId = `trialButton-${this.group}-${this.trial}`;
+            const trialButton = document.getElementById(trialButtonId);
+        
+            if (trialButton) {
+                this.excludedTrialsContainer[this.group].removeChild(trialButton);
+            } else {
                 const button = document.createElement('button');
                 button.textContent = `Trial ${this.trial}`;
-                button.setAttribute('data-trial', this.trial);
-                button.id = `Trial ${this.trial}`; 
-                this.excludedTrialsContainer.appendChild(button);
-                
+                button.id = trialButtonId;
+                this.excludedTrialsContainer[this.group].appendChild(button);
+        
+                // Add event listener to the button for quick navigation
                 button.addEventListener('click', () => {
-                    this.trialSlider.value = button.getAttribute('data-trial');
-                    console.log(this.trialSlider.value)
+                    this.trialSlider.value = parseInt(trialButtonId.split('-')[2]);
                     this.trialSlider.dispatchEvent(new Event('input'));
                 });
             }
             
             this.excludeTrialButton.classList.toggle('active');
             this.getData();
-            
         });
-        
-        this.frequencyBins = [
-            { min: 60, max: 200 },
-            { min: 20, max: 60 },
-            { min: 0, max: 20 }
-        ];
-    
+            
+          
         this.containers= ['#container1', '#container2', '#container3'];
         
         this.yAxisLabel.style.display = 'none'; // Hide "Frequency" y-axis-label while Loading...
@@ -109,23 +111,24 @@ class Page{
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
             button.addEventListener('click', (event) => {
-                // Remove 'active' class from all group buttons
                 groupButtons.forEach(btn => btn.classList.remove('active'));
         
-                // Add 'active' class to clicked button
                 event.target.classList.add('active'); 
         
-                // Set the group based on button's text content
                 this.group = event.target.textContent;
                 this.trial = 1;
-                if (!this.excludedTrialsList[this.group]) {
-                    this.excludedTrialsList[this.group] = [];
-                }
+                // if (!this.excludedTrialsContainer[this.group]) {
+                //     this.excludedTrialsContainer[this.group] = [];
+                // }
+
+                const allContainers = document.querySelectorAll('.excluded-trials-container');
+                allContainers.forEach(container => container.style.display = 'none');
+            
+                const currentContainer = document.getElementById(`excludedTrialsContainer${this.group}`);
+                currentContainer.style.display = 'block';
                 this.getData();
-                
             });
         })
-    
     }
 
 
@@ -182,7 +185,10 @@ class Page{
         let powerValues = [];
 
         Object.entries(this.allTrialsData).forEach(([trialNum, array]) => {
-            if (!this.excludedTrialsList[this.group].includes(trialNum)) {
+            const trialButtonId = `trialButton-${this.group}-${trialNum}`;
+            const isExcluded = document.getElementById(trialButtonId) !== null;
+    
+            if (!isExcluded) {
                 array.forEach(d => {
                     if (d.frequency >= freqBin.min && d.frequency <= freqBin.max) {
                         powerValues.push(d.power);

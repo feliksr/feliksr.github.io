@@ -101,3 +101,7 @@ input[type=range] {
 .colorbar-rect {
     cursor: pointer;
   }
+
+.excluded-trials-container{
+    width: 10%;
+}

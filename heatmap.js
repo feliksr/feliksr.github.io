@@ -21,11 +21,15 @@ class Heatmap {
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 
             
-            if (this.page.excludedTrialsList[this.page.group].includes(this.page.trial)) {
-                this.page.excludeTrialButton.classList.add('active');
-            } else {
-                this.page.excludeTrialButton.classList.remove('active');
-            }
+        const trialButtonId = `trialButton-${this.page.group}-${this.page.trial}`;
+        const trialButton = document.getElementById(trialButtonId);
+
+        if (trialButton) {
+            this.page.excludeTrialButton.classList.add('active');
+        } else {
+            this.page.excludeTrialButton.classList.remove('active');
+        }
+
         });
     }
 
