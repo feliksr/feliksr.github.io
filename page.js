@@ -142,7 +142,8 @@ class Page{
             channel: this.channel,
             meanTrials: this.meanTrials,
             ANOVA: this.ANOVA,
-            allGroups: this.allGroups        
+            allGroups: this.allGroups,
+            excludedTrialsContainer: this.excludedTrialsContainer        
         }
 
         const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
