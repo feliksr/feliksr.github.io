@@ -3,7 +3,7 @@ class Heatmap {
         this.page = page
         this.container = container
         this.freqBin = freqBin
-        this.svg = []
+        this.svg = [] // delete if not needed
         this.width = 1000;
         this.height = 400;
         this.margin = {
@@ -17,7 +17,7 @@ class Heatmap {
             this.page.trial = event.target.value;
             document.getElementById('trialSlider').value = this.page.trial
             document.getElementById('trialNumber').textContent = this.page.trial
-            this.singleTrialData = this.page.allTrialsData[this.page.trial];
+            this.singleTrialData = this.page.allWaveletTrials[this.page.trial];
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 
             
@@ -38,16 +38,16 @@ class Heatmap {
                 .select("svg")
                 .remove(); 
 
-            this.filteredData = this.page.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
+            this.filteredData = this.page.singleTrialWavelet.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
 
-            const allFreqBins = new Set(this.page.singleTrialData.map(d => d.frequency)).size
+            const allFreqBins = new Set(this.page.singleTrialWavelet.map(d => d.frequency)).size
             const numFreqBins = new Set(this.filteredData.map(d => d.frequency)).size
             const numTimeBins = new Set(this.filteredData.map(d => d.time)).size
             this.heightSVG = this.height * (numFreqBins/allFreqBins)
             
             this.xScale = d3.scaleLinear()
                 .range([0, this.width])
-                .domain([d3.min(this.page.singleTrialData, d => d.time), d3.max(this.page.singleTrialData, d => d.time)]);
+                .domain([d3.min(this.filteredData, d => d.time), d3.max(this.filteredData, d => d.time)]);
             
             this.yScale = d3.scaleLog()
                 .range([0, this.heightSVG])
@@ -82,19 +82,7 @@ class Heatmap {
                 .attr("height", this.heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
-            if (this.container === "#container3") { 
-                this.svg
-                    .attr("height", this.heightSVG + this.margin.bottom + 60)
-                    .select(".x-axis")
-                    .call(d3.axisBottom(this.xScale).ticks(5)) 
-                    .append("text")
-                    .attr("class", "x-axis-label")
-                    .attr("x", this.width / 2)  
-                    .attr("y", this.margin.bottom + 40) 
-                    .style("text-anchor", "middle")
-                    .style("font-size", "20px") 
-                    .text("Time from Response (sec)");
-            }
+            
             this.page.setColorScale(this)           
             this.drawHeatmap();
     }

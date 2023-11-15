@@ -22,6 +22,8 @@ body {
     justify-content: center;      
 }
 
+
+
 .heatmap-wrapper {
     display: flex;
     flex-direction: column; 
@@ -57,6 +59,7 @@ input[type=range] {
     margin-right: 8px;
     font-size: 24px;
     display: inline-block;
+
 }
 
 #colorbarLabel {
@@ -65,6 +68,7 @@ input[type=range] {
     margin-left: 0px;
     font-size: 24px;
     display: inline-block;
+
 }
 
 .button ,.groupButton {

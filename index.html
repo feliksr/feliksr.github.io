@@ -26,17 +26,15 @@
         
            
         <div id = "containers">
-            <div id="excludedTrialsContainerTarget" class="excluded-trials-container"></div>
-            <div id="excludedTrialsContainerDistractor" class="excluded-trials-container"></div>
-            <div id="excludedTrialsContainerIrrelevant" class="excluded-trials-container"></div>
 
             <span id="yAxisLabel">Frequency  (Hz)</span>
     
             <div class="heatmap-wrapper">
                 <div class="container" id="container1"></div>
                 <div class="container" id="container2"></div>
-                <div class="container" id="container3"></div> 
+                <div class="container" id="container3"></div>
                 <div class="container" id="container4"></div>
+
             </div>
 
             <span id="colorbarLabel"></span>
@@ -49,23 +47,31 @@
             <span id="trialNumber">1</span>
             <button id="meanTrialsButton">Average Trials</button>
             <button id="ANOVAbutton">ANOVA</button>
-            <input type="text" id="pVal" placeholder="p-Value" value= "0.10" style="width: 75px; height: 20px; display: none;">
+            <input type="text" id= "pVal" value= "0.10" style="width: 75px; height: 20px; display: none;">
         </div>
            
 
         <div class="group-button-container">
             <button class="groupButton">Target</button>
+            <div id="excludedTrialsContainerTarget" class="excluded-trials-container"></div>
+
             <button class="groupButton">Distractor</button>
+            <div id="excludedTrialsContainerDistractor" class="excluded-trials-container"></div>
+
             <button class="groupButton">Irrelevant</button>
+            <div id="excludedTrialsContainerIrrelevant" class="excluded-trials-container"></div>
+
         </div>
 
-        <h1 id="loadingText", style="text-align:center;">Loading...</h1>
+        <h1 id= "loadingText", style= "text-align:center;">Loading...</h1>
     </div>
     
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src= "https://d3js.org/d3.v5.min.js"></script>
     <script src= "page.js"></script>
-    <script src="heatmap.js"></script>
+    <script src= "heatmap.js"></script>
     <script src= "colorbar.js"></script>
+    <script src= "LFPchart.js"></script>
+
 
     <script>
         function showHeatmapView() {

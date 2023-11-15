@@ -108,6 +108,7 @@ class Page{
         });
         
         
+        
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
             button.addEventListener('click', (event) => {
@@ -156,12 +157,17 @@ class Page{
         })
         const responseData = await response.json();
         
-        this.allTrialsData = responseData.trials_data;
-        this.singleTrialData = this.allTrialsData[this.trial];
+        this.allWaveletTrials = responseData.trialsWavelet
+        this.allLFPTrials = responseData.trialsLFP
+        // this.allTrialsData = responseData.trials_data;
+        this.singleTrialWavelet = this.allWaveletTrials[this.trial];
+        this.singleTrialLFP = this.allLFPTrials[this.trial];
+        console.log(this.singleTrialLFP)
+        // this.singleTrialData = this.allTrialsData[this.trial];
         
         this.trialNumber.textContent = this.trial
         this.trialSlider.value = this.trial
-        this.trialSlider.max = Object.keys(this.allTrialsData).length;
+        this.trialSlider.max = Object.keys(this.allWaveletTrials).length;
         this.trialSlider.disabled = false;
 
         this.loadingText.style.display = "none";  // Hide "Loading..."
@@ -180,12 +186,14 @@ class Page{
             const colorbar = new window.Colorbar(heatmap);
             colorbar.initColorbar();
         })
+        const LFPchart = new window.LFPchart(this)
+        LFPchart.initialize()
     }
 
     getPowerValues(freqBin) {
         let powerValues = [];
 
-        Object.entries(this.allTrialsData).forEach(([trialNum, array]) => {
+        Object.entries(this.allWaveletTrials).forEach(([trialNum, array]) => {
             const trialButtonId = `trialButton-${this.group}-${trialNum}`;
             const isExcluded = document.getElementById(trialButtonId) !== null;
     
