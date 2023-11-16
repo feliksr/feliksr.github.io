@@ -118,9 +118,6 @@ class Page{
         
                 this.group = event.target.textContent;
                 this.trial = 1;
-                // if (!this.excludedTrialsContainer[this.group]) {
-                //     this.excludedTrialsContainer[this.group] = [];
-                // }
 
                 const allContainers = document.querySelectorAll('.excluded-trials-container');
                 allContainers.forEach(container => container.style.display = 'none');

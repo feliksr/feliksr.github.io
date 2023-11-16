@@ -18,7 +18,7 @@ class Colorbar {
         
         this.colorbarGroup = this.heatmap.svg.append("g")
             .attr("class", 'colorBar')
-            .attr("transform", `translate(${this.heatmap.width + this.heatmap.margin.right}, 0)`)
+            .attr("transform", `translate(${this.heatmap.width + this.heatmap.margin.right / 4 + this.heatmap.margin.left}, 0)`)
     
         this.colorbarGroup.selectAll()
             .data(d3.range(this.numStops))

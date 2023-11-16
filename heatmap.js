@@ -3,14 +3,13 @@ class Heatmap {
         this.page = page
         this.container = container
         this.freqBin = freqBin
-        this.svg = [] // delete if not needed
         this.width = 1000;
         this.height = 400;
         this.margin = {
             top: 0,
-            right: 60,
+            right: 100,
             bottom: 20,
-            left: 75
+            left: 50
         };
 
         document.getElementById('trialSlider').addEventListener('input', (event) => {
@@ -59,7 +58,7 @@ class Heatmap {
                 .attr("height", this.heightSVG + this.margin.bottom)
 
             this.heatMap = this.svg.append('g')
-                .attr("transform", `translate(${this.margin.left/2}, 0)`)
+                .attr("transform", `translate(${this.margin.left}, 0)`)
                 .append("g")
                 .attr("class", "y-axis")
                 .call(d3.axisLeft(this.yScale)
