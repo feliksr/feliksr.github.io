@@ -58,7 +58,7 @@ class LFPchart {
             .attr("class", "x-axis-label")
             .attr("x", this.width / 2)  
             .attr("y", this.margin.bottom / 1.25)
-            .text("Time from button-click (sec)")
+            .text("Time from button-press response (sec)")
 
         svg.append("rect")
             .attr("x", this.margin.left)

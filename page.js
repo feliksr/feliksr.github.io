@@ -13,6 +13,9 @@ class Page{
             { min: 0, max: 20 }
         ];
 
+        this.allContainers =  document.querySelectorAll('.excluded-trials-container');
+
+
         this.excludedTrialsContainer = {
             'Target': document.getElementById('excludedTrialsContainerTarget'),
             'Distractor': document.getElementById('excludedTrialsContainerDistractor'),
@@ -76,19 +79,44 @@ class Page{
  
         this.meanTrialsButton.addEventListener('click', () => {
             this.meanTrials = !this.meanTrials; 
-            this.ANOVAbutton.disabled = this.meanTrials; 
-            this.excludeTrialButton.disabled = !this.excludeTrialButton.disabled
-            this.meanTrialsButton.classList.toggle('active'); 
-        
+            this.meanTrialsButton.classList.toggle('active');
+            
+            this.trialSlider.disabled = this.meanTrials
+            this.excludeTrialButton.disabled = this.meanTrials
+            
+            
+            if (this.meanTrials == true) {
+                this.ANOVAbutton.style.display = 'none'
+
+            } else {
+                this.ANOVAbutton.style.display = 'inline-block';
+            }
+              
             this.trial = 1;
             this.getData();
         });
-        
+
         this.ANOVAbutton.addEventListener('click', () => {
             this.ANOVA = !this.ANOVA; 
-            this.meanTrialsButton.disabled = this.ANOVA; 
             this.ANOVAbutton.classList.toggle('active');
-            this.excludeTrialButton.disabled = !this.excludeTrialButton.disabled
+            
+            if (this.ANOVA) {
+                this.pVal.style.display = 'inline-block'; 
+                this.pVal.focus();
+                this.excludeTrialButton.style.display = 'none';
+                this.meanTrialsButton.style.display = 'none';
+                this.allContainers.forEach(container => container.style.display = 'flex');
+                
+            } else {
+
+                this.excludeTrialButton.style.display = 'inline-block'; 
+                this.meanTrialsButton.style.display = 'inline-block'; 
+                this.allContainers.forEach(container => container.style.display = 'none');
+                this.excludedTrialsContainer[this.group].style.display= 'flex'  
+                this.pVal.style.display = 'none'; 
+            }
+                
+            // disables and greys out trial groups buttons when ANOVA button pressed 
             document.querySelectorAll('.groupButton').forEach(button => {
                 if (button.textContent !== this.group) {
                     button.classList.toggle('active');
@@ -96,18 +124,10 @@ class Page{
                 button.disabled = !button.disabled;
             });
             
-            if (this.ANOVA) {
-                this.pVal.style.display = 'inline-block'; 
-                this.pVal.focus();
-            } else {
-                this.pVal.style.display = 'none'; 
-            }
-        
             this.trial = 1;
             this.getData();
         });
-        
-        
+                
         
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
@@ -119,11 +139,9 @@ class Page{
                 this.group = event.target.textContent;
                 this.trial = 1;
 
-                const allContainers = document.querySelectorAll('.excluded-trials-container');
-                allContainers.forEach(container => container.style.display = 'none');
-            
-                const currentContainer = document.getElementById(`excludedTrialsContainer${this.group}`);
-                currentContainer.style.display = 'block';
+                this.allContainers.forEach(container => container.style.display = 'none');
+                this.excludedTrialsContainer[this.group].style.display = 'flex'
+
                 this.getData();
             });
         })
@@ -137,15 +155,16 @@ class Page{
         
         const args = {
             group: this.group,
-            channel: this.channel,
+            currentChannel: this.channel,
             meanTrials: this.meanTrials,
             ANOVA: this.ANOVA,
+            allANOVA: true,
             allGroups: this.allGroups,
             excludedTrialsContainer: this.excludedTrialsContainer        
         }
 
-        const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
-        // const response = await fetch(`http://localhost:5000/`, {
+        // const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
+        const response = await fetch(`http://localhost:5000/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -156,11 +175,8 @@ class Page{
         
         this.allWaveletTrials = responseData.trialsWavelet
         this.allLFPTrials = responseData.trialsLFP
-        // this.allTrialsData = responseData.trials_data;
         this.singleTrialWavelet = this.allWaveletTrials[this.trial];
         this.singleTrialLFP = this.allLFPTrials[this.trial];
-        console.log(this.singleTrialLFP)
-        // this.singleTrialData = this.allTrialsData[this.trial];
         
         this.trialNumber.textContent = this.trial
         this.trialSlider.value = this.trial
