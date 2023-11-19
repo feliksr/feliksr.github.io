@@ -12,10 +12,8 @@ class Heatmap {
             left: 50
         };
 
-        document.getElementById('trialSlider').addEventListener('input', (event) => {
-            this.page.trial = event.target.value;
-            document.getElementById('trialSlider').value = this.page.trial
-            document.getElementById('trialNumber').textContent = this.page.trial
+        document.getElementById('trialSlider').addEventListener('input', () => {
+
             this.singleTrialData = this.page.allWaveletTrials[this.page.trial];
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 

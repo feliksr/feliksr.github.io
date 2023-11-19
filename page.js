@@ -12,9 +12,9 @@ class Page{
             { min: 20, max: 60 },
             { min: 0, max: 20 }
         ];
+        this.containers= ['#container1', '#container2', '#container3'];
 
         this.allContainers =  document.querySelectorAll('.excluded-trials-container');
-
 
         this.excludedTrialsContainer = {
             'Target': document.getElementById('excludedTrialsContainerTarget'),
@@ -25,13 +25,30 @@ class Page{
         const ids = [
             'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
             'meanTrialsButton', 'loadingText', 'excludeTrialButton',
-            'pVal', 'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber'
+            'pVal', 'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber', 'allChansANOVA', 'pValId', 'warning'
         ];
         
         ids.forEach(id => {
             this[id] = document.getElementById(id);
         });
-    
+        
+        this.yAxisLabel.style.display = 'none'; 
+        this.colorbarLabel.style.display = "none" 
+        this.ANOVAbutton.style.display = 'none'
+        this.meanTrialsButton.style.display = 'none'
+        this.excludeTrialButton.style.display = 'none'
+        this.trialNumber.style.display = 'none'
+        this.trialSlider.previousElementSibling.textContent = ''
+        this.trialSlider.style.display = 'none'
+        this.channelDisplay.textContent = 'Channel 1' 
+
+        this.trialSlider.addEventListener('input', (event) => {
+            this.trial = event.target.value;
+            this.trialSlider.value = this.trial
+            this.trialNumber.textContent = this.trial
+            this.LFPplot.initialize(); 
+        })
+
         this.excludeTrialButton.addEventListener('click', () => {
             const trialButtonId = `trialButton-${this.group}-${this.trial}`;
             const trialButton = document.getElementById(trialButtonId);
@@ -44,7 +61,6 @@ class Page{
                 button.id = trialButtonId;
                 this.excludedTrialsContainer[this.group].appendChild(button);
         
-                // Add event listener to the button for quick navigation
                 button.addEventListener('click', () => {
                     this.trialSlider.value = parseInt(trialButtonId.split('-')[2]);
                     this.trialSlider.dispatchEvent(new Event('input'));
@@ -56,13 +72,8 @@ class Page{
         });
             
           
-        this.containers= ['#container1', '#container2', '#container3'];
         
-        this.yAxisLabel.style.display = 'none'; // Hide "Frequency" y-axis-label while Loading...
-        this.colorbarLabel.style.display = "none" // Hide "Power" colorbar-label while Loading...
-        this.channelDisplay.textContent = 'Channel 1' 
-        this.trialSlider.disabled=true
-        
+       
         this.prevChan.addEventListener('click', () => {
         if (this.channel > 1) {
                 this.channel--;
@@ -85,9 +96,8 @@ class Page{
             this.excludeTrialButton.disabled = this.meanTrials
             
             
-            if (this.meanTrials == true) {
+            if (this.meanTrials) {
                 this.ANOVAbutton.style.display = 'none'
-
             } else {
                 this.ANOVAbutton.style.display = 'inline-block';
             }
@@ -101,16 +111,28 @@ class Page{
             this.ANOVAbutton.classList.toggle('active');
             
             if (this.ANOVA) {
+                this.warning.style.display = 'inline-block'
+                this.pValId.style.display = 'inline-block'
+                this.allChansANOVA.style.display = 'inline-block'
                 this.pVal.style.display = 'inline-block'; 
                 this.pVal.focus();
                 this.excludeTrialButton.style.display = 'none';
                 this.meanTrialsButton.style.display = 'none';
+                this.trialSlider.style.display = 'none'
+                this.trialNumber.style.display = 'none'
+                this.trialSlider.previousElementSibling.textContent = ''
                 this.allContainers.forEach(container => container.style.display = 'flex');
+
                 
             } else {
-
+                this.allChansANOVA.style.display = 'none'
+                this.warning.style.display = 'none'
+                this.pValId.style.display = 'none'
                 this.excludeTrialButton.style.display = 'inline-block'; 
                 this.meanTrialsButton.style.display = 'inline-block'; 
+                this.trialSlider.style.display = 'inline-block'
+                this.trialNumber.style.display = 'inline-block'
+                this.trialSlider.previousElementSibling.textContent = 'Trial:'
                 this.allContainers.forEach(container => container.style.display = 'none');
                 this.excludedTrialsContainer[this.group].style.display= 'flex'  
                 this.pVal.style.display = 'none'; 
@@ -123,15 +145,18 @@ class Page{
                 }
                 button.disabled = !button.disabled;
             });
-            
             this.trial = 1;
             this.getData();
         });
                 
-        
+        this.allChansANOVA.addEventListener('click', () =>{
+            this.allANOVA = !this.allANOVA; 
+            this.allChansANOVA.classList.toggle('active');
+            this.getData();
+        })
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
+            button.addEventListener('click', async (event) => {
                 groupButtons.forEach(btn => btn.classList.remove('active'));
         
                 event.target.classList.add('active'); 
@@ -142,7 +167,17 @@ class Page{
                 this.allContainers.forEach(container => container.style.display = 'none');
                 this.excludedTrialsContainer[this.group].style.display = 'flex'
 
-                this.getData();
+                await this.getData();
+
+                this.yAxisLabel.style.display = 'flex'; 
+                this.colorbarLabel.style.display = "flex" 
+                this.ANOVAbutton.style.display = 'inline-block'
+                this.meanTrialsButton.style.display = 'inline-block'
+                this.excludeTrialButton.style.display = 'inline-block'
+                this.trialNumber.style.display = 'inline-block'
+                this.trialSlider.previousElementSibling.textContent = 'Trial:'
+                this.trialSlider.style.display = 'inline-block'
+                this.channelDisplay.textContent = 'Channel 1' 
             });
         })
     }
@@ -158,7 +193,7 @@ class Page{
             currentChannel: this.channel,
             meanTrials: this.meanTrials,
             ANOVA: this.ANOVA,
-            allANOVA: true,
+            allANOVA: this.allANOVA,
             allGroups: this.allGroups,
             excludedTrialsContainer: this.excludedTrialsContainer        
         }
@@ -184,8 +219,6 @@ class Page{
         this.trialSlider.disabled = false;
 
         this.loadingText.style.display = "none";  // Hide "Loading..."
-        this.yAxisLabel.style.display = "block" // Display "Frequency"
-        this.colorbarLabel.style.display = "block" // Display "Power"
         
         this.setContainers();
     }
@@ -199,8 +232,8 @@ class Page{
             const colorbar = new window.Colorbar(heatmap);
             colorbar.initColorbar();
         })
-        const LFPchart = new window.LFPchart(this)
-        LFPchart.initialize()
+        this.LFPplot = new window.LFPchart(this)
+        this.LFPplot.initialize()
     }
 
     getPowerValues(freqBin) {

@@ -2,7 +2,7 @@
 class LFPchart {
     constructor(page) {
         this.page = page
-        this.trial=this.page.trial
+        // this.trial=this.page.trial
         this.data = this.page.allLFPTrials
         this.container = '#container4'
         this.width = 1000;
@@ -13,15 +13,10 @@ class LFPchart {
             bottom: 80,
             left: 50
         };
-    
-        document.getElementById('trialSlider').addEventListener('input', (event) => {
-            this.trial = event.target.value;
-            this.initialize(); 
-    
-        })
     }
     
     initialize(){
+        this.trial = this.page.trial
         d3.select(this.container)
                 .select("svg")
                 .remove(); 
@@ -30,7 +25,8 @@ class LFPchart {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.bottom)
 
-           
+        console.log(this.data,this.trial)
+   
         const xScale = d3.scaleLinear()
             .rangeRound([0, this.width])
             .domain(d3.extent(this.data[this.trial], d => d.x));
