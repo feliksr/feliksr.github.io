@@ -40,6 +40,8 @@ class Page{
         this.trialNumber.style.display = 'none'
         this.trialSlider.previousElementSibling.textContent = ''
         this.trialSlider.style.display = 'none'
+        this.prevChan.style.display = 'none'
+        this.nextChan.style.display = 'none'
         this.channelDisplay.textContent = 'Channel 1' 
 
         this.trialSlider.addEventListener('input', (event) => {
@@ -149,10 +151,12 @@ class Page{
             this.getData();
         });
                 
-        this.allChansANOVA.addEventListener('click', () =>{
+        this.allChansANOVA.addEventListener('click', async () =>{
             this.allANOVA = !this.allANOVA; 
             this.allChansANOVA.classList.toggle('active');
-            this.getData();
+            await this.getData();
+            this.trialSlider.style.display = 'inline-block'
+
         })
         const groupButtons = document.querySelectorAll('.groupButton');
         groupButtons.forEach(button => {
@@ -178,6 +182,8 @@ class Page{
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
                 this.trialSlider.style.display = 'inline-block'
                 this.channelDisplay.textContent = 'Channel 1' 
+                this.prevChan.style.display = 'inline-block'
+                this.nextChan.style.display = 'inline-block'
             });
         })
     }
