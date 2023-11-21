@@ -1,9 +1,11 @@
 // page.js
 class Page{
     constructor() {
-        // Initial page parameters
+        // access server locally or online
         // this.url = `http://localhost:5000/`
         this.url = 'https://froyzen.pythonanywhere.com/'
+        
+        // Initial page parameters
         this.allGroups = ['Target','Distractor','Irrelevant']
         this.trial = 1,
         this.channel = 1,
@@ -208,8 +210,8 @@ class Page{
 
             })
             const chanNums = await chanResponse.json();
-            // this.numChans = chanNums.length
-            this.numChans = 5
+            this.numChans = chanNums.length
+            // this.numChans = 5
         } else {
             this.numChans = 1
         }
