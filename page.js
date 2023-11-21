@@ -3,7 +3,7 @@ class Page{
     constructor() {
         // Initial page parameters
         // this.url = `http://localhost:5000/`
-        this.url = 'froyzen.pythonanywhere.com/'
+        this.url = 'https://froyzen.pythonanywhere.com/'
         this.allGroups = ['Target','Distractor','Irrelevant']
         this.trial = 1,
         this.channel = 1,
