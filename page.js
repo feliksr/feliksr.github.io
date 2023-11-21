@@ -2,6 +2,8 @@
 class Page{
     constructor() {
         // Initial page parameters
+        // this.url = `http://localhost:5000/`
+        this.url = 'froyzen.pythonanywhere.com/'
         this.allGroups = ['Target','Distractor','Irrelevant']
         this.trial = 1,
         this.channel = 1,
@@ -12,6 +14,7 @@ class Page{
             { min: 20, max: 60 },
             { min: 0, max: 20 }
         ];
+
         this.containers= ['#container1', '#container2', '#container3'];
 
         this.allContainers =  document.querySelectorAll('.excluded-trials-container');
@@ -158,7 +161,9 @@ class Page{
             this.trialSlider.style.display = 'inline-block'
 
         })
+        
         const groupButtons = document.querySelectorAll('.groupButton');
+        
         groupButtons.forEach(button => {
             button.addEventListener('click', async (event) => {
                 groupButtons.forEach(btn => btn.classList.remove('active'));
@@ -194,28 +199,77 @@ class Page{
         this.trialSlider.disabled = true; // Disable trial slider while loading data
         this.loadingText.style.display = "block";  // Display "Loading..." while data loads
         
-        const args = {
-            group: this.group,
-            currentChannel: this.channel,
-            meanTrials: this.meanTrials,
-            ANOVA: this.ANOVA,
-            allANOVA: this.allANOVA,
-            allGroups: this.allGroups,
-            excludedTrialsContainer: this.excludedTrialsContainer        
-        }
+        if (this.allANOVA){
+        const chanResponse = await fetch(this.url + 'chans', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
 
-        const response = await fetch(`https://froyzen.pythonanywhere.com/`, {
-        // const response = await fetch(`http://localhost:5000/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(args)
-        })
-        const responseData = await response.json();
+            })
+            const chanNums = await chanResponse.json();
+            // this.numChans = chanNums.length
+            this.numChans = 5
+        } else {
+            this.numChans = 1
+        }
+        console.log(`Number of channels: ${this.numChans}`)
         
-        this.allWaveletTrials = responseData.trialsWavelet
-        this.allLFPTrials = responseData.trialsLFP
+        if (this.ANOVA){
+            const args = {
+                // currentChannel: this.channel,
+                allGroups: this.allGroups,
+                excludedTrialsContainer: this.excludedTrialsContainer        
+            }
+
+            this.allWaveletTrials = {}
+            this.allLFPTrials = {}
+
+            for (let chans = 1; chans < (this.numChans + 1); chans++) { 
+                
+                if (this.allANOVA){
+                    args.currentChannel = chans
+                    
+                } else{
+                    args.currentChannel = this.channel
+                }
+                console.log(`channel: ${args.currentChannel}`)
+                const response = await fetch(this.url + 'anova', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(args)
+                })
+                const responseData = await response.json();
+                console.log(responseData.trialsWavelet)
+                this.allWaveletTrials[chans] = responseData.trialsWavelet[1]
+                this.allLFPTrials[chans] = responseData.trialsLFP[1]
+            }        
+
+        } else {
+            
+            const args = {
+                group: this.group,
+                currentChannel: this.channel,
+                meanTrials: this.meanTrials,
+                excludedTrialsContainer: this.excludedTrialsContainer      
+    
+            }
+
+            const response = await fetch(this.url, {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(args)
+                        })
+            
+            const responseData = await response.json();
+            this.allWaveletTrials = responseData.trialsWavelet
+            this.allLFPTrials = responseData.trialsLFP
+        }
+        console.log(this.allWaveletTrials)
         this.singleTrialWavelet = this.allWaveletTrials[this.trial];
         this.singleTrialLFP = this.allLFPTrials[this.trial];
         

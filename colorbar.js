@@ -29,8 +29,10 @@ class Colorbar {
             .attr("width", this.width)
             .attr("height", rectHeight)
             .attr("fill", d => d3.interpolateViridis(d / (this.numStops)))
-            .attr("shape-rendering", "crispEdges");
-        
+            .attr("shape-rendering", "crispEdges")
+
+      
+    
         this.setColorbarScale();
         this.addDragBehavior();
     }
