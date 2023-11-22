@@ -68,7 +68,7 @@ svg .LFP-label {
     display: inline-block;
 }
 
-.button ,.groupButton {
+.button , .groupButton {
     padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
@@ -108,4 +108,17 @@ svg .LFP-label {
     display: flex;
     justify-content: center;  
     align-items: center; 
+}
+
+#indexView{
+    display: flex;
+    flex-direction: column;
+    text-align : center;
+}
+
+.stimGroup{
+    gap: 40px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
 }

@@ -4,9 +4,17 @@ class Page{
         // access server locally or online
         // this.url = `http://localhost:5000/`
         this.url = 'https://froyzen.pythonanywhere.com/'
-        
+
         // Initial page parameters
-        this.allGroups = ['Target','Distractor','Irrelevant']
+        this.groupTypes = {
+            'Target Stimulus' : ['Soccerball','Trophy','Kettle'],
+            'Stimulus Type' : ['Target','Distractor','Irrelevant'],
+            'Stimulus Identity' :  ['Soccerball', 'Trophy', 'Kettle']
+        }
+
+        this.allGroups = [];
+        
+        
         this.trial = 1,
         this.channel = 1,
         this.meanTrials = false,
@@ -20,11 +28,11 @@ class Page{
         this.containers= ['#container1', '#container2', '#container3'];
 
         this.allContainers =  document.querySelectorAll('.excluded-trials-container');
-
+        
         this.excludedTrialsContainer = {
-            'Target': document.getElementById('excludedTrialsContainerTarget'),
-            'Distractor': document.getElementById('excludedTrialsContainerDistractor'),
-            'Irrelevant': document.getElementById('excludedTrialsContainerIrrelevant')
+            'Target': this.allContainers[0],
+            'Distractor': this.allContainers[1],
+            'Irrelevant': this.allContainers[2]
         }
 
         const ids = [
@@ -166,34 +174,48 @@ class Page{
         
         const groupButtons = document.querySelectorAll('.groupButton');
         
-        groupButtons.forEach(button => {
-            button.addEventListener('click', async (event) => {
-                groupButtons.forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.stimGroup').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    this.stimGroup = event.target.textContent
+                    this.allGroups = this.groupTypes[this.stimGroup];
+                    console.log(this.allGroups)
+                    groupButtons.forEach((button,index) => {
+                        
+                        button.textContent = this.allGroups[index];
+
+                        button.addEventListener('click', async (event) => {
+                            groupButtons.forEach(btn => btn.classList.remove('active'));
         
-                event.target.classList.add('active'); 
+                            event.target.classList.add('active'); 
         
-                this.group = event.target.textContent;
-                this.trial = 1;
+                            this.group = event.target.textContent;
+                            this.trial = 1;
 
-                this.allContainers.forEach(container => container.style.display = 'none');
-                this.excludedTrialsContainer[this.group].style.display = 'flex'
+                            this.allContainers.forEach(container => container.style.display = 'none');
+                            this.excludedTrialsContainer[this.group].style.display = 'flex'
 
-                await this.getData();
+                            await this.getData();
 
-                this.yAxisLabel.style.display = 'flex'; 
-                this.colorbarLabel.style.display = "flex" 
-                this.ANOVAbutton.style.display = 'inline-block'
-                this.meanTrialsButton.style.display = 'inline-block'
-                this.excludeTrialButton.style.display = 'inline-block'
-                this.trialNumber.style.display = 'inline-block'
-                this.trialSlider.previousElementSibling.textContent = 'Trial:'
-                this.trialSlider.style.display = 'inline-block'
-                this.channelDisplay.textContent = 'Channel 1' 
-                this.prevChan.style.display = 'inline-block'
-                this.nextChan.style.display = 'inline-block'
-            });
-        })
-    }
+                            this.yAxisLabel.style.display = 'flex'; 
+                            this.colorbarLabel.style.display = "flex" 
+                            this.ANOVAbutton.style.display = 'inline-block'
+                            this.meanTrialsButton.style.display = 'inline-block'
+                            this.excludeTrialButton.style.display = 'inline-block'
+                            this.trialNumber.style.display = 'inline-block'
+                            this.trialSlider.previousElementSibling.textContent = 'Trial:'
+                            this.trialSlider.style.display = 'inline-block'
+                            this.channelDisplay.textContent = 'Channel 1' 
+                            this.prevChan.style.display = 'inline-block'
+                            this.nextChan.style.display = 'inline-block'
+        
+            
+                        
+                        });
+                    });
+                
+                    });
+                })
+            }
 
 
     async getData() {
@@ -244,7 +266,7 @@ class Page{
                     body: JSON.stringify(args)
                 })
                 const responseData = await response.json();
-                console.log(responseData.trialsWavelet)
+
                 this.allWaveletTrials[chans] = responseData.trialsWavelet[1]
                 this.allLFPTrials[chans] = responseData.trialsLFP[1]
             }        
@@ -271,7 +293,7 @@ class Page{
             this.allWaveletTrials = responseData.trialsWavelet
             this.allLFPTrials = responseData.trialsLFP
         }
-        console.log(this.allWaveletTrials)
+
         this.singleTrialWavelet = this.allWaveletTrials[this.trial];
         this.singleTrialLFP = this.allLFPTrials[this.trial];
         
@@ -320,7 +342,7 @@ class Page{
        const freqBin = heatmap.freqBin
 
        if (this.ANOVA === true){
-            heatmap.ANOVA =true
+            heatmap.ANOVA = true
             heatmap.maxPower = this.pVal.value
             heatmap.colorScale = d3.scaleSequential(d3.interpolateViridis).domain([heatmap.maxPower,0])
             this.colorbarLabel.textContent = 'p-Value'

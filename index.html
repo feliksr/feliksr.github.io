@@ -9,8 +9,19 @@
 
 <body>
     <!-- Index View -->
-    <div id="indexView" style="display: flex; justify-content: center;">
-        <button onclick="showHeatmapView()" class="button">Session 1</button>
+    <div id="indexView">
+        <h1 id= "stimGroupSelect">Select Stimulus Group</h1>
+    
+    <div>
+        <h1 style = 'display: inline-block'>Session 1: </h1>
+
+        <button onclick="showHeatmapView()", class='stimGroup'>Stimulus Identity</button>
+        <button onclick="showHeatmapView()", class='stimGroup'>Stimulus Type</button>
+        <button onclick="showHeatmapView()", class='stimGroup'>Target Stimulus</button>
+        
+
+    </div>
+    
     </div>
 
     <!-- Heatmap View (hidden by default) -->
@@ -57,13 +68,13 @@
            
 
         <div class="group-button-container">
-            <button class="groupButton">Target</button>
+            <button class="groupButton"></button>
             <div id="excludedTrialsContainerTarget" class="excluded-trials-container"></div>
 
-            <button class="groupButton">Distractor</button>
+            <button class="groupButton"></button>
             <div id="excludedTrialsContainerDistractor" class="excluded-trials-container"></div>
 
-            <button class="groupButton">Irrelevant</button>
+            <button class="groupButton"></button>
             <div id="excludedTrialsContainerIrrelevant" class="excluded-trials-container"></div>
 
         </div>
@@ -80,8 +91,7 @@
 
 
     <script>
-
-        
+       
         function showHeatmapView() {
             document.title = document.getElementById('channelDisplay').textContent;
             document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
@@ -91,10 +101,8 @@
         
         function showIndexView() {
             document.title = 'Home Page';
-            const indexView = document.getElementById('indexView');
-            indexView.style.display = 'flex';
-            indexView.style.justifyContent = 'center';
-            indexView.style.alignItems = 'center';
+            const indexView = document.getElementById('indexView')
+            indexView.style.display = 'flex'
             document.getElementById('heatmapView').style.display = 'none';
         }
     </script>

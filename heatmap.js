@@ -79,7 +79,6 @@ class Heatmap {
                 .attr("height", this.heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
-            
             this.page.setColorScale(this)           
             this.drawHeatmap();
     }
