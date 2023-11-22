@@ -25,7 +25,6 @@ class LFPchart {
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.bottom)
 
-        console.log(this.data,this.trial)
    
         const xScale = d3.scaleLinear()
             .rangeRound([0, this.width])
