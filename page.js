@@ -121,7 +121,7 @@ class Page{
                 this.trialSlider.style.display = 'none'
                 this.trialNumber.style.display = 'none'
                 this.trialSlider.previousElementSibling.textContent = ''
-                this.allContainers.forEach(container => container.style.display = 'flex');
+                this.excludedTrialsContainer.forEach(container => container.style.display = 'flex');
 
                 
             } else {
@@ -133,7 +133,7 @@ class Page{
                 this.trialSlider.style.display = 'inline-block'
                 this.trialNumber.style.display = 'inline-block'
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
-                this.allContainers.forEach(container => container.style.display = 'none');
+                this.excludedTrialsContainer.forEach(container => container.style.display = 'none');
                 this.excludedTrialsContainer[this.group].style.display= 'flex'  
                 this.pVal.style.display = 'none'; 
             }
