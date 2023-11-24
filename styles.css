@@ -4,7 +4,7 @@ body {
     color: #ffffff;
 }
 
-.return-home {
+#returnHomeButton {
     color: rgb(0, 0, 255);
     text-decoration: underline;
     cursor: pointer;
@@ -12,8 +12,9 @@ body {
     font-weight: bold;
 }
 
-.loadingText {
-    font-size: 25px;
+#loadingText {
+    font-size: 30px;
+    text-align: center
 }
 
 #containers{
@@ -23,7 +24,7 @@ body {
           
 }
 
-.heatmap-wrapper,  #container4  {
+#heatmap-wrapper,  #container4, #indexView  {
     display: flex;
     flex-direction: column; 
     align-items: center;  
@@ -80,19 +81,13 @@ svg .LFP-label {
     border-radius: 5px; 
 }
 
-.channel-buttons-container {
+#channelButtonContainer, #groupButtonContainer, #stimGroupWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 40px;
 }
 
-.group-button-container {
-    display: flex;
-    justify-content: center;  
-    align-items: center;  
-    gap: 50px;    
-}
 
 .groupButton.active, #ANOVAbutton.active, #meanTrialsButton.active, #excludeTrialButton.active, #allChansANOVA.active {
     background-color: #555;
@@ -110,23 +105,9 @@ svg .LFP-label {
     align-items: center; 
 }
 
-#indexView{
-    display: flex;
-    flex-direction: column;
-    text-align : center;
-}
-
 .stimGroup{
     
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 1.5em;
-}
-
-#stimGroupWrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    
 }

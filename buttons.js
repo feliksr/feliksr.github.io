@@ -48,8 +48,9 @@ class Buttons{
                 document.getElementById('indexView').style.display = 'none';
                 document.getElementById('heatmapView').style.display = 'block';
 
-                this.updateDisplayStyle(this.inlineButtons, 'none');
-                this.updateDisplayStyle(this.flexButtons, 'none');
+                document.getElementById('containerWrapper').style.display = 'none'
+                // this.updateDisplayStyle(this.inlineButtons, 'none');
+                // this.updateDisplayStyle(this.flexButtons, 'none');
                 this.trialSlider.previousElementSibling.textContent = ''
 
                 this.page.stimGroup = event.target.textContent
@@ -79,8 +80,10 @@ class Buttons{
                 
                         this.trialSlider.previousElementSibling.textContent = 'Trial:'
                         this.channelDisplay.textContent = 'Channel 1' 
-                        this.updateDisplayStyle(this.inlineButtons, 'inline-block');
-                        this.updateDisplayStyle(this.flexButtons, 'flex');
+                        // this.updateDisplayStyle(this.inlineButtons, 'inline-block');
+                        // this.updateDisplayStyle(this.flexButtons, 'flex');
+                        document.getElementById('containerWrapper').style.display = 'block'
+
 
                     });
              

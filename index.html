@@ -27,9 +27,11 @@
     <!-- Heatmap View (hidden by default) -->
     <div id="heatmapView" style="display: none;">
         
-        <span onclick="showIndexView()" class="return-home">Return Home</span>
+        <span onclick="showIndexView()" id="returnHomeButton">Return Home</span>
 
-        <div class="channel-buttons-container">
+        <div id = containerWrapper>
+
+        <div id="channelButtonContainer">
             <button id="prevChan" class="button">Previous Channel</button>
             <h1 id="channelDisplay" style="text-align:center;"></h1>
             <button id="nextChan" class="button">Next Channel</button>
@@ -37,20 +39,20 @@
         
         
         <div id = "containers">
-
+            
             <span id="yAxisLabel">Frequency  (Hz)</span>
-            <div class="heatmap-wrapper">
+
+            <div id="heatmapWrapper">
                 <div class="container" id="container1"></div>
                 <div class="container" id="container2"></div>
                 <div class="container" id="container3"></div>
                 
             </div>
             <span id="colorbarLabel"></span>
-        
+
         </div>
 
         <div class="container" id="container4"></div>
-
 
         <div id="controls">
             <button id = "excludeTrialButton">Exclude Trial from Channels</button>
@@ -66,8 +68,11 @@
 
         </div>
            
+        </div>
 
-        <div class="group-button-container">
+
+        <div id="groupButtonContainer">
+
             <button class="groupButton"></button>
             <div  class="excluded-trials-container"></div>
 
@@ -79,13 +84,13 @@
 
         </div>
 
-        <h1 id= "loadingText", style= "text-align:center;">Loading...</h1>
+        <h1 id= "loadingText" >Loading...</h1>
 
     </div>
     
     <script src= "https://d3js.org/d3.v5.min.js"></script>
-    <script src= "buttons.js"></script>
 
+    <script src= "buttons.js"></script>
     <script src= "page.js"></script>
     <script src= "heatmap.js"></script>
     <script src= "colorbar.js"></script>
@@ -93,14 +98,7 @@
 
 
     <script>
-       
-        // function showHeatmapView() {
-        //     document.title = document.getElementById('channelDisplay').textContent;
-        //     document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
-        //     document.getElementById('indexView').style.display = 'none';
-        //     document.getElementById('heatmapView').style.display = 'block';
-        // }
-        
+
         function showIndexView() {
             document.title = 'Home Page';
             const indexView = document.getElementById('indexView')
