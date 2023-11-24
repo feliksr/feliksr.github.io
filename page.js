@@ -70,8 +70,7 @@ class Page{
             this.getData();
         });
             
-          
-              
+                
         this.prevChan.addEventListener('click', () => {
         if (this.channel > 1) {
                 this.channel--;
@@ -132,7 +131,7 @@ class Page{
                 this.trialNumber.style.display = 'inline-block'
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
                 this.excludedContainers.forEach(container => container.style.display = 'none');
-                this.excludedContainers[this.group].style.display= 'flex'  
+                this.excludedTrialsContainer[this.group].style.display= 'flex'  
                 this.pVal.style.display = 'none'; 
             }
                 
