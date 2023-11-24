@@ -7,14 +7,11 @@ class Page{
 
         // Initial page parameters
         this.groupTypes = {
-            'Target Stimulus' : ['Soccerball','Trophy','Kettle'],
+            'Target Stimulus' : ['Soccerball','Trophy','Vase'],
             'Stimulus Type' : ['Target','Distractor','Irrelevant'],
-            'Stimulus Identity' :  ['Soccerball', 'Trophy', 'Kettle']
+            'Stimulus Identity' :  ['Soccerball', 'Trophy', 'Vase']
         }
 
-        this.allGroups = [];
-        
-        
         this.trial = 1,
         this.channel = 1,
         this.meanTrials = false,
@@ -24,17 +21,9 @@ class Page{
             { min: 20, max: 60 },
             { min: 0, max: 20 }
         ];
-
-        this.containers= ['#container1', '#container2', '#container3'];
-
-        this.allContainers =  document.querySelectorAll('.excluded-trials-container');
         
-        this.excludedTrialsContainer = {
-            'Target': this.allContainers[0],
-            'Distractor': this.allContainers[1],
-            'Irrelevant': this.allContainers[2]
-        }
-
+        this.excludedContainers =  document.querySelectorAll('.excluded-trials-container');
+        this.excludedContainers.forEach(container => container.style.display = 'none');
         const ids = [
             'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
             'meanTrialsButton', 'loadingText', 'excludeTrialButton',
@@ -45,18 +34,14 @@ class Page{
             this[id] = document.getElementById(id);
         });
         
-        this.yAxisLabel.style.display = 'none'; 
-        this.colorbarLabel.style.display = "none" 
-        this.ANOVAbutton.style.display = 'none'
-        this.meanTrialsButton.style.display = 'none'
-        this.excludeTrialButton.style.display = 'none'
-        this.trialNumber.style.display = 'none'
-        this.trialSlider.previousElementSibling.textContent = ''
-        this.trialSlider.style.display = 'none'
-        this.prevChan.style.display = 'none'
-        this.nextChan.style.display = 'none'
         this.channelDisplay.textContent = 'Channel 1' 
 
+        const allButtons = new window.Buttons(this)
+        allButtons.set_stimButtons()
+
+        this.containers= ['#container1', '#container2', '#container3'];
+
+        
         this.trialSlider.addEventListener('input', (event) => {
             this.trial = event.target.value;
             this.trialSlider.value = this.trial
@@ -172,50 +157,8 @@ class Page{
 
         })
         
-        const groupButtons = document.querySelectorAll('.groupButton');
         
-        document.querySelectorAll('.stimGroup').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    this.stimGroup = event.target.textContent
-                    this.allGroups = this.groupTypes[this.stimGroup];
-                    console.log(this.allGroups)
-                    groupButtons.forEach((button,index) => {
-                        
-                        button.textContent = this.allGroups[index];
-
-                        button.addEventListener('click', async (event) => {
-                            groupButtons.forEach(btn => btn.classList.remove('active'));
-        
-                            event.target.classList.add('active'); 
-        
-                            this.group = event.target.textContent;
-                            this.trial = 1;
-
-                            this.allContainers.forEach(container => container.style.display = 'none');
-                            this.excludedTrialsContainer[this.group].style.display = 'flex'
-
-                            await this.getData();
-
-                            this.yAxisLabel.style.display = 'flex'; 
-                            this.colorbarLabel.style.display = "flex" 
-                            this.ANOVAbutton.style.display = 'inline-block'
-                            this.meanTrialsButton.style.display = 'inline-block'
-                            this.excludeTrialButton.style.display = 'inline-block'
-                            this.trialNumber.style.display = 'inline-block'
-                            this.trialSlider.previousElementSibling.textContent = 'Trial:'
-                            this.trialSlider.style.display = 'inline-block'
-                            this.channelDisplay.textContent = 'Channel 1' 
-                            this.prevChan.style.display = 'inline-block'
-                            this.nextChan.style.display = 'inline-block'
-        
-            
-                        
-                        });
-                    });
-                
-                    });
-                })
-            }
+    }
 
 
     async getData() {
@@ -233,7 +176,6 @@ class Page{
             })
             const chanNums = await chanResponse.json();
             this.numChans = chanNums.length
-            // this.numChans = 5
         } else {
             this.numChans = 1
         }
@@ -241,8 +183,8 @@ class Page{
         
         if (this.ANOVA){
             const args = {
-                // currentChannel: this.channel,
-                allGroups: this.allGroups,
+                stimGroup: this.stimGroup,
+                allGroups: this.groupTypes[this.stimGroup],
                 excludedTrialsContainer: this.excludedTrialsContainer        
             }
 
@@ -275,6 +217,7 @@ class Page{
             
             const args = {
                 group: this.group,
+                stimGroup: this.stimGroup,
                 currentChannel: this.channel,
                 meanTrials: this.meanTrials,
                 excludedTrialsContainer: this.excludedTrialsContainer      

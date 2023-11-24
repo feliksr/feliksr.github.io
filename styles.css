@@ -117,8 +117,16 @@ svg .LFP-label {
 }
 
 .stimGroup{
-    gap: 40px;
+    
     padding: 10px 20px;
-    font-size: 1.2em;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-size: 1.5em;
+}
+
+#stimGroupWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    
 }
