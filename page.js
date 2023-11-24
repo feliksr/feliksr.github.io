@@ -40,7 +40,6 @@ class Page{
         allButtons.set_stimButtons()
 
         this.containers= ['#container1', '#container2', '#container3'];
-
         
         this.trialSlider.addEventListener('input', (event) => {
             this.trial = event.target.value;
@@ -72,8 +71,7 @@ class Page{
         });
             
           
-        
-       
+              
         this.prevChan.addEventListener('click', () => {
         if (this.channel > 1) {
                 this.channel--;
@@ -121,7 +119,7 @@ class Page{
                 this.trialSlider.style.display = 'none'
                 this.trialNumber.style.display = 'none'
                 this.trialSlider.previousElementSibling.textContent = ''
-                this.excludedTrialsContainer.forEach(container => container.style.display = 'flex');
+                this.excludedContainers.forEach(container => container.style.display = 'flex');
 
                 
             } else {
@@ -133,8 +131,8 @@ class Page{
                 this.trialSlider.style.display = 'inline-block'
                 this.trialNumber.style.display = 'inline-block'
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
-                this.excludedTrialsContainer.forEach(container => container.style.display = 'none');
-                this.excludedTrialsContainer[this.group].style.display= 'flex'  
+                this.excludedContainers.forEach(container => container.style.display = 'none');
+                this.excludedContainers[this.group].style.display= 'flex'  
                 this.pVal.style.display = 'none'; 
             }
                 
