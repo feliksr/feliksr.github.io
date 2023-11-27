@@ -54,6 +54,12 @@ svg .x-axis-label {
     text-anchor: middle
 }
 
+svg .dragColorbarLabel{
+    font-size: 15px;
+    fill: #ffffff;
+
+}
+
 svg .LFP-label {
     font-size: 20px;
     fill: #ffffff;
@@ -106,7 +112,6 @@ svg .LFP-label {
 }
 
 .stimGroup{
-    
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 1.5em;
