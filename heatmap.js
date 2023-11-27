@@ -8,7 +8,7 @@ class Heatmap {
         this.margin = {
             top: 0,
             right: 100,
-            bottom: 20,
+            bottom: 30,
             left: 50
         };
 
@@ -50,7 +50,6 @@ class Heatmap {
                 .range([0, this.heightSVG])
                 .domain([d3.max(this.filteredData, d => d.frequency),d3.min(this.filteredData, d => d.frequency)]);
                       
-            // create heatmap SVGs
             this.svg = d3.select(this.container).append("svg")
                 .attr("width", this.width + this.margin.left + this.margin.right)
                 .attr("height", this.heightSVG + this.margin.bottom)
@@ -67,7 +66,12 @@ class Heatmap {
                 .call(d3.axisBottom(this.xScale)
                     .ticks(5)
                     .tickFormat(''))  
-                .attr("transform", `translate(0, ${this.heightSVG})`);
+                .attr("transform", `translate(0, ${this.heightSVG})`)
+                .append("text")
+                .attr("class", "dragColorbarLabel")
+                .attr("x", this.width - 10)  
+                .attr("y", this.margin.bottom / 1.25)
+                .text("*Drag colorbar for scaling")
                 
             
             this.heatMap.selectAll()
@@ -79,6 +83,7 @@ class Heatmap {
                 .attr("height", this.heightSVG / (numFreqBins - 1))
                 .attr("shape-rendering", "crispEdges");
 
+            
             this.page.setColorScale(this)           
             this.drawHeatmap();
     }
