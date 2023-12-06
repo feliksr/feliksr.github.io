@@ -2,8 +2,8 @@
 class Page{
     constructor() {
         // access server locally or online
-        // this.url = `http://localhost:5000/`
-        this.url = 'https://froyzen.pythonanywhere.com/'
+        this.url = `http://localhost:5000/`
+        // this.url = 'https://froyzen.pythonanywhere.com/'
 
         // Initial page parameters
         this.groupTypes = {
@@ -37,7 +37,9 @@ class Page{
         this.channelDisplay.textContent = 'Channel 1' 
 
         const allButtons = new window.Buttons(this)
+        allButtons.set_channelButtons()
         allButtons.set_stimButtons()
+        allButtons.set_groupButtons()
 
         this.containers= ['#container1', '#container2', '#container3'];
         
@@ -71,20 +73,7 @@ class Page{
         });
             
                 
-        this.prevChan.addEventListener('click', () => {
-        if (this.channel > 1) {
-                this.channel--;
-                this.channelDisplay.textContent = 'Channel' + this.channel;
-                this.getData();
-            }
-        })
         
-        this.nextChan.addEventListener('click', () => {
-            this.channel++;
-            this.channelDisplay.textContent = 'Channel' + this.channel;
-            this.getData();
-        })
- 
         this.meanTrialsButton.addEventListener('click', () => {
             this.meanTrials = !this.meanTrials; 
             this.meanTrialsButton.classList.toggle('active');
