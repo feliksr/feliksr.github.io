@@ -11,11 +11,13 @@ class Page{
             'Stimulus Type' : ['Target','Distractor','Irrelevant'],
             'Stimulus Identity' :  ['Soccerball', 'Trophy', 'Vase']
         }
-
+        this.subject = 'YDX'
         this.trial = 1,
         this.channel = 1,
+
         this.meanTrials = false,
         this.ANOVA =  false,
+
         this.frequencyBins = [
             { min: 60, max: 200 },
             { min: 20, max: 60 },
@@ -24,6 +26,7 @@ class Page{
         
         this.excludedContainers =  document.querySelectorAll('.excluded-trials-container');
         this.excludedContainers.forEach(container => container.style.display = 'none');
+        
         const ids = [
             'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
             'meanTrialsButton', 'loadingText', 'excludeTrialButton',
@@ -143,7 +146,6 @@ class Page{
 
         })
         
-        
     }
 
 
@@ -153,25 +155,40 @@ class Page{
         this.loadingText.style.display = "block";  // Display "Loading..." while data loads
         
         if (this.allANOVA){
+
+            const argsANOVA = {
+
+                stimGroup: this.stimGroup,
+                group: this.group,
+                subject: this.subject,
+                excludedTrialsContainer: this.excludedTrialsContainer,
+            }
+            
         const chanResponse = await fetch(this.url + 'chans', {
+
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-
+                body: JSON.stringify(argsANOVA)
             })
+
             const chanNums = await chanResponse.json();
             this.numChans = chanNums.length
+
         } else {
+
             this.numChans = 1
         }
+
         console.log(`Number of channels: ${this.numChans}`)
         
         if (this.ANOVA){
             const args = {
                 stimGroup: this.stimGroup,
                 allGroups: this.groupTypes[this.stimGroup],
-                excludedTrialsContainer: this.excludedTrialsContainer        
+                excludedTrialsContainer: this.excludedTrialsContainer,
+                subject: this.subject        
             }
 
             this.allWaveletTrials = {}
@@ -202,6 +219,7 @@ class Page{
         } else {
             
             const args = {
+                subject: this.subject,
                 group: this.group,
                 stimGroup: this.stimGroup,
                 currentChannel: this.channel,
