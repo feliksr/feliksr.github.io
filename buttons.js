@@ -25,8 +25,21 @@ class Buttons{
         this.set_ANOVA()
         this.set_allANOVA()
         this.set_excludeTrialsButton()
+        this.set_homeButton()
+        // this.set_meanTrials()
     }
 
+    set_homeButton(){
+        document.getElementById('homeButton').addEventListener('click', () => {
+            
+            document.querySelectorAll('.groupButton').forEach(button => {
+               
+                    button.classList.remove('active');
+                    button.disabled = false;
+
+            });
+        })
+    }
 
     set_groupButtons(){
 
