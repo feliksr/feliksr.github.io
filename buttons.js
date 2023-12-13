@@ -5,26 +5,33 @@ class Buttons{
         this.page = page
 
         const ids = [
-            'trialSlider', 'colorbarLabel', 'channelDisplay', 'ANOVAbutton',
-            'meanTrialsButton', 'excludeTrialButton',
-            'prevChan', 'nextChan', 'yAxisLabel', 'trialNumber',
+            'trialSlider', 'channelDisplay', 'excludeTrialButton', 'prevChan', 'nextChan', 'trialNumber', 'ANOVAscroll',
+            'allANOVA', 'pVal', 'pValDiv', 'trialScroll', 'channelScroll', 'channelNumber', 'channelButtonContainer'
         ];
         
         ids.forEach(id => {
             this[id] = document.getElementById(id);
         });
 
+        this.excludedContainers =  document.querySelectorAll('.excluded-trials-container');
+        this.excludedContainers.forEach(container => container.style.display = 'none');
     }
 
-    updateDisplayStyle(elements, displayStyle) {
-        elements.forEach(element => {
-            element.style.display = displayStyle;
-        });
+    initialize(){
+
+        this.set_channelButtons()
+        this.set_stimButtons()
+        this.set_groupButtons()
+        this.set_ANOVA()
+        this.set_allANOVA()
+        this.set_excludeTrialsButton()
     }
-    
+
+
     set_groupButtons(){
+
         const groupButtons = document.querySelectorAll('.groupButton');
-        this.page.excludedTrialsContainer = {}
+        this.excludedTrialsContainer = {}
 
         groupButtons.forEach((button) => {
             button.addEventListener('click', async (event) => {
@@ -33,15 +40,14 @@ class Buttons{
                 event.target.classList.add('active'); 
 
                 this.page.group = event.target.textContent;
-                this.page.trial = 1;
+                this.page.trial = 0;
             
-                this.page.excludedContainers.forEach(container => container.style.display = 'none');
-                this.page.excludedTrialsContainer[this.page.group].style.display = 'block'
+                this.excludedContainers.forEach(container => container.style.display = 'none');
+                this.excludedTrialsContainer[this.page.group].style.display = 'block'
 
                 await this.page.getData();
         
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
-                this.channelDisplay.textContent = 'Channel 1' 
                 document.getElementById('containerWrapper').style.display = 'block'
             })
 
@@ -50,13 +56,13 @@ class Buttons{
     }
 
     set_stimButtons(){
+
         const groupButtons = document.querySelectorAll('.groupButton');
         const stimGroups = document.querySelectorAll('.stimGroup')
         
         stimGroups.forEach(button => {
             button.addEventListener('click', (event) => {
-                this.page.excludedContainers.forEach(container => container.style.display = 'none');
-                document.title = document.getElementById('channelDisplay').textContent;
+                this.excludedContainers.forEach(container => container.style.display = 'none');
                 document.getElementById("loadingText").style.display = "none";  // Hide "Loading..."
                 document.getElementById('indexView').style.display = 'none';
                 document.getElementById('heatmapView').style.display = 'block';
@@ -69,30 +75,142 @@ class Buttons{
                 groupButtons.forEach((button,index) => {
                     button.textContent = this.allGroups[index];
                     button.classList.remove('active')
-                    this.page.excludedTrialsContainer[button.textContent] = this.page.excludedContainers[index];
+                    this.excludedTrialsContainer[button.textContent] = this.excludedContainers[index];
 
                 })
-              
             })
         })
+    }
+
+    set_excludeTrialsButton(){
+
+        this.excludeTrialButton.addEventListener('click', () => {
+            const trialButtonId = `trialButton-${this.page.group}-${this.page.trial}`;
+            const trialButton = document.getElementById(trialButtonId);
+
+        
+            if (trialButton) {
+                this.excludeTrialButton.classList.add('active');
+            } else {
+                this.excludeTrialButton.classList.remove('active');
+            }
+        
+
+            if (trialButton) {
+                this.excludedTrialsContainer[this.page.group].removeChild(trialButton);
+            } else {
+
+                const button = document.createElement('button');
+                button.textContent = `Trial ${this.page.trial}`;
+                button.id = trialButtonId;
+                this.excludedTrialsContainer[this.page.group].appendChild(button);
+        
+                button.addEventListener('click', () => {
+
+                    this.trialSlider.value = parseInt(trialButtonId.split('-')[2]);
+                    this.trialSlider.dispatchEvent(new Event('input'));
+
+                });
+            }
+            
+            this.excludeTrialButton.classList.toggle('active');
+            this.page.getData();
+        }); 
     }
 
     set_channelButtons(){
 
         this.prevChan.addEventListener('click', () => {
-            if (this.page.channel > 1) {
-                this.page.channel--;
-                this.channelDisplay.textContent = 'Channel' + this.page.channel;
+
+            if (this.page.channelIdx > 0) {
+                this.page.channelIdx--;
                 this.page.getData();
             }
         })
         
         this.nextChan.addEventListener('click', () => {
-            this.page.channel++;
-            this.channelDisplay.textContent = 'Channel' + this.page.channel;
+
+            this.page.channelIdx++;
             this.page.getData();
         })
-      }
+    }
+
+    set_ANOVA(){
+
+        document.querySelectorAll('.ANOVAbutton').forEach(button => {
+
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.ANOVAbutton').forEach(button => {
+                    button.classList.toggle('active');
+                })
+
+                this.page.ANOVA = !this.page.ANOVA; 
+                
+                if (this.page.ANOVA) {
+
+                    this.pValDiv.style.display = 'inline-block'
+                    this.trialScroll.style.display = 'none'
+                    this.channelScroll.style.display = 'none'
+                    this.ANOVAscroll.style.display = 'none'
+
+                    this.excludedContainers.forEach(container => container.style.display = 'flex');
+    
+                } else {
+    
+                    this.pValDiv.style.display = 'none'
+                    this.channelScroll.style.display = 'none'
+                    this.ANOVAscroll.style.display = 'none'
+                    this.trialScroll.style.display = 'inline'
+
+                       
+                    this.excludedContainers.forEach(container => container.style.display = 'none');
+                    this.excludedTrialsContainer[this.page.group].style.display= 'flex'  
+                }
+    
+                // disables and greys out trial groups buttons when ANOVA button pressed 
+                document.querySelectorAll('.groupButton').forEach(button => {
+
+                    if (button.textContent !== this.page.group) {
+                        button.classList.toggle('active');
+                    }
+
+                    button.disabled = !button.disabled;
+
+                });
+    
+                this.page.trial = 0;
+                this.page.getData();
+
+            });
+        });
+    }
+
+
+    set_allANOVA(){
+
+        this.allANOVA.addEventListener('click', async () =>{
+
+            document.querySelectorAll('.ANOVAbutton').forEach(button => {
+                button.disabled = !button.disabled 
+            })
+
+            this.allANOVA.classList.toggle('active');
+            this.page.allANOVA = !this.page.allANOVA; 
+            
+            await this.page.getData();
+            
+            if (this.page.allANOVA){
+                this.channelButtonContainer.style.display = 'none' ;
+                this.ANOVAscroll.style.display = 'inline'
+
+            }else{
+
+                this.ANOVAscroll.style.display = 'none'
+                this.channelButtonContainer.style.display = 'flex' ;
+    
+            }
+        })
+    }
 }
     
 window.Buttons = Buttons;

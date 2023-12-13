@@ -57,17 +57,45 @@
         <div class="container" id="container4"></div>
 
         <div id="controls">
-            <button id = "excludeTrialButton">Exclude Trial from Channels</button>
-            <label for="trialSlider">Trial: </label>
-            <input type="range" id="trialSlider" min="1"  value="1">
-            <span id="trialNumber">1</span>
-            <button id="meanTrialsButton">Average Trials</button>
-            <button id="ANOVAbutton">ANOVA</button>
-            <span id="pValId", style = 'display:none'>pValue = </span>
-            <input type="text" id= "pVal" value= "0.10" style="width: 75px; height: 24px; display: none;">
-            <button id = 'allChansANOVA' style = 'display: none; margin-left : 100px'>All Channels</button>
-            <span id="warning" style = 'display:none'>Warning! Loading Time 15 minutes</span>
 
+            <div id = 'trialScroll'>
+                
+                <button id = "excludeTrialButton">Exclude Trial from Channels</button>
+                <label for="trialSlider">Trial: </label>
+                <input type="range" id="trialSlider">
+                <span id="trialNumber"></span>
+                <button id="meanTrialsButton">Average Trials</button>
+                <button class="ANOVAbutton">ANOVA</button>
+                
+            </div>
+            
+            <div id = 'ANOVAscroll' style="display: none;">
+
+                <label for="channelSlider">Channel: </label>
+                <input type="range" id="channelSlider">
+                <span id="channelNumber"></span>
+
+            </div>
+
+            <div id="channelScroll" style="display: none;">
+                
+                <button id = "excludeChannelButton">Exclude Channel from Trials</button>
+                <label for="channelSlider">Channel: </label>
+                <input type="range" id="channelSlider">
+                <span id="channelNumber"></span>
+                <button id="meanChannelsButton">Average Channels</button>
+
+            </div>
+
+            <div id="pValDiv" style="display: none;">
+                <button class="ANOVAbutton">ANOVA</button>
+                <span id="pValId"> pValue = </span>
+                <input type="text" id= "pVal" value= "0.10" style="width: 75px; height: 24px;">
+                <button id = 'allANOVA' style = 'margin-left : 100px'>All Channels</button>
+                <span id="warning">Warning! Loading Time 15 minutes</span>
+
+            </div>
+            
         </div>
            
         </div>

@@ -2,7 +2,6 @@
 class LFPchart {
     constructor(page) {
         this.page = page
-        // this.trial=this.page.trial
         this.data = this.page.allLFPTrials
         this.container = '#container4'
         this.width = 1000;

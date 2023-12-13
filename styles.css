@@ -30,10 +30,11 @@ body {
     align-items: center;  
 }
 
-#controls {
+#controls, #trialScroll {
     text-align: center;
     padding: 10px;
 }
+
 
 #controls label, #controls span {
     margin-right: 10px;
@@ -75,13 +76,13 @@ svg .LFP-label {
     display: inline-block;
 }
 
-.button , .groupButton {
+.button, .groupButton {
     padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
 }
 
-#meanTrialsButton, #ANOVAbutton, #excludeTrialButton, #allChansANOVA{
+#meanTrialsButton, #meanChannelsButton, .ANOVAbutton, #excludeTrialButton, #excludeChannelButton, #allANOVA{
     padding: 5px 10px;
     font-size: 1.1em;
     border-radius: 5px; 
@@ -95,7 +96,7 @@ svg .LFP-label {
 }
 
 
-.groupButton.active, #ANOVAbutton.active, #meanTrialsButton.active, #excludeTrialButton.active, #allChansANOVA.active {
+.groupButton.active, .ANOVAbutton.active, #meanTrialsButton.active, #excludeTrialButton.active, #allANOVA.active {
     background-color: #555;
     color: white;
 }
