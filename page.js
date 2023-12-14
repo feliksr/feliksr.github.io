@@ -89,7 +89,6 @@ class Page{
             })
             
             this.responseData = await this.response.json();
-            console.log(this.responseData.trialsWavelet)
             this.allWaveletTrials = this.responseData.trialsWavelet
             this.allLFPTrials = this.responseData.trialsLFP
 
@@ -102,8 +101,8 @@ class Page{
         
             if (this.allANOVA){
 
-             this.numChans = this.chanNumbers.length
-                // this.numChans = 5
+            //  this.numChans = this.chanNumbers.length
+                this.numChans = 2
                  
             }else{
 
