@@ -2,8 +2,8 @@
 class Page{
     constructor() {
         // access server locally or online
-        // this.url = `http://localhost:5000/`
-        this.url = 'https://froyzen.pythonanywhere.com/'
+        this.url = `http://localhost:5000/`
+        // this.url = 'https://froyzen.pythonanywhere.com/'
 
         // Initial page parameters
         this.groupTypes = {
