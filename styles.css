@@ -121,12 +121,13 @@ svg .LFP-label {
 #textContainer {
     flex-grow: 0; 
     flex-shrink: 0; 
-    width: 200px; 
+    width: 500px; 
     overflow: hidden; 
     text-align: left;
 }
 
 #sliderContainer{
-    flex-grow: 1;
+    width: 1000px;
     text-align: right;
+    overflow: hidden; 
 }
