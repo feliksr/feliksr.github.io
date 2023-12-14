@@ -214,7 +214,7 @@ class Buttons{
             
             if (this.page.allANOVA){
                 this.channelButtonContainer.style.display = 'none' ;
-                this.ANOVAscroll.style.display = 'inline'
+                this.ANOVAscroll.style.display = 'flex'
 
             }else{
 

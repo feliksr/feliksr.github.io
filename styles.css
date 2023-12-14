@@ -117,3 +117,16 @@ svg .LFP-label {
     border-radius: 10px;
     font-size: 1.5em;
 }
+
+#textContainer {
+    flex-grow: 0; 
+    flex-shrink: 0; 
+    width: 200px; 
+    overflow: hidden; 
+    text-align: left;
+}
+
+#sliderContainer{
+    flex-grow: 1;
+    text-align: right;
+}
