@@ -12,8 +12,9 @@ class Page{
             'Stimulus Identity' :  ['Soccerball', 'Trophy', 'Vase']
         }
         this.subject = 'YDX'
-        this.trial = 0,
-        this.channelIdx = 0,
+        this.trial = 0
+        this.channelIdx = 0
+        this.run = 1
 
         this.meanTrials = false,
         this.ANOVA =  false,
@@ -50,7 +51,8 @@ class Page{
             excludedTrialsContainer: this.allButtons.excludedTrialsContainer,
             meanTrials: this.meanTrials,
             ANOVA: this.ANOVA,
-            allANOVA: this.allANOVA
+            allANOVA: this.allANOVA,
+            run: this.run
         }
             
         this.response = await fetch(this.url + 'chans', {
