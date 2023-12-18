@@ -26,13 +26,66 @@ class Page{
         ];
 
         this.containers= ['#container1', '#container2', '#container3'];
-       
+
+        this.maxRetries = 2;
+        this.initialDelay = 5000; // in milliseconds
         this.allButtons = new window.Buttons(this)
         this.allButtons.initialize()      
+
     }
 
-    async getData() {
+    async get_ChannelNumbers(){
 
+        const args = {
+
+            stimGroup: this.stimGroup,
+            group: this.group,
+            subject: this.subject,
+            run: this.run
+
+        }
+
+        this.responseData = await this.fetchDataWithRetry(this.url + 'chans', args, this.maxRetries, this.initialDelay);
+   
+        this.chanNumbers = this.responseData.chanNumbers
+        this.chanLabels = this.responseData.chanLabels
+    }
+
+
+    async fetchDataWithRetry(url, args, retries, delay) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(args)
+                });
+    
+                if (response.ok) {
+                    return await response.json();  
+                } else {
+                    throw new Error(`HTTP error: ${response.status}`);
+                }
+            } catch (error) {
+                // Handle network errors
+                console.error(`Fetch error on attempt ${i + 1}:`, error);
+            }
+    
+            // Wait and increase delay for next retry
+            delay *= 2;
+            await new Promise(resolve => setTimeout(resolve, delay));
+            console.log(`delay: ${delay}ms`);
+
+        }
+        throw new Error('Request failed after retries');
+    }
+    
+
+    async getData() {
+        console.log(this.chanNumbers[this.channelIdx])
+        
         const trialSlider  = document.getElementById('trialSlider')
         trialSlider.disabled = true 
 
@@ -53,24 +106,7 @@ class Page{
             ANOVA: this.ANOVA,
             allANOVA: this.allANOVA,
             run: this.run
-        }
-            
-        this.response = await fetch(this.url + 'chans', {
-
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(args)
-            })
-        
-        this.responseData = await this.response.json();
-        this.chanNumbers = this.responseData.chanNumbers
-        this.chanLabels = this.responseData.chanLabels
-        console.log(this.chanNumbers[this.channelIdx])
-
-        document.getElementById('channelDisplay').textContent = `Channel ${this.chanNumbers[this.channelIdx]} ${this.chanLabels[this.channelIdx]}`;
-   
+        }       
        
         if (!this.ANOVA){
             
@@ -82,15 +118,13 @@ class Page{
             
             args.currentChannel = this.chanNumbers[this.channelIdx]
 
-            this.response = await fetch(this.url, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(args)
-            })
+            try {
+                this.responseData = await this.fetchDataWithRetry(this.url, args, this.maxRetries, this.initialDelay);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
             
-            this.responseData = await this.response.json();
+              
             this.allWaveletTrials = this.responseData.trialsWavelet
             this.allLFPTrials = this.responseData.trialsLFP
 
@@ -103,8 +137,8 @@ class Page{
         
             if (this.allANOVA){
 
-             this.numChans = this.chanNumbers.length
-                // this.numChans = 2
+            //  this.numChans = this.chanNumbers.length
+                this.numChans = 5
                  
             }else{
 
@@ -123,16 +157,12 @@ class Page{
                 }
                 console.log(`channel: ${args.currentChannel}`)
 
-                this.response = await fetch(this.url + 'anova', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(args)
-                })
-
-                this.responseData = await this.response.json();
-                console.log(this.responseData.channelsWavelet)
+                try {
+                    this.responseData = await this.fetchDataWithRetry(this.url + 'anova', args, this.maxRetries, this.initialDelay);
+                } catch (error) {
+                    console.error('Failed to fetch data:', error);
+                }
+                
                 this.allWaveletChannels[chans] = this.responseData.channelsWavelet[0]
                 this.allLFPChannels[chans] = this.responseData.channelsLFP[0]
                 this.singleChannelWavelet = this.allWaveletChannels[this.trial];
