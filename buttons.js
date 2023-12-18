@@ -5,8 +5,8 @@ class Buttons{
         this.page = page
 
         const ids = [
-            'trialSlider', 'channelDisplay', 'excludeTrialButton', 'prevChan', 'nextChan', 'trialNumber', 'ANOVAscroll',
-            'allANOVA', 'pVal', 'pValDiv', 'trialScroll', 'channelScroll', 'channelNumber', 'channelButtonContainer'
+            'trialSlider', 'channelDisplay', 'excludeTrialButton', 'prevChan', 'nextChan', 'trialNumber', 'ANOVAscroll', 
+            'allANOVA', 'pVal', 'pValDiv', 'trialScroll', 'channelScroll', 'channelNumber', 'channelButtonContainer', 
         ];
         
         ids.forEach(id => {
@@ -26,8 +26,10 @@ class Buttons{
         this.set_allANOVA()
         this.set_excludeTrialsButton()
         this.set_homeButton()
+        // this.set_uploadButton()
         // this.set_meanTrials()
     }
+
 
     set_homeButton(){
         document.getElementById('homeButton').addEventListener('click', () => {
@@ -58,15 +60,36 @@ class Buttons{
                 this.excludedContainers.forEach(container => container.style.display = 'none');
                 this.excludedTrialsContainer[this.page.group].style.display = 'block'
 
+                await this.page.get_ChannelNumbers()
+                this.channelDisplay.textContent = `Channel ${this.page.chanNumbers[this.page.channelIdx]} ${this.page.chanLabels[this.page.channelIdx]}`;
+
                 await this.page.getData();
         
                 this.trialSlider.previousElementSibling.textContent = 'Trial:'
                 document.getElementById('containerWrapper').style.display = 'block'
             })
-
         });
-
     }
+
+    set_uploadButton(){
+
+        this.uploadButton.addEventListener('click', function() {
+            this.fileInput.click();
+        });
+        
+        this.fileInput.addEventListener('change', function() {
+            let file = this.files[0];
+            if (file) {
+                console.log("File selected:", file.name);
+                this.page.allWaveletTrials = file
+                this.trialSlider.max = Object.keys(this.allWaveletTrials).length-1;
+                this.trialSlider.disabled = false;
+                this.page.singleTrialWavelet = this.page.allWaveletTrials[this.page.trial];
+
+            }
+        });
+    }
+
 
     set_stimButtons(){
 
@@ -137,6 +160,8 @@ class Buttons{
 
             if (this.page.channelIdx > 0) {
                 this.page.channelIdx--;
+                this.channelDisplay.textContent = `Channel ${this.page.chanNumbers[this.page.channelIdx]} ${this.page.chanLabels[this.page.channelIdx]}`;
+
                 this.page.getData();
             }
         })
@@ -144,9 +169,12 @@ class Buttons{
         this.nextChan.addEventListener('click', () => {
 
             this.page.channelIdx++;
+            this.channelDisplay.textContent = `Channel ${this.page.chanNumbers[this.page.channelIdx]} ${this.page.chanLabels[this.page.channelIdx]}`;
+
             this.page.getData();
         })
     }
+
 
     set_ANOVA(){
 
