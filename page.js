@@ -27,7 +27,7 @@ class Page{
 
         this.containers= ['#container1', '#container2', '#container3'];
 
-        this.maxRetries = 2;
+        this.maxRetries = 5;
         this.initialDelay = 5000; // in milliseconds
         this.allButtons = new window.Buttons(this)
         this.allButtons.initialize()      
