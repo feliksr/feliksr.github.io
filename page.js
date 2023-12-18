@@ -137,8 +137,8 @@ class Page{
         
             if (this.allANOVA){
 
-            //  this.numChans = this.chanNumbers.length
-                this.numChans = 5
+             this.numChans = this.chanNumbers.length
+                // this.numChans = 5
                  
             }else{
 
