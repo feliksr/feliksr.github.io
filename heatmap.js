@@ -5,12 +5,14 @@ class Heatmap {
         this.freqBin = freqBin
         this.width = 1000;
         this.height = 400;
+        
         this.margin = {
             top: 0,
             right: 100,
             bottom: 30,
             left: 50
         };
+
         const trialNumber = document.getElementById('trialNumber')
         const trialSlider = document.getElementById('trialSlider') 
 
@@ -18,11 +20,11 @@ class Heatmap {
             this.page.trial = event.target.value;
             trialSlider.value = this.page.trial
             trialNumber.textContent = this.page.trial
-            this.page.LFPplot.initialize(); 
             
             this.singleTrialData = this.page.allWaveletTrials[this.page.trial];
             this.filteredData = this.singleTrialData.filter(d => d.frequency >= this.freqBin.min && d.frequency <= this.freqBin.max);
             this.drawHeatmap(); 
+
         })
 
         const channelSlider = document.getElementById('channelSlider')

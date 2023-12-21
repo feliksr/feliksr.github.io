@@ -12,6 +12,18 @@ class LFPchart {
             bottom: 80,
             left: 50
         };
+        
+        const trialNumber = document.getElementById('trialNumber')
+        const trialSlider = document.getElementById('trialSlider')
+        
+        trialSlider.addEventListener('input', (event) => {
+
+            this.page.trial = event.target.value;
+            trialSlider.value = this.page.trial
+            trialNumber.textContent = this.page.trial
+            
+            this.initialize()
+        })
     }
     
     initialize(){

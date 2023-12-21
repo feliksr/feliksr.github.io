@@ -10,23 +10,22 @@
 <body>
     <!-- Index View -->
     <div id="indexView">
-        <h1 id= "stimGroupSelect">Select Stimulus Group</h1>
+    <h1 id="stimGroupSelect">Select Stimulus Group</h1>
     
-    <div id = stimGroupWrapper>
-
-        <h1 id = stimText, style = 'display: inline-flex'>Session 1: </h1>
-
-        <!-- <button class='stimGroup'>Stimulus Identity</button> -->
+    <div id="stimGroupWrapper">
+        <h1 id="stimText">Session 1: </h1>
         <button class='stimGroup'>Stimulus Identity</button>
         <button class='stimGroup'>Stimulus Type</button>
-        <button class='stimGroup'>Target Stimulus</button>
-        
-
+        <button class='stimGroup'>Target Stimulus</button>    
     </div>
-    
     </div>
 
-    <!-- Heatmap View (hidden by default) -->
+        <input type="file" id="LFPfile" style="display: none;" />
+        <input type="file" id="waveletFile" style="display: none;" />
+
+    </div>
+
+       <!-- Heatmap View (hidden by default) -->
     <div id="heatmapView" style="display: none;">
         
         <span onclick="showIndexView()" id="homeButton">Return Home</span>
@@ -120,9 +119,23 @@
         </div>
 
         <h1 id= "loadingText" >Loading...</h1>
-
+        
+        
     </div>
+
+    <div id="uploadDiv">
+        <button id="uploadWavelet">
+            Upload Wavelet
+            <span class="tooltip-text">Frequency x Time x Trials for each file/channel (.npy)</span>
+        </button>
     
+        <button id="uploadLFP">
+            Upload LFP
+            <span class="tooltip-text">Time x Trials for each file/channel (.npy)</span>
+        </button>
+    </div>    
+    
+
     <script src= "https://d3js.org/d3.v5.min.js"></script>
 
     <script src= "buttons.js"></script>

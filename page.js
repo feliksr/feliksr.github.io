@@ -180,17 +180,26 @@ class Page{
     }
 
     setContainers() {
-        this.containers.forEach((container,index) => {
-            const freqBin = this.frequencyBins[index];
-            const heatmap = new window.Heatmap(this,container,freqBin);
-            heatmap.initialize();
-            const colorbar = new window.Colorbar(heatmap);
-            colorbar.initColorbar();
-        })
-        this.LFPplot = new window.LFPchart(this)
-        this.LFPplot.initialize()
-    }
 
+        if (this.allWaveletTrials && !this.allWaveletTrials.disabled){
+            
+            this.containers.forEach((container,index) => {
+                const freqBin = this.frequencyBins[index];
+                const heatmap = new window.Heatmap(this,container,freqBin);
+                heatmap.initialize();
+                const colorbar = new window.Colorbar(heatmap);
+                colorbar.initColorbar();
+            })
+            this.allWaveletTrials.disabled = true
+        }
+
+        if (this.allLFPTrials && !this.allLFPTrials.disabled){
+            this.LFPplot = new window.LFPchart(this)
+            this.allLFPTrials.disabled = true
+            this.LFPplot.initialize()
+            
+        }
+    }
 
     getPowerValues(freqBin) {
         let powerValues = [];

@@ -76,7 +76,7 @@ svg .LFP-label {
     display: inline-block;
 }
 
-.button, .groupButton {
+.button, .groupButton, #uploadWavelet, #uploadLFP {
     padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
@@ -88,7 +88,7 @@ svg .LFP-label {
     border-radius: 5px; 
 }
 
-#channelButtonContainer, #groupButtonContainer, #stimGroupWrapper {
+#channelButtonContainer, #groupButtonContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,11 +112,6 @@ svg .LFP-label {
     align-items: center; 
 }
 
-.stimGroup{
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 1.5em;
-}
 
 #textContainer {
     flex-grow: 0; 
@@ -130,4 +125,49 @@ svg .LFP-label {
     width: 1000px;
     text-align: right;
     overflow: hidden; 
+}
+
+#uploadDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    gap: 10px; /* Space between buttons */
+}
+
+
+#stimGroupWrapper {
+    display: flex;
+    justify-content: center;
+    position: relative; /* Needed for absolute positioning of the text */
+}
+#stimText {
+    position: absolute;
+    transform: translate(-450px, 15%);
+}
+
+.stimGroup{
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1.5em;
+    margin: 20px 20px
+}
+
+#uploadDiv button {
+    position: relative; 
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#uploadDiv button:hover .tooltip-text {
+    display: block;
 }
