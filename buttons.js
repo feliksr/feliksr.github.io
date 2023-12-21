@@ -34,14 +34,22 @@ class Buttons{
 
 
     set_homeButton(){
+
         document.getElementById('homeButton').addEventListener('click', () => {
             
             document.querySelectorAll('.groupButton').forEach(button => {
                
                     button.classList.remove('active');
                     button.disabled = false;
+            });
+    
+            document.querySelectorAll('.uploadButton').forEach(button => {
+
+               button.disabled = false;
 
             });
+
+
         })
     }
 

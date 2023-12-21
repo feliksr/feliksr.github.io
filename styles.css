@@ -95,7 +95,6 @@ svg .LFP-label {
     gap: 40px;
 }
 
-
 .groupButton.active, .ANOVAbutton.active, #meanTrialsButton.active, #excludeTrialButton.active, #allANOVA.active {
     background-color: #555;
     color: white;
@@ -111,7 +110,6 @@ svg .LFP-label {
     justify-content: center;  
     align-items: center; 
 }
-
 
 #textContainer {
     flex-grow: 0; 
@@ -132,15 +130,15 @@ svg .LFP-label {
     justify-content: center;
     align-items: center;
     height: 100px;
-    gap: 10px; /* Space between buttons */
+    gap: 10px;
 }
-
 
 #stimGroupWrapper {
     display: flex;
     justify-content: center;
-    position: relative; /* Needed for absolute positioning of the text */
+    position: relative; 
 }
+
 #stimText {
     position: absolute;
     transform: translate(-450px, 15%);
@@ -157,7 +155,7 @@ svg .LFP-label {
     position: relative; 
 }
 
-.tooltip-text {
+.tooltipText {
     display: none;
     position: absolute;
     left: 50%;
@@ -168,6 +166,6 @@ svg .LFP-label {
     border-radius: 5px;
 }
 
-#uploadDiv button:hover .tooltip-text {
+#uploadDiv button:hover .tooltipText {
     display: block;
 }
