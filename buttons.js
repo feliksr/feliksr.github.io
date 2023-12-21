@@ -5,8 +5,11 @@ class Buttons{
         this.page = page
 
         const ids = [
-            'trialSlider', 'channelDisplay', 'excludeTrialButton', 'prevChan', 'nextChan', 'trialNumber', 'ANOVAscroll', 'uploadWavelet', 'loadingText',
-            'indexView', 'heatmapView', 'allANOVA', 'pVal', 'pValDiv', 'trialScroll', 'channelScroll', 'channelNumber', 'channelButtonContainer', 'LFPfile', 'uploadLFP', 'waveletFile'
+            'trialSlider', 'channelDisplay', 'excludeTrialButton', 'prevChan', 
+            'nextChan', 'trialNumber', 'ANOVAscroll', 'uploadWavelet', 'loadingText',
+            'indexView', 'heatmapView', 'allANOVA', 'pVal', 'pValDiv', 'trialScroll', 
+            'channelScroll', 'channelNumber', 'channelButtonContainer', 'LFPfile', 
+            'uploadLFP', 'waveletFile', 'groupButtonContainer',
         ];
         
         ids.forEach(id => {
@@ -16,12 +19,15 @@ class Buttons{
 
         this.excludedContainers =  document.querySelectorAll('.excluded-trials-container');
         this.excludedContainers.forEach(container => container.style.display = 'none');
+
+        this.stimGroups = document.querySelectorAll('.stimGroup')
+        this.groupButtons = document.querySelectorAll('.groupButton')
     }
 
     initialize(){
 
         this.set_channelButtons()
-        this.set_stimButtons()
+        this.set_stimGroups()
         this.set_groupButtons()
         this.set_ANOVA()
         this.set_allANOVA()
@@ -55,12 +61,11 @@ class Buttons{
 
     set_groupButtons(){
 
-        const groupButtons = document.querySelectorAll('.groupButton');
         this.excludedTrialsContainer = {}
 
-        groupButtons.forEach((button) => {
+        this.groupButtons.forEach((button) => {
             button.addEventListener('click', async (event) => {
-                groupButtons.forEach(btn => btn.classList.remove('active'));
+                this.groupButtons.forEach(btn => btn.classList.remove('active'));
 
                 event.target.classList.add('active'); 
 
@@ -94,7 +99,6 @@ class Buttons{
             let formData = new FormData();
             formData.append('file', file);
 
-            // Adding JSON data as a string
             formData.append('json_data', JSON.stringify({
                 timeStart: -2,
                 timeStop: 1,
@@ -120,12 +124,16 @@ class Buttons{
             this.trialSlider.disabled = false;
             this.page.singleTrialWavelet = this.page.allWaveletTrials[this.page.trial];
             this.indexView.style.display = 'none';
-            this.heatmapView.style.display = 'block';
-            this.uploadLFP.style.display = 'inline';
+            
             this.uploadWavelet.disabled = true;
-
+            this.loadingText.style.display = "block";            
             this.page.setContainers()
+            this.groupButtonContainer.style.display = 'none'
+            this.channelButtonContainer.style.display= 'none'
             this.loadingText.style.display = "none"; 
+
+            this.heatmapView.style.display = 'block';
+
         });
     }
     set_uploadLFP(){
@@ -140,7 +148,6 @@ class Buttons{
             let formData = new FormData();
             formData.append('file', file);
 
-            // Adding JSON data as a string
             formData.append('json_data', JSON.stringify({
                 timeStart: -2,
                 timeStop: 1,
@@ -150,6 +157,7 @@ class Buttons{
                 method: 'POST',
                 body: formData
             })
+
             .then(response => response.json())
             .then(data => {this.responseData = data.trialsLFP;
 
@@ -163,24 +171,26 @@ class Buttons{
             this.trialSlider.max = Object.keys(this.page.allLFPTrials).length-1;
             this.page.singleTrialWavelet = this.page.allLFPTrials[this.page.trial];
             this.indexView.style.display = 'none';
-            this.heatmapView.style.display = 'block';
-            this.uploadWavelet.style.display = 'inline';
+            
             this.uploadLFP.disabled = true
-
+            this.loadingText.style.display = "block"; 
+            this.groupButtonContainer.style.display = 'none'
+            this.channelButtonContainer.style.display= 'none'
             this.page.setContainers()
             this.loadingText.style.display = "none"; 
+
+
+            this.heatmapView.style.display = 'block';
+       
         });
     }
 
-    set_stimButtons(){
+    set_stimGroups(){
 
-        const groupButtons = document.querySelectorAll('.groupButton');
-        const stimGroups = document.querySelectorAll('.stimGroup')
-        
-        stimGroups.forEach(button => {
+        this.stimGroups.forEach(button => {
             button.addEventListener('click', (event) => {
                 this.excludedContainers.forEach(container => container.style.display = 'none');
-                this.loadingText.style.display = "none";  // Hide "Loading..."
+                this.loadingText.style.display = "none";  
                 this.indexView.style.display = 'none';
                 this.heatmapView.style.display = 'block';
 
@@ -189,7 +199,7 @@ class Buttons{
 
                 this.page.stimGroup = event.target.textContent
                 this.allGroups = this.page.groupTypes[this.page.stimGroup]
-                groupButtons.forEach((button,index) => {
+                this.groupButtons.forEach((button,index) => {
                     button.textContent = this.allGroups[index];
                     button.classList.remove('active')
                     this.excludedTrialsContainer[button.textContent] = this.excludedContainers[index];
