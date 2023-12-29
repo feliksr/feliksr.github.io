@@ -165,24 +165,27 @@ class Page{
                 
                 this.allWaveletChannels[chans] = this.responseData.channelsWavelet[0]
                 this.allLFPChannels[chans] = this.responseData.channelsLFP[0]
-                this.singleChannelWavelet = this.allWaveletChannels[this.trial];
-                this.singleChannelLFP = this.allLFPChannels[this.trial];
+                this.singleChannelWavelet = this.allWaveletChannels[this.trial]
+                this.singleChannelLFP = this.allLFPChannels[this.trial]
             }    
 
             channelSlider.max = this.numChans-1
-            channelSlider.disabled = false;
+            channelSlider.disabled = false
 
         }            
            
         loadingText.style.display = "none"; 
        
-        this.setContainers();
+        this.set_Wavelet()
+        this.set_LFP()
     }
 
-    setContainers() {
+    
+    
+    set_Wavelet() {
 
-        if (this.allWaveletTrials && !this.allWaveletTrials.disabled){
-            
+        if (this.allWaveletTrials){
+            console.log(this.allWaveletTrials)
             this.containers.forEach((container,index) => {
                 const freqBin = this.frequencyBins[index];
                 const heatmap = new window.Heatmap(this,container,freqBin);
@@ -190,16 +193,16 @@ class Page{
                 const colorbar = new window.Colorbar(heatmap);
                 colorbar.initColorbar();
             })
-            this.allWaveletTrials.disabled = true
-        }
-
-        if (this.allLFPTrials && !this.allLFPTrials.disabled){
-            this.LFPplot = new window.LFPchart(this)
-            this.allLFPTrials.disabled = true
-            this.LFPplot.initialize()
-            
         }
     }
+    
+
+    set_LFP(){
+
+        this.LFPplot = new window.LFPchart(this)
+        this.LFPplot.initialize()
+    }
+    
 
     getPowerValues(freqBin) {
         let powerValues = [];

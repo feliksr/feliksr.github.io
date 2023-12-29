@@ -35,6 +35,7 @@ class Buttons{
         this.set_homeButton()
         this.set_uploadLFP()
         this.set_uploadWavelet()
+        this.set_dataForm()
         // this.set_meanTrials()
     }
 
@@ -55,6 +56,9 @@ class Buttons{
 
             });
 
+            delete this.page.allWaveletTrials
+            delete this.page.allLFPTrials
+            console.log(this.page.allWaveletTrials)
 
         })
     }
@@ -98,12 +102,12 @@ class Buttons{
             console.log("File selected:", file.name);
             let formData = new FormData();
             formData.append('file', file);
-
+            console.log(this.timeStart)
             formData.append('json_data', JSON.stringify({
-                timeStart: -2,
-                timeStop: 1,
-                freqStart: 3.4,
-                freqStop: 157
+                timeStart: this.timeStart,
+                timeStop: this.timeStop,
+                freqLow: this.freqLow,
+                freqHigh: this.freqHigh
             }));
 
             await fetch(this.page.url + 'uploadWavelet', {
@@ -125,9 +129,8 @@ class Buttons{
             this.page.singleTrialWavelet = this.page.allWaveletTrials[this.page.trial];
             this.indexView.style.display = 'none';
             
-            this.uploadWavelet.disabled = true;
             this.loadingText.style.display = "block";            
-            this.page.setContainers()
+            this.page.set_Wavelet()
             this.groupButtonContainer.style.display = 'none'
             this.channelButtonContainer.style.display= 'none'
             this.loadingText.style.display = "none"; 
@@ -149,8 +152,8 @@ class Buttons{
             formData.append('file', file);
 
             formData.append('json_data', JSON.stringify({
-                timeStart: -2,
-                timeStop: 1,
+                timeStart: this.timeStart,
+                timeStop: this.timeStop,
             }));
 
             await fetch(this.page.url + 'uploadLFP', {
@@ -172,11 +175,10 @@ class Buttons{
             this.page.singleTrialWavelet = this.page.allLFPTrials[this.page.trial];
             this.indexView.style.display = 'none';
             
-            this.uploadLFP.disabled = true
             this.loadingText.style.display = "block"; 
             this.groupButtonContainer.style.display = 'none'
             this.channelButtonContainer.style.display= 'none'
-            this.page.setContainers()
+            this.page.set_LFP()
             this.loadingText.style.display = "none"; 
 
 
@@ -184,6 +186,54 @@ class Buttons{
        
         });
     }
+
+    update_inputValues(inputs) {
+        let allFilled = true;
+            
+        inputs.forEach(input => {
+            if (input.value === '') {
+                allFilled = false;
+            }
+        });
+
+        return allFilled;    
+    }
+
+    set_dataForm() {
+        const inputs = document.querySelectorAll('.inputValues');
+        const waveletButton = this.uploadWavelet;
+
+        const timeInputs = document.querySelectorAll('.timeInput');
+        const LFPbutton = this.uploadLFP;
+    
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const allFilled = this.update_inputValues(inputs);
+                waveletButton.disabled = !allFilled;
+
+                if (!waveletButton.disabled) {
+                    this.freqLow = parseFloat(document.getElementById("freqLow").value);
+                    this.freqHigh = parseFloat(document.getElementById("freqHigh").value);
+                    this.timeStart = parseFloat(document.getElementById("timeStart").value);
+                    this.timeStop = parseFloat(document.getElementById("timeStop").value);
+                }    
+            });
+        });
+
+        timeInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const allFilled = this.update_inputValues(timeInputs);
+                LFPbutton.disabled = !allFilled;
+
+                if (!LFPbutton.disabled) {
+                    this.timeStart = parseFloat(document.getElementById("timeStart").value);
+                    this.timeStop = parseFloat(document.getElementById("timeStop").value);
+                }    
+            });
+        });
+    }
+
+    
 
     set_stimGroups(){
 

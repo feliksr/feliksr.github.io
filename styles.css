@@ -125,11 +125,11 @@ svg .LFP-label {
     overflow: hidden; 
 }
 
-#uploadDiv {
+#uploadDiv{
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100px;
+    padding-top: 100px;
+    padding-bottom: 10px;
     gap: 10px;
 }
 
@@ -169,3 +169,18 @@ svg .LFP-label {
 #uploadDiv button:hover .tooltipText {
     display: block;
 }
+
+#dataForm{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.inputValues, .timeInput{
+    padding: 5px 10px;
+    font-size: 1.1em;
+    border-radius: 5px; 
+    text-align: center;
+    width: 150px; 
+}
+
