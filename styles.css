@@ -176,17 +176,18 @@ svg .LFP-label {
     gap: 20px;
 }
 
-.inputValues, .timeInput{
+.inputValues, .timeInput {
     padding: 5px 10px;
     font-size: 1.1em;
     border-radius: 5px; 
     text-align: center;
-    width: 250px; 
+    width: 250px;
+    font-weight: bold;
 }
+
 
 #uploadFile{
     text-align: center;
     padding-top: 100px;
-
 }
 
